@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ChurchSuite/embed-json-script.git"
+    "url": "https://github.com/ChurchSuite/embed-json-script#readme"
   },
   "keywords": [
     "churchsuite",
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/ChurchSuite/embed-json-script/issues"
   },
-  "homepage": "https://github.com/ChurchSuite/embed-json-script#readme",
+  "homepage": "https://kingshope.church",
   "devDependencies": {
     "uglify-js": "^3.14.1"
   }
