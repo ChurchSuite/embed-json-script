@@ -1,0 +1,30 @@
+{
+  "name": "@churchsuite/embed",
+  "version": "1.0.0",
+  "description": "An easy-to-use script to allow simple integration of ChurchSuite's embed JSON feeds into your website. For more information, see https://kingshope.church.",
+  "main": "cdn.min.js",
+  "scripts": {
+    "uglify": "uglifyjs cdn.js -c -m -o cdn.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChurchSuite/embed-json-script.git"
+  },
+  "keywords": [
+    "churchsuite",
+    "embed",
+    "json",
+    "feeds",
+    "alpine",
+    "script"
+  ],
+  "author": "ChurchSuite Ltd.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ChurchSuite/embed-json-script/issues"
+  },
+  "homepage": "https://github.com/ChurchSuite/embed-json-script#readme",
+  "devDependencies": {
+    "uglify-js": "^3.14.1"
+  }
+}
