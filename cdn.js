@@ -222,8 +222,8 @@ window.CS = {
 	 */
 	timeFormat: function (time) {
 		const options = {
-			hourCycle: 'h-12',
+			hourCycle: 'h12',
 		};
-		return (new Date(time.replace(/-/g, '/'))).toLocaleTimeString('en-GB', options).replace(/ /g, '').replace(':00', '');   
+		return (new Date(time.replace(/-/g, '/'))).toLocaleTimeString('en-GB', options).replace(/ /g, '').replace(':00', '');
 	},
 }
