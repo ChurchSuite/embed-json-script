@@ -118,7 +118,7 @@ document.addEventListener('alpine:init', () => {
 					online: group.location.type == 'online',
 					site: group.site != null ? group.site.name : null,
 					tags: group.tags,
-					time: group.time,
+					time: CS.timeFormat('1970-01-01 ' + group.time), // add a random date to create a datetime with correct time
 					_original: group,
 				});
 			});
@@ -222,10 +222,8 @@ window.CS = {
 	 */
 	timeFormat: function (time) {
 		const options = {
-			hour: 'numeric',
-			minute: 'numeric',
-			hour12: true,
+			hourCycle: 'h-12',
 		};
-		return (new Date(time.replace(/-/g, '/'))).toLocaleTimeString('en-GB', options).replace(/ /g, '');   
+		return (new Date(time.replace(/-/g, '/'))).toLocaleTimeString('en-GB', options).replace(/ /g, '').replace(':00', '');   
 	},
 }
