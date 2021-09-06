@@ -22,8 +22,11 @@ document.addEventListener('alpine:init', () => {
 				if (event.category != null && !this.categories.includes(event.category.name)) this.categories.push(event.category.name);
 				if (event.site != null && !this.sites.includes(event.site.name)) this.sites.push(event.site.name);
 
+				let time = CS.timeFormat(event.datetime_start) + ' - ' + CS.timeFormat(event.datetime_end); // converts to time format: 9:00pm - 10:00pm
+
 				let eventData = {
 					_original: event,
+					allDay: time == '12:00am - 11:59:59pm',
 					brandEmblem: event.brand.emblem,
 					category: event.category != null ? event.category.name : null,
 					description: CS.stringToHTML(event.description),
@@ -35,7 +38,7 @@ document.addEventListener('alpine:init', () => {
 					name: event.name,
 					postcode: event.location.address,
 					site: event.site != null ? event.site.name : null,
-					time: CS.timeFormat(event.datetime_start) + ' - ' + CS.timeFormat(event.datetime_end), // converts to time format: 9:00pm - 10:00pm
+					time: time,
 				}
 				
 				// if not already in this.events (as tracked by uniqueEvents) add it to the array
