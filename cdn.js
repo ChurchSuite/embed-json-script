@@ -30,8 +30,8 @@ document.addEventListener('alpine:init', () => {
 					brandEmblem: event.brand.emblem,
 					category: event.category != null ? event.category.name : null,
 					description: CS.stringToHTML(event.description),
-					date: (new Date(event.datetime_start.replace(/-/g, '/'))).toLocaleDateString('en-GB', {weekday: 'long', month: 'long', day: 'numeric'}), // converts to date format: Friday, 12 December
-					shortDate: (new Date(event.datetime_start.replace(/-/g, '/'))).toLocaleDateString('en-GB', {weekday: 'short', month: 'short', day: 'numeric'}), // converts to date format: Fri, 12 Dec
+					date: (new Date(event.datetime_start.replace(/-/g, '/'))).toLocaleDateString('en-GB', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}), // converts to date format: Friday, 12 December
+					shortDate: (new Date(event.datetime_start.replace(/-/g, '/'))).toLocaleDateString('en-GB', {weekday: 'short', year: '2-digit', month: 'short', day: 'numeric'}), // converts to date format: Fri, 12 Dec
 					image: event.images.constructor === Object ? event.images.md.url : event.brand.emblem,
 					link: event.signup_options.signup_enabled == 1 ? event.signup_options.tickets.url : '',
 					location: event.location.name,
