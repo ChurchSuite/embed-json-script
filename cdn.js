@@ -113,7 +113,7 @@ document.addEventListener('alpine:init', () => {
 					cluster: group.cluster != null ? group.cluster.name : null,
 					customFields: group.custom_fields.constructor === Object ? this.buildCustomFields(group) : null, // if no custom fields, JSON provides an empty array
 					dateStart: (new Date(group.date_start.replace(/-/g, '/'))).toLocaleDateString('en-GB', {month: 'short', year: 'numeric'}),
-					day: CS.days()[group.day],
+					day: group.day != null ? CS.days()[group.day] : null,
 					description: group.description.replace(/\r\n/g, '<br>'),
 					frequency: group.frequency,
 					image: group.images.constructor === Object ? group.images.md.url : '',
@@ -123,7 +123,7 @@ document.addEventListener('alpine:init', () => {
 					online: group.location.type == 'online',
 					site: group.site != null ? group.site.name : null,
 					tags: group.tags,
-					time: CS.timeFormat('1970-01-01 ' + group.time), // add a random date to create a datetime with correct time
+					time: group.time != null ? CS.timeFormat('1970-01-01 ' + group.time) : null, // add a random date to create a datetime with correct time
 					_original: group,
 				});
 			});
