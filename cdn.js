@@ -115,7 +115,7 @@ document.addEventListener('alpine:init', () => {
 					dateStart: (new Date(group.date_start.replace(/-/g, '/'))).toLocaleDateString('en-GB', {month: 'short', year: 'numeric'}),
 					day: group.day != null ? CS.days()[group.day] : null,
 					description: group.description.replace(/\r\n/g, '<br>'),
-					frequency: group.frequency,
+					frequency: group.frequency == 'custom' ? group.custom_frequency : group.frequency,
 					image: group.images.constructor === Object ? group.images.md.url : '',
 					link: 'https://' + CS.url + '/groups/' + group.identifier,
 					location: group.location.name,
