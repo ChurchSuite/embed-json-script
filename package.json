@@ -4,7 +4,7 @@
   "description": "An easy-to-use script to allow simple integration of ChurchSuite's embed JSON feeds into your website. For more information, see https://kingshope.church.",
   "main": "cdn.min.js",
   "scripts": {
-    "publish": "uglifyjs cdn.js -c -m -o cdn.min.js && npm publish",
+    "deploy": "uglifyjs cdn.js -c -m -o cdn.min.js && npm publish",
     "uglify": "uglifyjs cdn.js -c -m -o cdn.min.js"
   },
   "repository": {
