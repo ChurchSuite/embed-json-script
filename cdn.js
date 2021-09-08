@@ -1,5 +1,5 @@
 document.addEventListener('alpine:init', () => {
-	Alpine.data('CSEvents', () => ({
+	Alpine.data('CSEvents', (options = {}) => ({
 		allEvents: [], // array to contain unfiltered events
 		categories: [], // a compiled array of all event categories
 		category: '', // linked to selected option from dropdown for comparison with the event category
@@ -12,7 +12,7 @@ document.addEventListener('alpine:init', () => {
 		async init() {
 			this.$watch(['category', 'search', 'site'], () => this.filterEvents());
 
-			let events = (await CS.fetchJSON('events')).filter(event => event.signup_options.public.featured == '1');
+			let events = (await CS.fetchJSON('events', options)).filter(event => event.signup_options.public.featured == '1');
 
 			// array to track names already in this.events, so we only show repeated events once (unless searched for)
 			let uniqueEvents = [];
@@ -73,7 +73,7 @@ document.addEventListener('alpine:init', () => {
 		},
 	})),
 
-	Alpine.data('CSGroups', () => ({
+	Alpine.data('CSGroups', (options = {}) => ({
 		allFormattedGroups: [],
 		cluster: '', // cluster string for filterGroups()
 		clusters: [], // clusters array for cluster dropdown
@@ -93,7 +93,7 @@ document.addEventListener('alpine:init', () => {
 		async init() {
 			this.$watch(['day', 'tag', 'search', 'site', 'cluster'], () => this.filterGroups());
 
-			let groups = await CS.fetchJSON('groups', this.options);
+			let groups = await CS.fetchJSON('groups', Object.assign(this.options, options));
 			
 			// load in array of days for day filter dropdown
 			this.days = CS.days();
