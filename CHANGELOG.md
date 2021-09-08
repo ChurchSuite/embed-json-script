@@ -2,6 +2,16 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [1.0.9] - 2021-09-08
+
+### Changed
+
+- for groups with custom frequencies, group.frequency now returns the custom frequency value instead of 'custom'
+
+### Fixed
+
+- sorted 'InvalidDate' time and day properties for groups with custom frequencies
+
 ## [1.0.8] - 2021-09-08
 
 ### Fixed
