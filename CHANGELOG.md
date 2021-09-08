@@ -2,6 +2,13 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [1.0.7] - 2021-09-08
+
+### Added
+
+- added an online property to Events to match Groups
+- provided the facility to send custom URL parameters to the ChurchSuite API
+
 ## [1.0.6] - 2021-09-07
 
 ### Changed
