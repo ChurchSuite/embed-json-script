@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [1.0.8] - 2021-09-08
+
+### Fixed
+
+- fixed a bug where x-init filtered components sometimes didn't show fully until second page load
+
 ## [1.0.7] - 2021-09-08
 
 ### Added

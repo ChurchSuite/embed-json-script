@@ -53,6 +53,7 @@ document.addEventListener('alpine:init', () => {
 			});
 
 			this.featuredEvents = this.events;
+			this.filterEvents();
 		},
 
 		/**
@@ -127,6 +128,7 @@ document.addEventListener('alpine:init', () => {
 				});
 			});
 			this.groups = this.allFormattedGroups;
+			this.filterGroups();
 		},
 
 		/**
