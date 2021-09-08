@@ -36,6 +36,7 @@ document.addEventListener('alpine:init', () => {
 					link: event.signup_options.signup_enabled == 1 ? event.signup_options.tickets.url : '',
 					location: event.location.name,
 					name: event.name,
+					online: event.location.type == 'online',
 					postcode: event.location.address,
 					site: event.site != null ? event.site.name : null,
 					time: time,
