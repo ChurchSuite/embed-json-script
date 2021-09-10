@@ -5,6 +5,7 @@ document.addEventListener('alpine:init', () => {
 		category: '', // linked to selected option from dropdown for comparison with the event category
 		events: [], // array to contain filtered events
 		featuredEvents: [], // array to contain featured events
+		language: navigator.language,
 		search: '', // search terms
 		site: '', // site dropdown value
 		sites: [], // array of possible site values
@@ -22,7 +23,7 @@ document.addEventListener('alpine:init', () => {
 				if (event.category != null && !this.categories.includes(event.category.name)) this.categories.push(event.category.name);
 				if (event.site != null && !this.sites.includes(event.site.name)) this.sites.push(event.site.name);
 
-				let time = CS.timeFormat(event.datetime_start) + ' - ' + CS.timeFormat(event.datetime_end); // converts to time format: 9:00pm - 10:00pm
+				let time = CS.timeFormat(event.datetime_start, this.language) + ' - ' + CS.timeFormat(event.datetime_end, this.language); // converts to time format: 9:00pm - 10:00pm
 
 				let eventData = {
 					_original: event,
@@ -30,8 +31,8 @@ document.addEventListener('alpine:init', () => {
 					brandEmblem: event.brand.emblem,
 					category: event.category != null ? event.category.name : null,
 					description: CS.stringToHTML(event.description),
-					date: (new Date(event.datetime_start.replace(/-/g, '/'))).toLocaleDateString('en-GB', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}), // converts to date format: Friday, 12 December
-					shortDate: (new Date(event.datetime_start.replace(/-/g, '/'))).toLocaleDateString('en-GB', {weekday: 'short', year: '2-digit', month: 'short', day: 'numeric'}), // converts to date format: Fri, 12 Dec
+					date: (new Date(event.datetime_start.replace(/-/g, '/'))).toLocaleDateString(this.language, {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}), // converts to date format: Friday, 12 December
+					shortDate: (new Date(event.datetime_start.replace(/-/g, '/'))).toLocaleDateString(this.language, {weekday: 'short', year: '2-digit', month: 'short', day: 'numeric'}), // converts to date format: Fri, 12 Dec
 					image: event.images.constructor === Object ? event.images.md.url : event.brand.emblem,
 					link: event.signup_options.signup_enabled == 1 ? event.signup_options.tickets.url : '',
 					location: event.location.name,
@@ -113,7 +114,7 @@ document.addEventListener('alpine:init', () => {
 				this.allFormattedGroups.push({
 					cluster: group.cluster != null ? group.cluster.name : null,
 					customFields: group.custom_fields.constructor === Object ? this.buildCustomFields(group) : null, // if no custom fields, JSON provides an empty array
-					dateStart: (new Date(group.date_start.replace(/-/g, '/'))).toLocaleDateString('en-GB', {month: 'short', year: 'numeric'}),
+					dateStart: (new Date(group.date_start.replace(/-/g, '/'))).toLocaleDateString(this.language, {month: 'short', year: 'numeric'}),
 					day: group.day != null ? this.days[group.day] : null,
 					description: group.description.replace(/\r\n/g, '<br>'),
 					frequency: group.frequency == 'custom' ? group.custom_frequency : group.frequency,
@@ -124,7 +125,7 @@ document.addEventListener('alpine:init', () => {
 					online: group.location.type == 'online',
 					site: group.site != null ? group.site.name : null,
 					tags: group.tags,
-					time: group.time != null ? CS.timeFormat('1970-01-01 ' + group.time) : null, // add a random date to create a datetime with correct time
+					time: group.time != null ? CS.timeFormat('1970-01-01 ' + group.time, this.language) : null, // add a random date to create a datetime with correct time
 					_original: group,
 				});
 			});
@@ -229,10 +230,10 @@ window.CS = {
 	/**
 	 * Takes datetime string in the format 2021-05-12 09:00:00 and converts to time format: 9:00pm
 	 */
-	timeFormat: function (time) {
+	timeFormat: function (time, language) {
 		const options = {
 			hourCycle: 'h12',
 		};
-		return (new Date(time.replace(/-/g, '/'))).toLocaleTimeString('en-GB', options).replace(/ /g, '').replace(':00', '');
+		return (new Date(time.replace(/-/g, '/'))).toLocaleTimeString(language, options).replace(/ /g, '').replace(':00', '');
 	},
 }
