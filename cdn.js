@@ -81,6 +81,7 @@ document.addEventListener('alpine:init', () => {
 		day: '', // filterGroups() day dropdown string
 		days: [], // array to contain days of the week for dropdown
 		groups: [],
+		language: navigator.language,
 		options: {show_tags: 1}, //options object to add to the url string
 		search: '', // filterGroups() search
 		site: '', // site string for filterGroups()
@@ -97,7 +98,7 @@ document.addEventListener('alpine:init', () => {
 			let groups = await CS.fetchJSON('groups', Object.assign(this.options, options));
 			
 			// load in array of days for day filter dropdown
-			this.days = CS.days();
+			this.days = CS.days(this.language);
 			
 			groups.forEach(group => {
 				// capture unique categories, tags and sites for dropdowns, then sort them
@@ -113,7 +114,7 @@ document.addEventListener('alpine:init', () => {
 					cluster: group.cluster != null ? group.cluster.name : null,
 					customFields: group.custom_fields.constructor === Object ? this.buildCustomFields(group) : null, // if no custom fields, JSON provides an empty array
 					dateStart: (new Date(group.date_start.replace(/-/g, '/'))).toLocaleDateString('en-GB', {month: 'short', year: 'numeric'}),
-					day: group.day != null ? CS.days()[group.day] : null,
+					day: group.day != null ? this.days[group.day] : null,
 					description: group.description.replace(/\r\n/g, '<br>'),
 					frequency: group.frequency == 'custom' ? group.custom_frequency : group.frequency,
 					image: group.images.constructor === Object ? group.images.md.url : '',
@@ -187,10 +188,12 @@ window.CS = {
 	},
 
 	/**
-	 * Returns the days of the week for dropdowns
+	 * Returns the days of the week for dropdowns in whichever language - Sunday first
 	 */
-	days: function () {
-		return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+	days: function (language, length = 'long') {
+		let days = [];
+		for(i = 0; i < 7; i++) days.push(new Date('1970-01-0' + (4 + i)).toLocaleString(language, {weekday:length}));
+		return days;
 	},
 
 	/**
