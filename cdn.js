@@ -6,6 +6,8 @@ document.addEventListener('alpine:init', () => {
 		events: [], // array to contain filtered events
 		featuredEvents: [], // array to contain featured events
 		language: navigator.language,
+		name: '', // name dropdown value
+		names: [], // array of possible name values
 		search: '', // search terms
 		site: '', // site dropdown value
 		sites: [], // array of possible site values
@@ -43,11 +45,11 @@ document.addEventListener('alpine:init', () => {
 					time: time,
 				}
 				
-				// if not already in this.events (as tracked by uniqueEvents) add it to the array
-				if (!uniqueEvents.includes(event.name)) {
+				// if not already in this.events (as tracked by this.names) add it to the array
+				if (!this.names.includes(event.name)) {
 					this.events.push(eventData);
-					// add the name to uniqueEvents so we don't add it to this.events again
-					uniqueEvents.push(event.name);
+					// add the name to this.names so we don't add it to this.events again
+					this.names.push(event.name);
 				} 
 			
 				this.allEvents.push(eventData);
@@ -61,15 +63,16 @@ document.addEventListener('alpine:init', () => {
 		 * Filters Events by category dropdown and search bar
 		 */
 		filterEvents() {
-			if (!this.search.length && !this.category.length && !this.site.length) {
+			if (!this.search.length && !this.category.length && !this.site.length && !this.name.length) {
 				this.events = this.featuredEvents;
 			} else {
 				this.events = this.allEvents.filter(event => {
 					const searchMatched = !this.search.length || (event.name + event.date + event.location + event.category).toLowerCase().includes(this.search.toLowerCase());
 					const categoryMatched = !this.category.length || event.category === this.category;
 					const siteMatched = event.site == null ? true : (!this.site.length || event.site == this.site);
+					const nameMatched = !this.name.length || event.name == this.name;
 
-					return categoryMatched && searchMatched && siteMatched;
+					return categoryMatched && searchMatched && siteMatched && nameMatched;
 				})
 			}
 		},
