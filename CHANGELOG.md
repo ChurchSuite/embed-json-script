@@ -2,6 +2,22 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [1.1.0] - 2021-09-08 - Major Update
+
+All days, dates and times now use [Day.js](https://day.js.org/docs/en/display/format) for custom formatting.
+
+### Changed
+
+- group.dateStart, group.day and group.time now return Day.js objects
+
+### Added
+
+- event.start and event.end have been added, each returning a Day.js object, and allow displaying multiday events properly
+
+### Removed
+
+- event.date, event.shortDate and event.time have been replaced by event.start and event.end, which contain all the information
+
 ## [1.0.9] - 2021-09-08
 
 ### Changed
