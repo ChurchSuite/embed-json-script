@@ -134,6 +134,7 @@ document.addEventListener('alpine:init', () => {
 				this.allFormattedGroups.push({
 					cluster: group.cluster != null ? group.cluster.name : null,
 					customFields: group.custom_fields.constructor === Object ? this.buildCustomFields(group) : null, // if no custom fields, JSON provides an empty array
+					dateStart: dayjs(group.date_start),
 					day: group.day != null ? dayjs().isoWeekday(group.day) : null,
 					description: group.description.replace(/\r\n/g, '<br>'),
 					frequency: group.frequency == 'custom' ? group.custom_frequency : group.frequency,
