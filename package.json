@@ -2,10 +2,10 @@
   "name": "@churchsuite/embed",
   "version": "1.0.9",
   "description": "An easy-to-use script to allow simple integration of ChurchSuite's embed JSON feeds into your website. For more information, see https://kingshope.church.",
-  "main": "cdn.min.js",
+  "main": "dist/cdn.min.js",
   "scripts": {
-    "deploy": "uglifyjs cdn.js -c -m -o cdn.min.js && npm publish",
-    "uglify": "uglifyjs cdn.js -c -m -o cdn.min.js"
+    "build": "npx webpack",
+    "deploy": "npm webpack && npm publish"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,10 @@
   },
   "homepage": "https://kingshope.church",
   "devDependencies": {
-    "uglify-js": "^3.14.1"
-  }
+    "dayjs": "^1.10.7",
+    "uglify-js": "^3.14.1",
+    "webpack": "^5.53.0",
+    "webpack-cli": "^4.8.0"
+  },
+  "dependencies": {}
 }

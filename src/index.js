@@ -1,3 +1,24 @@
+var dayjs = require('dayjs');
+
+// require internationalisation packs
+var localizedFormat = require('dayjs/plugin/localizedFormat');
+dayjs.extend(localizedFormat);
+require('dayjs/locale/da')
+require('dayjs/locale/de')
+require('dayjs/locale/es');
+require('dayjs/locale/fr');
+require('dayjs/locale/it');
+require('dayjs/locale/nl');
+require('dayjs/locale/pl');
+require('dayjs/locale/se');
+require('dayjs/locale/sk');
+
+// require isoweek to create dayjs objects for days
+var isoWeek = require('dayjs/plugin/isoWeek');
+dayjs.extend(isoWeek);
+
+window.dayjs = dayjs;
+
 document.addEventListener('alpine:init', () => {
 	Alpine.data('CSEvents', (options = {}) => ({
 		allEvents: [], // array to contain unfiltered events
@@ -5,7 +26,6 @@ document.addEventListener('alpine:init', () => {
 		category: '', // linked to selected option from dropdown for comparison with the event category
 		events: [], // array to contain filtered events
 		featuredEvents: [], // array to contain featured events
-		language: navigator.language,
 		name: '', // name dropdown value
 		names: [], // array of possible name values
 		search: '', // search terms
@@ -13,28 +33,24 @@ document.addEventListener('alpine:init', () => {
 		sites: [], // array of possible site values
 		
 		async init() {
+			dayjs.locale(CS.locale);
+
 			this.$watch(['category', 'search', 'site'], () => this.filterEvents());
 
 			let events = (await CS.fetchJSON('events', options)).filter(event => event.signup_options.public.featured == '1');
-
-			// array to track names already in this.events, so we only show repeated events once (unless searched for)
-			let uniqueEvents = [];
 			
 			events.forEach(event => {
 				// capture unique categories and sites
 				if (event.category != null && !this.categories.includes(event.category.name)) this.categories.push(event.category.name);
 				if (event.site != null && !this.sites.includes(event.site.name)) this.sites.push(event.site.name);
 
-				let time = CS.timeFormat(event.datetime_start, this.language) + ' - ' + CS.timeFormat(event.datetime_end, this.language); // converts to time format: 9:00pm - 10:00pm
-
 				let eventData = {
 					_original: event,
-					allDay: time == '12:00am - 11:59:59pm',
+					allDay: event.datetime_start.slice(-8) == '00:00:00' && event.datetime_end.slice(-8) == '23:59:59',
 					brandEmblem: event.brand.emblem,
 					category: event.category != null ? event.category.name : null,
 					description: CS.stringToHTML(event.description),
-					date: (new Date(event.datetime_start.replace(/-/g, '/'))).toLocaleDateString(this.language, {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}), // converts to date format: Friday, 12 December
-					shortDate: (new Date(event.datetime_start.replace(/-/g, '/'))).toLocaleDateString(this.language, {weekday: 'short', year: '2-digit', month: 'short', day: 'numeric'}), // converts to date format: Fri, 12 Dec
+					end: dayjs(event.datetime_end),
 					image: event.images.constructor === Object ? event.images.md.url : event.brand.emblem,
 					link: event.signup_options.signup_enabled == 1 ? event.signup_options.tickets.url : '',
 					location: event.location.name,
@@ -42,7 +58,7 @@ document.addEventListener('alpine:init', () => {
 					online: event.location.type == 'online',
 					postcode: event.location.address,
 					site: event.site != null ? event.site.name : null,
-					time: time,
+					start: dayjs(event.datetime_start),
 				}
 				
 				// if not already in this.events (as tracked by this.names) add it to the array
@@ -85,7 +101,6 @@ document.addEventListener('alpine:init', () => {
 		day: '', // filterGroups() day dropdown string
 		days: [], // array to contain days of the week for dropdown
 		groups: [],
-		language: navigator.language,
 		options: {show_tags: 1}, //options object to add to the url string
 		search: '', // filterGroups() search
 		site: '', // site string for filterGroups()
@@ -97,12 +112,14 @@ document.addEventListener('alpine:init', () => {
 		 * Builds a formatted array of groups data
 		 */
 		async init() {
+			dayjs.locale(CS.locale);
+
 			this.$watch(['day', 'tag', 'search', 'site', 'cluster'], () => this.filterGroups());
 
 			let groups = await CS.fetchJSON('groups', Object.assign(this.options, options));
 			
 			// load in array of days for day filter dropdown
-			this.days = CS.days(this.language);
+			this.days = CS.days();
 			
 			groups.forEach(group => {
 				// capture unique categories, tags and sites for dropdowns, then sort them
@@ -117,8 +134,7 @@ document.addEventListener('alpine:init', () => {
 				this.allFormattedGroups.push({
 					cluster: group.cluster != null ? group.cluster.name : null,
 					customFields: group.custom_fields.constructor === Object ? this.buildCustomFields(group) : null, // if no custom fields, JSON provides an empty array
-					dateStart: (new Date(group.date_start.replace(/-/g, '/'))).toLocaleDateString(this.language, {month: 'short', year: 'numeric'}),
-					day: group.day != null ? this.days[group.day] : null,
+					day: group.day != null ? dayjs().isoWeekday(group.day) : null,
 					description: group.description.replace(/\r\n/g, '<br>'),
 					frequency: group.frequency == 'custom' ? group.custom_frequency : group.frequency,
 					image: group.images.constructor === Object ? group.images.md.url : '',
@@ -128,7 +144,7 @@ document.addEventListener('alpine:init', () => {
 					online: group.location.type == 'online',
 					site: group.site != null ? group.site.name : null,
 					tags: group.tags,
-					time: group.time != null ? CS.timeFormat('1970-01-01 ' + group.time, this.language) : null, // add a random date to create a datetime with correct time
+					time: group.time != null ? dayjs((new Date()).toISOString().slice(0, 11) + group.time + ':00') : null,
 					_original: group,
 				});
 			});
@@ -184,6 +200,8 @@ document.addEventListener('alpine:init', () => {
 
 
 window.CS = {
+	locale: 'en',
+
 	/**
 	 * Builds any URL options provided
 	 */
@@ -194,9 +212,9 @@ window.CS = {
 	/**
 	 * Returns the days of the week for dropdowns in whichever language - Sunday first
 	 */
-	days: function (language, length = 'long') {
+	days: function () {
 		let days = [];
-		for(i = 0; i < 7; i++) days.push(new Date('1970-01-0' + (4 + i)).toLocaleString(language, {weekday:length}));
+		for(i = 0; i < 7; i++) days.push(dayjs().isoWeekday(i).format('dddd'));
 		return days;
 	},
 
@@ -228,15 +246,5 @@ window.CS = {
 		div = document.createElement('div');
 		div.innerHTML = str;
 		return div.textContent || div.innerText || '';
-	},
-
-	/**
-	 * Takes datetime string in the format 2021-05-12 09:00:00 and converts to time format: 9:00pm
-	 */
-	timeFormat: function (time, language) {
-		const options = {
-			hourCycle: 'h12',
-		};
-		return (new Date(time.replace(/-/g, '/'))).toLocaleTimeString(language, options).replace(/ /g, '').replace(':00', '');
 	},
 }
