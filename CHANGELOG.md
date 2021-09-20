@@ -2,7 +2,7 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
-## [1.1.0] - 2021-09-08 - Major Update
+## [1.1.0] - 2021-09-20 - Major Update
 
 All days, dates and times now use [Day.js](https://day.js.org/docs/en/display/format) for custom formatting.
 
@@ -13,6 +13,8 @@ All days, dates and times now use [Day.js](https://day.js.org/docs/en/display/fo
 ### Added
 
 - event.start and event.end have been added, each returning a Day.js object, and allow displaying multiday events properly
+- group.members and group.signupCapacity have been added, returning an integer number of members and spaces respectively
+- group.signupStart and group.signupEnd have been added, each returning a Day.js object for the signup period (if applicable)
 
 ### Removed
 
