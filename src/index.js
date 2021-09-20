@@ -185,7 +185,7 @@ document.addEventListener('alpine:init', () => {
 		filterGroups() {
 			this.groups = this.allFormattedGroups.filter(group => {
 				const clusterMatched = group.cluster == null && this.cluster.length ? false : (!this.cluster.length || group.cluster == this.cluster);
-				const dayMatched = !this.day.length || group.day == this.day;
+				const dayMatched = !this.day.length || group.day.format('dddd') == this.day;
 				const tagMatched = !this.tag.length || group.tags.map(tag => tag.name).includes(this.tag);
 				const searchMatched = !this.search.length || group.name.toLowerCase().includes(this.search.toLowerCase());
 				const siteMatched = group.site == null ? true : (!this.site.length || group.site == this.site);
