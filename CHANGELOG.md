@@ -9,12 +9,14 @@ All days, dates and times now use [Day.js](https://day.js.org/docs/en/display/fo
 ### Changed
 
 - group.dateStart, group.day and group.time now return Day.js objects
+- all days, dates or times are now localisable
 
 ### Added
 
 - event.start and event.end have been added, each returning a Day.js object, and allow displaying multiday events properly
 - group.members and group.signupCapacity have been added, returning an integer number of members and spaces respectively
 - group.signupStart and group.signupEnd have been added, each returning a Day.js object for the signup period (if applicable)
+- event name filtering has been added so that an Alpine component can be locked to a single event, for example to return the next Alpha course in a sequence
 
 ### Removed
 
