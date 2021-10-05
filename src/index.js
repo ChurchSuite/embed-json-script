@@ -62,10 +62,10 @@ document.addEventListener('alpine:init', () => {
 				}
 				
 				// if not already in this.events (as tracked by this.names) add it to the array
-				if (!this.names.includes(event.name)) {
+				if (!this.names.includes(event.name) || event.signup_options.sequence_signup == '0') {
 					this.events.push(eventData);
 					// add the name to this.names so we don't add it to this.events again
-					this.names.push(event.name);
+					if (!this.names.includes(event.name)) this.names.push(event.name);
 				} 
 			
 				this.allEvents.push(eventData);

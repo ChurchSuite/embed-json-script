@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [1.1.1] - 2021-10-05
+
+### Changed
+
+- featured events now show all events in a sequence by default if sequence signup is not enabled
+
 ## [1.1.0] - 2021-09-20 - Major Update
 
 All days, dates and times now use [Day.js](https://day.js.org/docs/en/display/format) for custom formatting.
