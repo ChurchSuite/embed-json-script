@@ -232,7 +232,8 @@ window.CS = {
 		if (storedData != null && JSON.parse(storedData).expires > new Date().getTime()) {
 			data = JSON.parse(storedData).json;
 		} else {
-			await fetch('https://' + CS.url + '/embed/' + (type == 'events' ? 'calendar' : 'smallgroups') + '/json' + this.buildOptions(options))
+			$scheme = ['charitysuite', 'churchsuite'].includes(CS.url.split('.').pop()) ? 'http://' : 'https://';
+			await fetch($scheme + CS.url + '/embed/' + (type == 'events' ? 'calendar' : 'smallgroups') + '/json' + this.buildOptions(options))
 				.then(response => response.json())
 				.then(response => {
 					localStorage.setItem(type, JSON.stringify({expires: (new Date()).getTime()+(1000*60*15), json: response})); // JS times in milliseconds, so expire in 1h
