@@ -147,7 +147,7 @@ document.addEventListener('alpine:init', () => {
 					description: group.description.replace(/\r\n/g, '<br>'),
 					frequency: group.frequency == 'custom' ? group.custom_frequency : group.frequency,
 					image: group.images.constructor === Object ? group.images.md.url : '',
-					link: 'https://' + CS.url + '/groups/' + group.identifier,
+					link: group.embed_signup == 1 || group.signup_enabled == 0 ? 'https://' + CS.url + '/groups/' + group.identifier : '',
 					location: group.location.name,
 					members: group.no_members,
 					name: group.name,

@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [1.1.2] - 2021-10-21
+
+### Changed
+
+- group.link now returns an empty string if a group has signup enabled, but does not have 'Sign up through Embed' enabled
+
 ## [1.1.1] - 2021-10-21
 
 ### Changed
