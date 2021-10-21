@@ -44,6 +44,14 @@ document.addEventListener('alpine:init', () => {
 				if (event.category != null && !this.categories.includes(event.category.name)) this.categories.push(event.category.name);
 				if (event.site != null && !this.sites.includes(event.site.name)) this.sites.push(event.site.name);
 
+				// sort out link URL
+				let link = '';
+				if (event.signup_options.embed.enabled == 1) {
+					link = event.signup_options.tickets.url;
+				} else if (event.signup_options.signup_enabled == 0) {
+					link = 'https://' + CS.url + '/events/' + event.identifier;
+				}
+
 				let eventData = {
 					_original: event,
 					allDay: event.datetime_start.slice(-8) == '00:00:00' && event.datetime_end.slice(-8) == '23:59:59',
@@ -52,7 +60,7 @@ document.addEventListener('alpine:init', () => {
 					description: CS.stringToHTML(event.description),
 					end: dayjs(event.datetime_end),
 					image: event.images.constructor === Object ? event.images.md.url : event.brand.emblem,
-					link: event.signup_options.signup_enabled == 1 ? event.signup_options.tickets.url : '',
+					link: link,
 					location: event.location.name,
 					name: event.name,
 					online: event.location.type == 'online',
@@ -60,13 +68,13 @@ document.addEventListener('alpine:init', () => {
 					site: event.site != null ? event.site.name : null,
 					start: dayjs(event.datetime_start),
 				}
-				
+
 				// if not already in this.events (as tracked by this.names) add it to the array
-				if (!this.names.includes(event.name) || event.signup_options.sequence_signup == '0') {
+				if (!this.names.includes(event.name) || (event.signup_options.sequence_signup == 0 && event.signup_options.signup_enabled == 1)) {
 					this.events.push(eventData);
 					// add the name to this.names so we don't add it to this.events again
 					if (!this.names.includes(event.name)) this.names.push(event.name);
-				} 
+				}
 			
 				this.allEvents.push(eventData);
 			});

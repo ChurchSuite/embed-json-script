@@ -2,11 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
-## [1.1.1] - 2021-10-05
+## [1.1.1] - 2021-10-21
 
 ### Changed
 
 - featured events now show all events in a sequence by default if sequence signup is not enabled
+- event.link now provides a link if 'Sign up through Embed' is enabled, or signup is disabled altogether
 
 ## [1.1.0] - 2021-09-20 - Major Update
 
