@@ -28,6 +28,7 @@ document.addEventListener('alpine:init', () => {
 		featuredEvents: [], // array to contain featured events
 		name: '', // name dropdown value
 		names: [], // array of possible name values
+		options: {featured: 1}, // API options
 		search: '', // search terms
 		site: '', // site dropdown value
 		sites: [], // array of possible site values
@@ -37,7 +38,7 @@ document.addEventListener('alpine:init', () => {
 
 			this.$watch(['category', 'search', 'site'], () => this.filterEvents());
 
-			let events = (await CS.fetchJSON('events', options)).filter(event => event.signup_options.public.featured == '1');
+			let events = (await CS.fetchJSON('events', Object.assign(this.options, options)));
 			
 			events.forEach(event => {
 				// capture unique categories and sites

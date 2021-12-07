@@ -2,6 +2,18 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [1.1.4] - 2021-12-07
+
+### Changed
+
+- bugfix to previous change!
+
+## [1.1.3] - 2021-12-07
+
+### Changed
+
+- minor update to events API behind the scenes
+
 ## [1.1.2] - 2021-10-21
 
 ### Changed
