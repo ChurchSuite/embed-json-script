@@ -237,15 +237,17 @@ window.CS = {
 	 */
 	fetchJSON: async function (type, options = {}) {
 		let data;
-		let storedData = localStorage.getItem(type);
+		let scheme = ['charitysuite', 'churchsuite'].includes(CS.url.split('.').pop()) ? 'http://' : 'https://';
+		let url = scheme + CS.url + '/embed/' + (type == 'events' ? 'calendar' : 'smallgroups') + '/json' + this.buildOptions(options);
+		let storedData = localStorage.getItem(url);
+
 		if (storedData != null && JSON.parse(storedData).expires > new Date().getTime()) {
 			data = JSON.parse(storedData).json;
 		} else {
-			$scheme = ['charitysuite', 'churchsuite'].includes(CS.url.split('.').pop()) ? 'http://' : 'https://';
-			await fetch($scheme + CS.url + '/embed/' + (type == 'events' ? 'calendar' : 'smallgroups') + '/json' + this.buildOptions(options))
+			await fetch(url)
 				.then(response => response.json())
 				.then(response => {
-					localStorage.setItem(type, JSON.stringify({expires: (new Date()).getTime()+(1000*60*15), json: response})); // JS times in milliseconds, so expire in 1h
+					localStorage.setItem(url, JSON.stringify({expires: (new Date()).getTime()+(1000*60*15), json: response})); // JS times in milliseconds, so expire in 15m
 					data = response;
 				},
 			);
