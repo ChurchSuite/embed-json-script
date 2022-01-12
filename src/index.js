@@ -235,7 +235,7 @@ window.CS = {
 		let data;
 		let scheme = ['charitysuite', 'churchsuite'].includes(CS.url.split('.').pop()) ? 'http://' : 'https://';
 		let url = scheme + CS.url + '/embed/' + (type == 'events' ? 'calendar' : 'smallgroups') + '/json' + this.buildOptions(options);
-		let storedData = localStorage.getItem(url);
+		let storedData = this.supportsLocalStorage() ? localStorage.getItem(url) : null;
 
 		if (storedData != null && JSON.parse(storedData).expires > new Date().getTime()) {
 			data = JSON.parse(storedData).json;
@@ -243,7 +243,13 @@ window.CS = {
 			await fetch(url)
 				.then(response => response.json())
 				.then(response => {
-					localStorage.setItem(url, JSON.stringify({expires: (new Date()).getTime()+(1000*60*15), json: response})); // JS times in milliseconds, so expire in 15m
+					if (this.supportsLocalStorage()) {
+						try {
+							localStorage.setItem(url, JSON.stringify({expires: (new Date()).getTime()+(1000*60*15), json: response})) // JS times in milliseconds, so expire in 15m
+						} catch {
+							console.error('Unable to cache data');
+						}
+					}
 					data = response;
 				},
 			);
@@ -259,5 +265,17 @@ window.CS = {
 		div = document.createElement('div');
 		div.innerHTML = str;
 		return div.textContent || div.innerText || '';
+	},
+
+	/**
+	 * Check that local storage works in browser
+	 */
+	supportsLocalStorage: function() {
+		try {
+			return 'localStorage' in window && window['localStorage'] !== null;
+		}
+		catch {
+			return false;
+		}
 	},
 }
