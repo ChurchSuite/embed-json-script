@@ -2,6 +2,18 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+
+## [1.1.7] - 2022-01-12
+
+### Changed
+
+- removed the default filtering of events with duplicate names, as the API now gives more control over 'merge strategies'.
+Through the API you can now define this with the following parameters: {merge: signup_to_sequence|sequence|sequence_name|show_all}.
+
+### Fixed
+
+- we now check local storage is available and not full before trying to use it, thanks to @andrewpitts15
+
 ## [1.1.6] - 2022-01-11
 
 ### Changed
