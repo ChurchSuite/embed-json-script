@@ -232,15 +232,6 @@ window.CS = {
 		return days;
 	},
 
-	supportsLocalStorage: function() {
-		try {
-			return 'localStorage' in window && window['localStorage'] !== null;
-		}
-		catch {
-			return false;
-		}
-	},
-
 	/**
 	 * Fetches JSON data from local cache (expiry 1h) or from ChurchSuite JSON feed. Type is 'events' or 'groups'.
 	 */
@@ -259,8 +250,7 @@ window.CS = {
 					if (this.supportsLocalStorage()) {
 						try {
 							localStorage.setItem(url, JSON.stringify({expires: (new Date()).getTime()+(1000*60*15), json: response})) // JS times in milliseconds, so expire in 15m
-						}
-						catch {
+						} catch {
 							console.error('Unable to cache data');
 						}
 					}
@@ -279,5 +269,17 @@ window.CS = {
 		div = document.createElement('div');
 		div.innerHTML = str;
 		return div.textContent || div.innerText || '';
+	},
+
+	/**
+	 * Check that local storage works in browser
+	 */
+	supportsLocalStorage: function() {
+		try {
+			return 'localStorage' in window && window['localStorage'] !== null;
+		}
+		catch {
+			return false;
+		}
 	},
 }
