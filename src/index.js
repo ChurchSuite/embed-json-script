@@ -32,14 +32,14 @@ document.addEventListener('alpine:init', () => {
 		search: '', // search terms
 		site: '', // site dropdown value
 		sites: [], // array of possible site values
-		
+
 		async init() {
 			dayjs.locale(CS.locale);
 
 			this.$watch(['category', 'search', 'site'], () => this.filterEvents());
 
 			let events = (await CS.fetchJSON('events', Object.assign(this.options, options)));
-			
+
 			events.forEach(event => {
 				// capture unique categories and sites
 				if (event.category != null && !this.categories.includes(event.category.name)) this.categories.push(event.category.name);
@@ -122,10 +122,10 @@ document.addEventListener('alpine:init', () => {
 			this.$watch(['day', 'tag', 'search', 'site', 'cluster'], () => this.filterGroups());
 
 			let groups = await CS.fetchJSON('groups', Object.assign(this.options, options));
-			
+
 			// load in array of days for day filter dropdown
 			this.days = CS.days();
-			
+
 			groups.forEach(group => {
 				// capture unique categories, tags and sites for dropdowns, then sort them
 				if (group.site != null && !this.sites.includes(group.site.name)) this.sites.push(group.site.name);
@@ -199,7 +199,7 @@ document.addEventListener('alpine:init', () => {
 				const tagMatched = !this.tag.length || group.tags.map(tag => tag.name).includes(this.tag);
 				const searchMatched = !this.search.length || group.name.toLowerCase().includes(this.search.toLowerCase());
 				const siteMatched = group.site == null ? true : (!this.site.length || group.site == this.site);
-				
+
 				// return dayMatched && tagMatched && searchMatched;
 				return dayMatched && tagMatched && searchMatched && siteMatched && clusterMatched;
 			})
@@ -252,7 +252,7 @@ window.CS = {
 		return data;
 	},
 
-	/** 
+	/**
 	 * Decodes a string containing HTML entities back into HTML
 	 */
 	stringToHTML: function (str) {
