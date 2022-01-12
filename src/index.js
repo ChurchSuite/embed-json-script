@@ -70,10 +70,13 @@ document.addEventListener('alpine:init', () => {
 					start: dayjs(event.datetime_start),
 				}
 
+				// if this is a featured event then push to the featured events array
+				if (event.signup_options.public.featured == 1) this.featuredEvents.push(eventData)
+
+				// push the eventData to the allEvents array
 				this.allEvents.push(eventData);
 			});
 
-			this.featuredEvents = this.events;
 			this.filterEvents();
 		},
 
