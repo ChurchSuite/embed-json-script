@@ -71,7 +71,10 @@ document.addEventListener('alpine:init', () => {
 				}
 
 				// if this is a featured event then push to the featured events array
-				if (event.signup_options.public.featured == 1) this.featuredEvents.push(eventData)
+				if (event.signup_options.public.featured == 1) this.featuredEvents.push(eventData);
+
+				// push the event name to the names array if it is not already present
+				if (!this.names.includes(event.name)) this.names.push(event.name);
 
 				// push the eventData to the allEvents array
 				this.allEvents.push(eventData);
