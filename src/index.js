@@ -82,7 +82,7 @@ document.addEventListener('alpine:init', () => {
 		 */
 		filterEvents() {
 			if (!this.search.length && !this.category.length && !this.site.length && !this.name.length) {
-				this.events = this.featuredEvents;
+				this.events = this.allEvents;
 			} else {
 				this.events = this.allEvents.filter(event => {
 					const searchMatched = !this.search.length || (event.name + event.date + event.location + event.category).toLowerCase().includes(this.search.toLowerCase());
