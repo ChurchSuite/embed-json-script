@@ -70,13 +70,6 @@ document.addEventListener('alpine:init', () => {
 					start: dayjs(event.datetime_start),
 				}
 
-				// if not already in this.events (as tracked by this.names) add it to the array
-				if (!this.names.includes(event.name) || (event.signup_options.sequence_signup == 0 && event.signup_options.signup_enabled == 1)) {
-					this.events.push(eventData);
-					// add the name to this.names so we don't add it to this.events again
-					if (!this.names.includes(event.name)) this.names.push(event.name);
-				}
-			
 				this.allEvents.push(eventData);
 			});
 
