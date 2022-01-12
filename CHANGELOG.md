@@ -2,6 +2,18 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [1.1.6] - 2022-01-11
+
+### Changed
+
+- removed the default featured option, as the API does this already
+
+## [1.1.5] - 2021-12-08
+
+### Changed
+
+- caching update to store query URL, so query changes immediately update local storage
+
 ## [1.1.4] - 2021-12-07
 
 ### Changed

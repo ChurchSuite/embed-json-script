@@ -28,7 +28,7 @@ document.addEventListener('alpine:init', () => {
 		featuredEvents: [], // array to contain featured events
 		name: '', // name dropdown value
 		names: [], // array of possible name values
-		options: {featured: 1}, // API options
+		options: {}, // API options
 		search: '', // search terms
 		site: '', // site dropdown value
 		sites: [], // array of possible site values
