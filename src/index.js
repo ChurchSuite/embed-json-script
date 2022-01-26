@@ -237,7 +237,7 @@ window.CS = {
 	fetchJSON: async function (type, options = {}) {
 		let data;
 		let scheme = ['charitysuite', 'churchsuite'].includes(CS.url.split('.').pop()) ? 'http://' : 'https://';
-		let url = scheme + CS.url + '/embed/' + (type == 'events' ? 'calendar' : 'smallgroups') + '/json' + this.buildOptions(options);
+		let url = scheme + CS.url.replace('churchsuite.co.uk', 'churchsuite.com') + '/embed/' + (type == 'events' ? 'calendar' : 'smallgroups') + '/json' + this.buildOptions(options);
 		let storedData = this.supportsLocalStorage() ? localStorage.getItem(url) : null;
 
 		if (storedData != null && JSON.parse(storedData).expires > new Date().getTime()) {
