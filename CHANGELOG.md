@@ -3,22 +3,28 @@
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
 
-## [1.1.7] - 2022-01-12
+## [2.0.0] - 2022-01-26 - Major Update
+
+We've updated our events JSON feed API, so that it is easier to make feeds with non-featured events. There are also a set of new merge strategies for combining similar events together, which you can choose between using API parameters. Small Groups are unaffected, but Events feeds will need some API parameters to keep the present functionality.
+
+We're also changing our version numbering to standard semver format, [Major.Minor.Patch], so that websites can lock to the major number and receive minor updates and patches without intervention, and committing to only adding functionality or making non-breaking changes in minor and patch releases.
+
+### Breaking Changes
+
+- the script no longer only shows featured events by default; add a {featured: 1} parameter to x-data to keep present functionality
+
+### Added
+
+- our API now gives more control over 'merge strategies', so we've removed the filtering from this script. With no parameters, the API will fall back to merging in the same pattern as this script did, but different merge behaviour can now be set using following parameters: {merge: signup_to_sequence|sequence|sequence_name|show_all}.
+- our API also now has more filtering parameters, so while x-init can still be used to filter events in a component, we're recommending to use API parameters instead
 
 ### Changed
 
-- removed the default filtering of events with duplicate names, as the API now gives more control over 'merge strategies'.
-Through the API you can now define this with the following parameters: {merge: signup_to_sequence|sequence|sequence_name|show_all}.
+- all churchsuite.co.uk accounts have now been migrated to churchsuite.com, so we have added a redirect for any websites still setting the CS url to churchsuite.co.uk
 
 ### Fixed
 
 - we now check local storage is available and not full before trying to use it, thanks to @andrewpitts15
-
-## [1.1.6] - 2022-01-11
-
-### Changed
-
-- removed the default featured option, as the API does this already
 
 ## [1.1.5] - 2021-12-08
 

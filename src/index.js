@@ -21,14 +21,14 @@ window.dayjs = dayjs;
 
 document.addEventListener('alpine:init', () => {
 	Alpine.data('CSEvents', (options = {}) => ({
-		allEvents: [], // array to contain unfiltered events
+		allEvents: [], // array to contain unfiltered, unmerged events
 		categories: [], // a compiled array of all event categories
 		category: '', // linked to selected option from dropdown for comparison with the event category
 		events: [], // array to contain filtered events
-		featuredEvents: [], // array to contain featured events
+		mergedEvents: [], // array to contain the merged events, depending on merge strategy - first in sequence, etc
 		name: '', // name dropdown value
 		names: [], // array of possible name values
-		options: {}, // API options
+		options: {include_merged: 1}, // API options
 		search: '', // search terms
 		site: '', // site dropdown value
 		sites: [], // array of possible site values
@@ -70,8 +70,8 @@ document.addEventListener('alpine:init', () => {
 					start: dayjs(event.datetime_start),
 				}
 
-				// if this is a featured event then push to the featured events array
-				if (event.signup_options.public.featured == 1) this.featuredEvents.push(eventData);
+				// build an array of events to show when merged together (first in sequence etc)
+				if (event.merged_by_strategy == 0) this.mergedEvents.push(eventData);
 
 				// push the event name to the names array if it is not already present
 				if (!this.names.includes(event.name)) this.names.push(event.name);
@@ -88,7 +88,8 @@ document.addEventListener('alpine:init', () => {
 		 */
 		filterEvents() {
 			if (!this.search.length && !this.category.length && !this.site.length && !this.name.length) {
-				this.events = this.allEvents;
+				// if we're not filtering by anything, only show merged events (following merge strategy)
+				this.events = this.mergedEvents;
 			} else {
 				this.events = this.allEvents.filter(event => {
 					const searchMatched = !this.search.length || (event.name + event.date + event.location + event.category).toLowerCase().includes(this.search.toLowerCase());
