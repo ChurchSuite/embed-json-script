@@ -4,8 +4,8 @@
   "description": "An easy-to-use script to allow simple integration of ChurchSuite's embed JSON feeds into your website. For more information, see https://kingshope.church.",
   "main": "dist/cdn.min.js",
   "scripts": {
-    "build": "npx webpack",
-    "deploy": "npx webpack && npm publish"
+    "build": "esbuild src/index.js --bundle --minify --outfile=dist/cdn.min.js",
+    "deploy": "npm run build && npm publish"
   },
   "repository": {
     "type": "git",
@@ -27,8 +27,6 @@
   "homepage": "https://kingshope.church",
   "devDependencies": {
     "dayjs": "^1.10.7",
-    "webpack": "^5.53.0",
-    "webpack-cli": "^4.8.0"
-  },
-  "dependencies": {}
+    "esbuild": "^0.14.27"
+  }
 }
