@@ -141,11 +141,14 @@ document.addEventListener('alpine:init', () => {
 
 				// push formatted data to the allFormattedGroups array
 				this.allFormattedGroups.push({
+					active: this.isActive(group),
 					cluster: group.cluster != null ? group.cluster.name : null,
 					customFields: group.custom_fields.constructor === Object ? this.buildCustomFields(group) : null, // if no custom fields, JSON provides an empty array
+					dateEnd: group.date_end ? dayjs(group.date_end) : null,
 					dateStart: dayjs(group.date_start),
 					day: group.day != null ? dayjs().isoWeekday(group.day) : null,
 					description: group.description.replace(/\r\n/g, '<br>'),
+					endingSoon: this.isEndingSoon(group),
 					frequency: group.frequency == 'custom' ? group.custom_frequency : group.frequency,
 					image: group.images.constructor === Object ? group.images.md.url : '',
 					link: group.embed_signup == 1 || group.signup_enabled == 0 ? 'https://' + CS.url + '/groups/' + group.identifier : '',
@@ -156,6 +159,8 @@ document.addEventListener('alpine:init', () => {
 					signupCapacity: group.signup_capacity,
 					signupStart: group.signup_date_start != null ? dayjs(group.signup_date_start) : null,
 					signupEnd: group.signup_date_end != null ? dayjs(group.signup_date_end) : null,
+					signupFull: group.signup_full,
+					signupRunning: this.isSignupRunning(group),
 					site: group.site != null ? group.site.name : null,
 					tags: group.tags,
 					time: group.time != null ? dayjs((new Date()).toISOString().slice(0, 11) + group.time + ':00') : null,
@@ -209,6 +214,62 @@ document.addEventListener('alpine:init', () => {
 			})
 		},
 
+		/**
+		 * Return a boolean as to whether a group is active or not
+		 * @param {Object} group The group in question.
+		 * @returns {boolean} Whether the group is currently active.
+		 */
+		isActive(group) {
+			let now = dayjs();
+			// if the start date isn't in the past, group isn't active
+			if (!dayjs(group.date_start).isBefore(now)) return false;
+			if (group.date_end) {
+				// if the end date is set and isn't in the future, group isn't active
+				if (!dayjs(group.date_end).isAfter(now)) return false;
+			}
+
+			return true;
+		},
+
+		/**
+		 * Return a boolean as to whether a group is ending in the next month.
+		 * @param {Object} group The group in question.
+		 * @returns {boolean} Whether the group ends in the next month.
+		 */
+		isEndingSoon(group) {
+			if (!group.date_end) return false;
+
+			let now = dayjs();
+			let dateEnd = dayjs(group.date_end);
+			if (dateEnd.subtract(1, 'month').isBefore(now)) return true;
+
+			return false;
+		},
+
+		/**
+		 * Return a boolean as to whether a group currently has signup active and running.
+		 * @param {Object} group The group in question.
+		 * @returns {boolean} Whether the group signup is running.
+		 */
+		isSignupRunning(group) {
+			// group must have signup enabled and a signup start date
+			if (!group.signup_enabled || !group.embed_signup) return false;
+			if (!group.signup_date_start) return false;
+
+			let now = dayjs();
+			let dateStart = dayjs(group.signup_date_start);
+
+			// check that signup started before now
+			if (!dateStart.isBefore(now)) return false;
+
+			// if signup has an end date, check it is in the future
+			if (group.signup_date_end) {
+				let dateEnd = dayjs(group.signup_date_end);
+				if (!dateEnd.isAfter(now)) return false;
+			}
+
+			return true;
+		}
 	}))
 });
 

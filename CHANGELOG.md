@@ -2,6 +2,15 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [2.1.0] - 2022-03-21
+
+### Added
+
+- small groups group.dateEnd dayjs property
+- small groups group.active property
+- small groups group.endingSoon property
+- small groups group.signupFull property
+- small groups group.signupRunning property
 
 ## [2.0.0] - 2022-01-26 - Major Update
 
