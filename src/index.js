@@ -105,16 +105,17 @@ document.addEventListener('alpine:init', () => {
 
 	Alpine.data('CSGroups', (options = {}) => ({
 		allFormattedGroups: [],
-		cluster: '', // cluster string for filterGroups()
+		cluster: '', // cluster string/array for filterGroups()
 		clusters: [], // clusters array for cluster dropdown
-		day: '', // filterGroups() day dropdown string
+		day: '', // filterGroups() day dropdown string/array
 		days: [], // array to contain days of the week for dropdown
 		groups: [],
 		options: {show_tags: 1}, //options object to add to the url string
 		search: '', // filterGroups() search
-		site: '', // site string for filterGroups()
+		site: '', // site string/array for filterGroups()
 		sites: [], // sites array for site dropdown
-		tag: '', // tag string for filterGroups()
+		tag: '', // tag string/array for filterGroups()
+		tagsMatch: 'all', // if group needs to match all tags in multiselect - other option is 'any'
 		tags: [], // tags array for tag dropdown
 
 		/**
@@ -203,13 +204,27 @@ document.addEventListener('alpine:init', () => {
 		 */
 		filterGroups() {
 			this.groups = this.allFormattedGroups.filter(group => {
-				const clusterMatched = group.cluster == null && this.cluster.length ? false : (!this.cluster.length || group.cluster == this.cluster);
-				const dayMatched = !this.day.length || group.day.format('dddd') == this.day;
-				const tagMatched = !this.tag.length || group.tags.map(tag => tag.name).includes(this.tag);
 				const searchMatched = !this.search.length || group.name.toLowerCase().includes(this.search.toLowerCase());
-				const siteMatched = group.site == null ? true : (!this.site.length || group.site == this.site);
 
-				// return dayMatched && tagMatched && searchMatched;
+				// convert any strings (single selects) into arrays (to behave like multiselect)
+				const daysFilter = Array.isArray(this.day) ? this.day : (this.day ? [this.day] : []);
+				const tagsFilter = Array.isArray(this.tag) ? this.tag : (this.tag ? [this.tag] : []);
+				const clusterFilter = Array.isArray(this.cluster) ? this.cluster : (this.cluster ? [this.cluster] : []);
+				const sitesFilter = Array.isArray(this.site) ? this.site : (this.site ? [this.site] : []);
+
+				// filter by group day
+				const dayMatched = daysFilter.length == 0 || daysFilter.includes(group.day.format('dddd'));
+				
+				// filter by group tags
+				const groupTags = group.tags.map(tag => tag.name);
+				const tagMatched = this.multiselectMatches(groupTags, tagsFilter, this.tagsMatch);
+
+				// filter by group cluster (a group can only belong to one cluster)
+				const clusterMatched = clusterFilter.length == 0 || clusterFilter.includes(group.cluster);
+
+				// filter by sites (a group can only belong to one site or all sites [null])
+				const siteMatched = group.site == null || sitesFilter.length == 0 || sitesFilter.includes(group.site);
+
 				return dayMatched && tagMatched && searchMatched && siteMatched && clusterMatched;
 			})
 		},
@@ -269,6 +284,53 @@ document.addEventListener('alpine:init', () => {
 			}
 
 			return true;
+		},
+
+		/**
+		 * Return a boolean as to whether a group matches a multiselect filter.
+		 * Used when a group can have multiple values, e.g. multiple tags.
+		 * @param {Array} values The values on the group in question.
+		 * @param {Array} multiselect The values selected in the multiselect.
+		 * @param {String} matchingBehaviour The matching behaviour - 'all' or 'any'.
+		 * @returns {boolean} Whether the group matches.
+		 */
+		multiselectMatches(values, multiselect, matchingBehaviour) {
+			if (multiselect.length == 0) return true;
+
+			// calculate the intersection between group values and multiselect values
+			const matches = values.filter(value => multiselect.includes(value));
+
+			// if matching behaviour 'all', group must have every multiselect value
+			if (matchingBehaviour == 'all' && matches.length == multiselect.length) return true;
+
+			// if matching behaviour 'any', group must have one of multiselect values
+			if (matchingBehaviour == 'any' && matches.length > 0) return true;
+
+			return false;
+		}
+	})),
+
+	// reusable logic for filter multiselects
+	// the filter passed in here is a string matching the filter on the parent - e.g. 'day'
+	Alpine.data('multiselect', (filter) => ({
+		init() {
+			this[filter] = [];
+		},
+		isSelected(option) {
+			return this[filter].includes(option);
+		},
+		showDropdown: false,
+		// toggle an option in one of the multiselect filters
+		toggle(option) {
+			if (!Array.isArray(this[filter])) this[filter] = [this[filter]]; // reset in case single select on same page
+			if (this[filter].includes(option)) {
+				// unset the option
+				this[filter] = this[filter].filter(value => value != option);
+			} else {
+				// set the option
+				// NOTE using .push() doesn't trigger watch - https://github.com/alpinejs/alpine/issues/383
+				this[filter] = this[filter].concat([option]);
+			}
 		}
 	}))
 });
