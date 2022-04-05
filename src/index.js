@@ -308,6 +308,43 @@ document.addEventListener('alpine:init', () => {
 		}
 	})),
 
+	Alpine.data('CSChurches', (options = {}) => ({
+		churches: [], // array containing the churches
+
+		async init() {
+			dayjs.locale(CS.locale);
+
+			let churches = (await CS.fetchJSON('churches'));
+
+			churches.forEach(church => {
+				// build address objects
+				let addresses = [];
+				church.addresses.forEach(address => {
+					addresses.push({
+						line1: address.addressLine1,
+						line2: address.addressLine2,
+						city: address.addressCity,
+						county: address.addressCounty,
+						country: address.addressCountry,
+						postcode: address.addressPostcode,
+					});
+				});
+
+				let churchData = {
+					_original: church,
+					name: church.name,
+					email: church.email,
+					telephone: church.telephone,
+					addresses: addresses,
+					charity_number: church.charity_number,
+					image: church.images.constructor === Object ? church.images.md.url : '',
+				}
+
+				this.churches.push(churchData);
+			});
+		}
+	})),
+
 	// reusable logic for filter multiselects
 	// the filter passed in here is a string matching the filter on the parent - e.g. 'day'
 	Alpine.data('multiselect', (filter) => ({
@@ -357,9 +394,21 @@ window.CS = {
 	 * Fetches JSON data from local cache (expiry 1h) or from ChurchSuite JSON feed. Type is 'events' or 'groups'.
 	 */
 	fetchJSON: async function (type, options = {}) {
+		let endpoints = {
+			events: '/embed/calendar/json',
+			groups: '/embed/smallgroups/json',
+			churches: '/embed/v2/churches/json',
+		};
 		let data;
-		let scheme = ['charitysuite', 'churchsuite'].includes(CS.url.split('.').pop()) ? 'http://' : 'https://';
-		let url = scheme + CS.url.replace('churchsuite.co.uk', 'churchsuite.com') + '/embed/' + (type == 'events' ? 'calendar' : 'smallgroups') + '/json' + this.buildOptions(options);
+		let scheme = 'https://';
+		let port = '';
+		// internal local dev modifications
+		if (['charitysuite', 'churchsuite'].includes(CS.url.split('.').pop())) {
+			// CS local dev
+			scheme = 'http://';
+			port = ':81';
+		}
+		let url = scheme + CS.url.replace('churchsuite.co.uk', 'churchsuite.com') + port + endpoints[type] + this.buildOptions(options);
 		let storedData = this.supportsLocalStorage() ? localStorage.getItem(url) : null;
 
 		if (storedData != null && JSON.parse(storedData).expires > new Date().getTime()) {

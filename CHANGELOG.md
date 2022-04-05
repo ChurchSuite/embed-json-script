@@ -6,6 +6,7 @@ We make updates from time to time, to fix things and add functionality - we'll k
 
 ### Added
 
+- new Churches module!
 - small groups group.dateEnd dayjs property
 - small groups group.active property
 - small groups group.endingSoon property
