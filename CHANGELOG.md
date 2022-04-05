@@ -12,7 +12,8 @@ We make updates from time to time, to fix things and add functionality - we'll k
 - small groups group.endingSoon property
 - small groups group.signupFull property
 - small groups group.signupRunning property
-- all small groups filter now support easy multiselects
+- all small groups filters now support easy multiselects
+- small groups now support beta Embed Configurations
 
 ## [2.0.0] - 2022-01-26 - Major Update
 

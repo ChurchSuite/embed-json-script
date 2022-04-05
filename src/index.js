@@ -107,6 +107,7 @@ document.addEventListener('alpine:init', () => {
 		allFormattedGroups: [],
 		cluster: '', // cluster string/array for filterGroups()
 		clusters: [], // clusters array for cluster dropdown
+		configuration: [], // embed configuration (if requested)
 		day: '', // filterGroups() day dropdown string/array
 		days: CS.days(), // array to contain days of the week for dropdown
 		groups: [],
@@ -128,6 +129,13 @@ document.addEventListener('alpine:init', () => {
 
 			let groups = await CS.fetchJSON('groups', Object.assign(this.options, options));
 
+			// handle new-style Embed V2 response
+			if (groups.hasOwnProperty('data')) {
+				// Embed V2 - extract configuration if present
+				if (groups.configuration) this.configuration = groups.configuration;
+				this.tagsMatch = this.configuration.filterByTagMatch;
+				groups = groups.data;
+			}
 
 			groups.forEach(group => {
 				// capture unique categories, tags and sites for dropdowns, then sort them
@@ -394,9 +402,12 @@ window.CS = {
 	 * Fetches JSON data from local cache (expiry 1h) or from ChurchSuite JSON feed. Type is 'events' or 'groups'.
 	 */
 	fetchJSON: async function (type, options = {}) {
+		// Is an embed configuration being requested?
+		let embedConfiguration = options.hasOwnProperty('configuration');
+
 		let endpoints = {
 			events: '/embed/calendar/json',
-			groups: '/embed/smallgroups/json',
+			groups: embedConfiguration ? '/embed/v2/smallgroups/json' : '/embed/smallgroups/json',
 			churches: '/embed/v2/churches/json',
 		};
 		let data;
