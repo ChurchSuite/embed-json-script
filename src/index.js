@@ -161,7 +161,7 @@ document.addEventListener('alpine:init', () => {
 					signupFull: group.signup_full,
 					signupRunning: this.isSignupRunning(group),
 					site: group.site != null ? group.site.name : null,
-					tags: group.tags,
+					tags: group.tags ?? [],
 					time: group.time != null ? dayjs((new Date()).toISOString().slice(0, 11) + group.time + ':00') : null,
 					_original: group,
 				});
