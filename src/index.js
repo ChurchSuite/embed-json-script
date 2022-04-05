@@ -108,7 +108,7 @@ document.addEventListener('alpine:init', () => {
 		cluster: '', // cluster string/array for filterGroups()
 		clusters: [], // clusters array for cluster dropdown
 		day: '', // filterGroups() day dropdown string/array
-		days: [], // array to contain days of the week for dropdown
+		days: CS.days(), // array to contain days of the week for dropdown
 		groups: [],
 		options: {show_tags: 1}, //options object to add to the url string
 		search: '', // filterGroups() search
@@ -128,8 +128,6 @@ document.addEventListener('alpine:init', () => {
 
 			let groups = await CS.fetchJSON('groups', Object.assign(this.options, options));
 
-			// load in array of days for day filter dropdown
-			this.days = CS.days();
 
 			groups.forEach(group => {
 				// capture unique categories, tags and sites for dropdowns, then sort them
