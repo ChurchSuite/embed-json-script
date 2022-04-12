@@ -22,6 +22,7 @@ window.dayjs = dayjs;
 // common properties and functions between all modules
 function baseXData(options) {
 	return {
+		allFormattedModels: [],
 		configuration: [], // embed configuration
 		site: '', // site string/array for filtering
 		sites: [], // sites array for site dropdown
@@ -56,7 +57,6 @@ function baseXData(options) {
 
 document.addEventListener('alpine:init', () => {
 	Alpine.data('CSEvents', (options = {}) => ({...baseXData(options), ...{
-		allEvents: [], // array to contain unfiltered, unmerged events
 		categories: [], // a compiled array of all event categories
 		category: '', // linked to selected option from dropdown for comparison with the event category
 		events: [], // array to contain filtered events
@@ -76,7 +76,7 @@ document.addEventListener('alpine:init', () => {
 				// if we're not filtering by anything, only show merged events (following merge strategy)
 				this.events = this.mergedEvents;
 			} else {
-				this.events = this.allEvents.filter(event => {
+				this.events = this.allFormattedModels.filter(event => {
 					const searchMatched = !this.search.length || (event.name + event.date + event.location + event.category).toLowerCase().includes(this.search.toLowerCase());
 					const categoryMatched = !this.category.length || event.category === this.category;
 					const siteMatched = event.site == null ? true : (!this.site.length || event.site == this.site);
@@ -124,14 +124,13 @@ document.addEventListener('alpine:init', () => {
 				// push the event name to the names array if it is not already present
 				if (!this.names.includes(event.name)) this.names.push(event.name);
 
-				// push the eventData to the allEvents array
-				this.allEvents.push(eventData);
+				// push the eventData to the allFormattedModels array
+				this.allFormattedModels.push(eventData);
 			});
 		}
 	}})),
 
 	Alpine.data('CSGroups', (options = {}) => ({...baseXData(options), ...{
-		allFormattedGroups: [],
 		cluster: '', // cluster string/array for filter()
 		clusters: [], // clusters array for cluster dropdown
 		day: '', // filter() day dropdown string/array
@@ -176,7 +175,7 @@ document.addEventListener('alpine:init', () => {
 		 * Filters Groups for day and tag dropdowns and search for name
 		 */
 		filter() {
-			this.groups = this.allFormattedGroups.filter(group => {
+			this.groups = this.allFormattedModels.filter(group => {
 				const searchMatched = !this.search.length || group.name.toLowerCase().includes(this.search.toLowerCase());
 
 				// convert any strings (single selects) into arrays (to behave like multiselect)
@@ -215,8 +214,8 @@ document.addEventListener('alpine:init', () => {
 				this.clusters.sort();
 				this.tags.sort();
 
-				// push formatted data to the allFormattedGroups array
-				this.allFormattedGroups.push({
+				// push formatted data to the allFormattedModels array
+				this.allFormattedModels.push({
 					active: this.isActive(group),
 					cluster: group.cluster != null ? group.cluster.name : null,
 					customFields: group.custom_fields.constructor === Object ? this.buildCustomFields(group) : null, // if no custom fields, JSON provides an empty array
@@ -327,7 +326,6 @@ document.addEventListener('alpine:init', () => {
 	}})),
 
 	Alpine.data('CSChurches', (options = {}) => ({...baseXData(options), ...{
-		allFormattedChurches: [], // unfiltered, formatted churches array
 		churches: [], // filtered churches array
 		filters: ['site'], // available filters to $watch and refilter on
 		key: 'churches', // the name of the model/endpoint to retrieve it
@@ -337,7 +335,7 @@ document.addEventListener('alpine:init', () => {
 		 * Filters Churches by site
 		 */
 		filter() {
-			this.churches = this.allFormattedChurches.filter(church => {
+			this.churches = this.allFormattedModels.filter(church => {
 				// convert any strings (single selects) into arrays (to behave like multiselect)
 				const sitesFilter = Array.isArray(this.site) ? this.site : (this.site ? [this.site] : []);
 
@@ -369,7 +367,7 @@ document.addEventListener('alpine:init', () => {
 					urls: church.urls,
 				}
 
-				this.allFormattedChurches.push(churchData);
+				this.allFormattedModels.push(churchData);
 			});
 		}
 	}})),
