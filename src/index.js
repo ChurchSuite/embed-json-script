@@ -19,27 +19,75 @@ dayjs.extend(isoWeek);
 
 window.dayjs = dayjs;
 
+// common properties and functions between all modules
+function baseXData(options) {
+	return {
+		configuration: [], // embed configuration
+		site: '', // site string/array for filtering
+		sites: [], // sites array for site dropdown
+
+		async init() {
+			dayjs.locale(CS.locale);
+
+			this.$watch(this.filters, () => this.filter());
+
+			let models = (await CS.fetchJSON(this.key, Object.assign(this.options, options)));
+
+			// handle new-style Embed V2 response
+			if (models.hasOwnProperty('data')) {
+				// Embed V2 - extract configuration if present
+				if (models.configuration) this.configuration = models.configuration;
+				this.tagsMatch = this.configuration.filterByTagMatch;
+				models = models.data;
+			}
+			
+			this.format(models);
+			this.filter();
+			this.postInit();
+		},
+
+		/**
+		 * An empty function that runs at the end of the init() method for each module.
+		 * Overload if you need to run code at the end of initialisation.
+		 */
+		postInit() {}
+	};
+};
+
 document.addEventListener('alpine:init', () => {
-	Alpine.data('CSEvents', (options = {}) => ({
+	Alpine.data('CSEvents', (options = {}) => ({...baseXData(options), ...{
 		allEvents: [], // array to contain unfiltered, unmerged events
 		categories: [], // a compiled array of all event categories
 		category: '', // linked to selected option from dropdown for comparison with the event category
 		events: [], // array to contain filtered events
+		filters: ['category', 'search', 'site'], // available filters to $watch and refilter on
+		key: 'events', // the name of the model/endpoint to retrieve it
 		mergedEvents: [], // array to contain the merged events, depending on merge strategy - first in sequence, etc
 		name: '', // name dropdown value
 		names: [], // array of possible name values
 		options: {include_merged: 1}, // API options
 		search: '', // search terms
-		site: '', // site dropdown value
-		sites: [], // array of possible site values
 
-		async init() {
-			dayjs.locale(CS.locale);
+		/**
+		 * Filters Events by category dropdown and search bar
+		 */
+		filter() {
+			if (!this.search.length && !this.category.length && !this.site.length && !this.name.length) {
+				// if we're not filtering by anything, only show merged events (following merge strategy)
+				this.events = this.mergedEvents;
+			} else {
+				this.events = this.allEvents.filter(event => {
+					const searchMatched = !this.search.length || (event.name + event.date + event.location + event.category).toLowerCase().includes(this.search.toLowerCase());
+					const categoryMatched = !this.category.length || event.category === this.category;
+					const siteMatched = event.site == null ? true : (!this.site.length || event.site == this.site);
+					const nameMatched = !this.name.length || event.name == this.name;
 
-			this.$watch(['category', 'search', 'site'], () => this.filterEvents());
+					return categoryMatched && searchMatched && siteMatched && nameMatched;
+				})
+			}
+		},
 
-			let events = (await CS.fetchJSON('events', Object.assign(this.options, options)));
-
+		format(events) {
 			events.forEach(event => {
 				// capture unique categories and sites
 				if (event.category != null && !this.categories.includes(event.category.name)) this.categories.push(event.category.name);
@@ -79,64 +127,85 @@ document.addEventListener('alpine:init', () => {
 				// push the eventData to the allEvents array
 				this.allEvents.push(eventData);
 			});
+		}
+	}})),
 
-			this.filterEvents();
-		},
-
-		/**
-		 * Filters Events by category dropdown and search bar
-		 */
-		filterEvents() {
-			if (!this.search.length && !this.category.length && !this.site.length && !this.name.length) {
-				// if we're not filtering by anything, only show merged events (following merge strategy)
-				this.events = this.mergedEvents;
-			} else {
-				this.events = this.allEvents.filter(event => {
-					const searchMatched = !this.search.length || (event.name + event.date + event.location + event.category).toLowerCase().includes(this.search.toLowerCase());
-					const categoryMatched = !this.category.length || event.category === this.category;
-					const siteMatched = event.site == null ? true : (!this.site.length || event.site == this.site);
-					const nameMatched = !this.name.length || event.name == this.name;
-
-					return categoryMatched && searchMatched && siteMatched && nameMatched;
-				})
-			}
-		},
-	})),
-
-	Alpine.data('CSGroups', (options = {}) => ({
+	Alpine.data('CSGroups', (options = {}) => ({...baseXData(options), ...{
 		allFormattedGroups: [],
-		cluster: '', // cluster string/array for filterGroups()
+		cluster: '', // cluster string/array for filter()
 		clusters: [], // clusters array for cluster dropdown
-		configuration: [], // embed configuration (if requested)
-		day: '', // filterGroups() day dropdown string/array
+		day: '', // filter() day dropdown string/array
 		days: CS.days(), // array to contain days of the week for dropdown
+		filters: ['day', 'tag', 'search', 'site', 'cluster'], // available filters to $watch and refilter on
 		groups: [],
+		key: 'groups', // the name of the model/endpoint to retrieve it
 		options: {show_tags: 1}, //options object to add to the url string
-		search: '', // filterGroups() search
-		site: '', // site string/array for filterGroups()
-		sites: [], // sites array for site dropdown
-		tag: '', // tag string/array for filterGroups()
+		search: '', // filter() search
+		tag: '', // tag string/array for filter()
 		tagsMatch: 'all', // if group needs to match all tags in multiselect - other option is 'any'
 		tags: [], // tags array for tag dropdown
 
 		/**
-		 * Builds a formatted array of groups data
+		 * Build a more helpful array of custom field data for a group from the 3 available versions
 		 */
-		async init() {
-			dayjs.locale(CS.locale);
+		buildCustomFields(group) {
+			// create a formatted list of custom fields
+			let formattedCustomFields = [];
+			Object.entries(group.custom_fields).forEach(customField => {
+				const field = customField[1];
+				// just use the version with a formatted_value
+				if (field.constructor === Object && field.hasOwnProperty('formatted_value') && field.settings.embed.view) {
+					// only add if this field is visible in embed
+					formattedCustomFields.push({
+						id: field.id,
+						name: field.name,
+						value: field.formatted_value,
+						_original: [
+							group.custom_fields['custom' + field.id],
+							group.custom_fields['field' + field.id],
+							group.custom_fields['field_' + field.id],
+						],
+					});
+				}
+			});
 
-			this.$watch(['day', 'tag', 'search', 'site', 'cluster'], () => this.filterGroups());
+			return formattedCustomFields;
+		},
 
-			let groups = await CS.fetchJSON('groups', Object.assign(this.options, options));
+		/**
+		 * Filters Groups for day and tag dropdowns and search for name
+		 */
+		filter() {
+			this.groups = this.allFormattedGroups.filter(group => {
+				const searchMatched = !this.search.length || group.name.toLowerCase().includes(this.search.toLowerCase());
 
-			// handle new-style Embed V2 response
-			if (groups.hasOwnProperty('data')) {
-				// Embed V2 - extract configuration if present
-				if (groups.configuration) this.configuration = groups.configuration;
-				this.tagsMatch = this.configuration.filterByTagMatch;
-				groups = groups.data;
-			}
+				// convert any strings (single selects) into arrays (to behave like multiselect)
+				const daysFilter = Array.isArray(this.day) ? this.day : (this.day ? [this.day] : []);
+				const tagsFilter = Array.isArray(this.tag) ? this.tag : (this.tag ? [this.tag] : []);
+				const clusterFilter = Array.isArray(this.cluster) ? this.cluster : (this.cluster ? [this.cluster] : []);
+				const sitesFilter = Array.isArray(this.site) ? this.site : (this.site ? [this.site] : []);
 
+				// filter by group day
+				const dayMatched = daysFilter.length == 0 || daysFilter.includes(group.day.format('dddd'));
+				
+				// filter by group tags
+				const groupTags = group.tags.map(tag => tag.name);
+				const tagMatched = this.multiselectMatches(groupTags, tagsFilter, this.tagsMatch);
+
+				// filter by group cluster (a group can only belong to one cluster)
+				const clusterMatched = clusterFilter.length == 0 || clusterFilter.includes(group.cluster);
+
+				// filter by sites (a group can only belong to one site or all sites [null])
+				const siteMatched = group.site == null || sitesFilter.length == 0 || sitesFilter.includes(group.site);
+
+				return dayMatched && tagMatched && searchMatched && siteMatched && clusterMatched;
+			})
+		},
+
+		/**
+		 * Format groups
+		 */
+		format(groups) {
 			groups.forEach(group => {
 				// capture unique categories, tags and sites for dropdowns, then sort them
 				if (group.site != null && !this.sites.includes(group.site.name)) this.sites.push(group.site.name);
@@ -174,65 +243,6 @@ document.addEventListener('alpine:init', () => {
 					_original: group,
 				});
 			});
-			this.groups = this.allFormattedGroups;
-			this.filterGroups();
-		},
-
-		/**
-		 * Build a more helpful array of custom field data for a group from the 3 available versions
-		 */
-		buildCustomFields(group) {
-			// create a formatted list of custom fields
-			let formattedCustomFields = [];
-			Object.entries(group.custom_fields).forEach(customField => {
-				const field = customField[1];
-				// just use the version with a formatted_value
-				if (field.constructor === Object && field.hasOwnProperty('formatted_value') && field.settings.embed.view) {
-					// only add if this field is visible in embed
-					formattedCustomFields.push({
-						id: field.id,
-						name: field.name,
-						value: field.formatted_value,
-						_original: [
-							group.custom_fields['custom' + field.id],
-							group.custom_fields['field' + field.id],
-							group.custom_fields['field_' + field.id],
-						],
-					});
-				}
-			});
-
-			return formattedCustomFields;
-		},
-
-		/**
-		 * Filters Groups for day and tag dropdowns and search for name
-		 */
-		filterGroups() {
-			this.groups = this.allFormattedGroups.filter(group => {
-				const searchMatched = !this.search.length || group.name.toLowerCase().includes(this.search.toLowerCase());
-
-				// convert any strings (single selects) into arrays (to behave like multiselect)
-				const daysFilter = Array.isArray(this.day) ? this.day : (this.day ? [this.day] : []);
-				const tagsFilter = Array.isArray(this.tag) ? this.tag : (this.tag ? [this.tag] : []);
-				const clusterFilter = Array.isArray(this.cluster) ? this.cluster : (this.cluster ? [this.cluster] : []);
-				const sitesFilter = Array.isArray(this.site) ? this.site : (this.site ? [this.site] : []);
-
-				// filter by group day
-				const dayMatched = daysFilter.length == 0 || daysFilter.includes(group.day.format('dddd'));
-				
-				// filter by group tags
-				const groupTags = group.tags.map(tag => tag.name);
-				const tagMatched = this.multiselectMatches(groupTags, tagsFilter, this.tagsMatch);
-
-				// filter by group cluster (a group can only belong to one cluster)
-				const clusterMatched = clusterFilter.length == 0 || clusterFilter.includes(group.cluster);
-
-				// filter by sites (a group can only belong to one site or all sites [null])
-				const siteMatched = group.site == null || sitesFilter.length == 0 || sitesFilter.includes(group.site);
-
-				return dayMatched && tagMatched && searchMatched && siteMatched && clusterMatched;
-			})
 		},
 
 		/**
@@ -314,44 +324,55 @@ document.addEventListener('alpine:init', () => {
 
 			return false;
 		}
-	})),
+	}})),
 
-	Alpine.data('CSChurches', (options = {}) => ({
-		churches: [], // array containing the churches
+	Alpine.data('CSChurches', (options = {}) => ({...baseXData(options), ...{
+		allFormattedChurches: [], // unfiltered, formatted churches array
+		churches: [], // filtered churches array
+		filters: ['site'], // available filters to $watch and refilter on
+		key: 'churches', // the name of the model/endpoint to retrieve it
+		options: {}, //options object to add to the url string
 
-		async init() {
-			dayjs.locale(CS.locale);
+		/**
+		 * Filters Churches by site
+		 */
+		filter() {
+			this.churches = this.allFormattedChurches.filter(church => {
+				// convert any strings (single selects) into arrays (to behave like multiselect)
+				const sitesFilter = Array.isArray(this.site) ? this.site : (this.site ? [this.site] : []);
 
-			let churches = (await CS.fetchJSON('churches'));
+				// filter by sites (a church can only belong to one site or all sites [null])
+				return church.site == null || sitesFilter.length == 0 || sitesFilter.includes(church.site);
+			})
+		},
 
+		/**
+		 * Format church models
+		 */
+		format(churches) {
 			churches.forEach(church => {
-				// build address objects
-				let addresses = [];
-				church.addresses.forEach(address => {
-					addresses.push({
-						line1: address.addressLine1,
-						line2: address.addressLine2,
-						city: address.addressCity,
-						county: address.addressCounty,
-						country: address.addressCountry,
-						postcode: address.addressPostcode,
-					});
-				});
+				if (church.site != null && !this.sites.includes(church.site.name)) this.sites.push(church.site.name);
+				this.sites.sort();
 
 				let churchData = {
 					_original: church,
 					name: church.name,
 					email: church.email,
 					telephone: church.telephone,
-					addresses: addresses,
+					office_address: church.office_address,
+					meeting_address: church.meeting_address,
+					single_address: church.single_address,
 					charity_number: church.charity_number,
+					custom_fields: church.custom_fields,
 					image: church.images.constructor === Object ? church.images.md.url : '',
+					site: church.site != null ? church.site.name : null,
+					urls: church.urls,
 				}
 
-				this.churches.push(churchData);
+				this.allFormattedChurches.push(churchData);
 			});
 		}
-	})),
+	}})),
 
 	// reusable logic for filter multiselects
 	// the filter passed in here is a string matching the filter on the parent - e.g. 'day'
@@ -406,7 +427,7 @@ window.CS = {
 		let embedConfiguration = options.hasOwnProperty('configuration');
 
 		let endpoints = {
-			events: '/embed/calendar/json',
+			events: embedConfiguration ? '/embed/v2/calendar/json' : '/embed/calendar/json',
 			groups: embedConfiguration ? '/embed/v2/smallgroups/json' : '/embed/smallgroups/json',
 			churches: '/embed/v2/churches/json',
 		};
