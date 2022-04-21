@@ -4,6 +4,8 @@ We make updates from time to time, to fix things and add functionality - we'll k
 
 ## [2.1.0] - 2022-03-21
 
+We've added a selection of helpful properties to groups to make life easier, added support for the beta Churches module, and added support for easy multiselects across the board!
+
 ### Added
 
 - new Churches module!
