@@ -20,10 +20,12 @@ dayjs.extend(isoWeek);
 window.dayjs = dayjs;
 
 // common properties and functions between all modules
-function baseXData(options) {
+function baseXData(key, options) {
 	return {
 		allFormattedModels: [],
 		configuration: [], // embed configuration
+		key: key, // the name of the model/endpoint to retrieve it
+		options: {}, // default options to add to the url string
 		site: '', // site string/array for filtering
 		sites: [], // sites array for site dropdown
 
@@ -56,12 +58,11 @@ function baseXData(options) {
 };
 
 document.addEventListener('alpine:init', () => {
-	Alpine.data('CSEvents', (options = {}) => ({...baseXData(options), ...{
+	Alpine.data('CSEvents', (options = {}) => ({...baseXData('events', options), ...{
 		categories: [], // a compiled array of all event categories
 		category: '', // linked to selected option from dropdown for comparison with the event category
 		events: [], // array to contain filtered events
 		filters: ['category', 'search', 'site'], // available filters to $watch and refilter on
-		key: 'events', // the name of the model/endpoint to retrieve it
 		mergedEvents: [], // array to contain the merged events, depending on merge strategy - first in sequence, etc
 		name: '', // name dropdown value
 		names: [], // array of possible name values
@@ -130,14 +131,13 @@ document.addEventListener('alpine:init', () => {
 		}
 	}})),
 
-	Alpine.data('CSGroups', (options = {}) => ({...baseXData(options), ...{
+	Alpine.data('CSGroups', (options = {}) => ({...baseXData('groups', options), ...{
 		cluster: '', // cluster string/array for filter()
 		clusters: [], // clusters array for cluster dropdown
 		day: '', // filter() day dropdown string/array
 		days: CS.days(), // array to contain days of the week for dropdown
 		filters: ['day', 'tag', 'search', 'site', 'cluster'], // available filters to $watch and refilter on
 		groups: [],
-		key: 'groups', // the name of the model/endpoint to retrieve it
 		options: {show_tags: 1}, //options object to add to the url string
 		search: '', // filter() search
 		tag: '', // tag string/array for filter()
@@ -325,11 +325,9 @@ document.addEventListener('alpine:init', () => {
 		}
 	}})),
 
-	Alpine.data('CSChurches', (options = {}) => ({...baseXData(options), ...{
+	Alpine.data('CSChurches', (options = {}) => ({...baseXData('churches', options), ...{
 		churches: [], // filtered churches array
 		filters: ['site'], // available filters to $watch and refilter on
-		key: 'churches', // the name of the model/endpoint to retrieve it
-		options: {}, //options object to add to the url string
 
 		/**
 		 * Filters Churches by site
