@@ -437,7 +437,10 @@ window.CS = {
 			port = ':81';
 		}
 		let url = scheme + CS.url.replace('churchsuite.co.uk', 'churchsuite.com') + port + endpoints[type] + this.buildOptions(options);
-		let storedData = this.supportsLocalStorage() ? localStorage.getItem(url) : null;
+
+		// if the page has a preview=1 query, don't use cached data so changes are live updated (NOT FOR GENERAL USE - LOWER PERFORMANCE!)
+		let preview = (new URLSearchParams(location.search)).get('preview') == 1;
+		let storedData = this.supportsLocalStorage() && !preview ? localStorage.getItem(url) : null;
 
 		if (storedData != null && JSON.parse(storedData).expires > new Date().getTime()) {
 			data = JSON.parse(storedData).json;
@@ -445,7 +448,7 @@ window.CS = {
 			await fetch(url)
 				.then(response => response.json())
 				.then(response => {
-					if (this.supportsLocalStorage()) {
+					if (this.supportsLocalStorage() && !preview) {
 						try {
 							localStorage.setItem(url, JSON.stringify({expires: (new Date()).getTime()+(1000*60*15), json: response})) // JS times in milliseconds, so expire in 15m
 						} catch {
