@@ -2,6 +2,19 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [2.2.0] - 2022-04-28
+
+We've reworked the structure of the JS such that it's more modular, thus easier to maintain and develop. You now can use a minified JS for a specific module, as well as the combined "cdn.min.js" file.
+
+### Added
+
+- New minified module JS files in the dist/ folder, or you can continue to use the combined JS.
+- New JS classes for each model; Group, Church, Event. Each class has added properties.
+
+### Breaking Changes
+
+- CS has been removed, this functionality is now in a CSJsonFeed Alpine module. This makes it easier to access within each module (i.e. CSGroups) since each module extends the CSJsonFeed module. You will need to update calls like `CS.url` and `CS.locale` to `CSJsonFeed.url` and `CSJsonFeed.locale` respectively.
+
 ## [2.1.0] - 2022-03-21
 
 We've added a selection of helpful properties to groups to make life easier, added support for the beta Churches module, and added support for easy multiselects across the board!
