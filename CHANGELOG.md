@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [2.0.1] - 2022-05-17
+
+### Changed
+
+- bugfix to null days for Small Groups
+
 
 ## [2.0.0] - 2022-01-26 - Major Update
 
