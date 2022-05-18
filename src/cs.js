@@ -1,26 +1,26 @@
-var dayjs = require('dayjs');
+var dayjs = require('dayjs')
 
 // require internationalisation packs
-var localizedFormat = require('dayjs/plugin/localizedFormat');
-dayjs.extend(localizedFormat);
+var localizedFormat = require('dayjs/plugin/localizedFormat')
+dayjs.extend(localizedFormat)
 require('dayjs/locale/da')
 require('dayjs/locale/de')
-require('dayjs/locale/es');
-require('dayjs/locale/fr');
-require('dayjs/locale/it');
-require('dayjs/locale/nl');
-require('dayjs/locale/pl');
-require('dayjs/locale/se');
-require('dayjs/locale/sk');
+require('dayjs/locale/es')
+require('dayjs/locale/fr')
+require('dayjs/locale/it')
+require('dayjs/locale/nl')
+require('dayjs/locale/pl')
+require('dayjs/locale/se')
+require('dayjs/locale/sk')
 
 // require isoweek to create dayjs objects for days
-var isoWeek = require('dayjs/plugin/isoWeek');
-dayjs.extend(isoWeek);
+var isoWeek = require('dayjs/plugin/isoWeek')
+dayjs.extend(isoWeek)
 
-window.dayjs = dayjs;
+window.dayjs = dayjs
 
-import CSMultiSelect from './components/csMultiSelect';
-window.CSMultiSelect = CSMultiSelect;
+import CSMultiSelect from './components/csMultiSelect'
+window.CSMultiSelect = CSMultiSelect
 document.addEventListener('alpine:init', () => {
 	Alpine.data('CSMultiSelect', CSMultiSelect)
 })
@@ -40,32 +40,37 @@ window.CSJsonFeed = function(options = {}) {
 		models: [], // our filtered model objects
 		modelsAll: [], // all of our model objects
 
+		// x-bind info
+		root: {
+			['x-effect']: 'console.log(this)'
+		},
+
 		/**
 		 * To be overwritten by child classes.
 		 * Builds/initialises a model object, using the given data object.
 		 */
 		buildModelObject(model) {
-			return model;
+			return model
 		},
 
 		/**
 		 * Builds any URL options provided
 		 */
 		buildOptions(options) {
-			var searchOptions = new URLSearchParams();
+			var searchOptions = new URLSearchParams()
 			Object.keys(options).forEach(function(key) {
-				searchOptions.append(key, options[key]);
-			});
-			return (Object.keys(options).length !== 0) ? '?' + searchOptions.toString() : '';
+				searchOptions.append(key, options[key])
+			})
+			return (Object.keys(options).length !== 0) ? '?' + searchOptions.toString() : ''
 		},
 
 		/**
 		 * Returns the days of the week for dropdowns in whichever language - Sunday first
 		 */
 		daysOfWeek() {
-			let days = [];
-			for(var i = 0; i < 7; i++) days.push(dayjs().isoWeekday(i).format('dddd'));
-			return days;
+			let days = []
+			for(var i = 0; i < 7; i++) days.push(dayjs().isoWeekday(i).format('dddd'))
+			return days
 		},
 
 		/**
@@ -73,14 +78,15 @@ window.CSJsonFeed = function(options = {}) {
 		 * Type is 'calendar', 'churches' or 'smallgroups'.
 		 */
 		async fetchJSON(type, options = {}) {
-			let data;
-			let url = CSJsonFeed.url + '/embed/v2/' + type + '/json' + this.buildOptions(options);
+			let data
+			let url = CSJsonFeed.url + '/embed/' + type + '/json' + this.buildOptions(options)
+
 			// if the page has a preview=1 query, don't use cached data so changes are live updated
-			let preview = (new URLSearchParams(location.search)).get('preview') == 1;
-			let storedData = this.supportsLocalStorage() && !preview ? localStorage.getItem(url) : null;
+			let preview = (new URLSearchParams(location.search)).get('preview') == 1
+			let storedData = this.supportsLocalStorage() && !preview ? localStorage.getItem(url) : null
 
 			if (storedData != null && JSON.parse(storedData).expires > new Date().getTime()) {
-				data = JSON.parse(storedData).json;
+				data = JSON.parse(storedData).json
 			} else {
 				await fetch(url)
 					.then(response => response.json())
@@ -89,29 +95,29 @@ window.CSJsonFeed = function(options = {}) {
 							try {
 								localStorage.setItem(url, JSON.stringify({expires: (new Date()).getTime()+(1000*60*15), json: response})) // JS times in milliseconds, so expire in 15m
 							} catch {
-								console.error('Unable to cache data');
+								console.error('Unable to cache data')
 							}
 						}
-						data = response;
+						data = response
 					},
-				);
+				)
 			}
 
-			return data;
+			return data
 		},
 
 		/**
 		 * Returns true if the given model should be visible, based on the filters.
 		 */
 		filterModel(model) {
-			return true;
+			return true
 		},
 
 		/**
 		 * Returns true if we should be filtering models.
 		 */
 		filterModelsEnabled() {
-			return true;
+			return true
 		},
 
 		/**
@@ -119,9 +125,9 @@ window.CSJsonFeed = function(options = {}) {
 		 */
 		filterModels() {
 			if (this.filterModelsEnabled()) {
-				this.models = this.modelsAll.filter((model) => this.filterModel(model));
+				this.models = this.modelsAll.filter((model) => this.filterModel(model))
 			}
-			this.$dispatch('models-updated'); // always do this!
+			this.$dispatch('models-updated') // always do this!
 		},
 
 		/**
@@ -130,9 +136,9 @@ window.CSJsonFeed = function(options = {}) {
 		 * @param {string} tailwindVar
 		 */
 		getColorRbga(hexColor, tailwindVar) {
-			const rgbColor = this.hexToRgb(hexColor);
+			const rgbColor = this.hexToRgb(hexColor)
 
-			return 'rgba('+rgbColor.r+', '+rgbColor.g+', '+rgbColor.b+', var('+tailwindVar+'))';
+			return 'rgba('+rgbColor.r+', '+rgbColor.g+', '+rgbColor.b+', var('+tailwindVar+'))'
 		},
 
 		/**
@@ -141,32 +147,46 @@ window.CSJsonFeed = function(options = {}) {
 		 * @returns object
 		 */
 		hexToRgb(hex) {
-			const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+			const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 
 			return result ? {
 				r: parseInt(result[1], 16),
 				g: parseInt(result[2], 16),
 				b: parseInt(result[3], 16)
-			} : null;
+			} : null
 		},
 
 		/**
 		 * Initialises the JSON feed asynchronously.
 		 */
 		async init() {
-			dayjs.locale(this.locale);
+			dayjs.locale(this.locale)
 
-			this.$watch(this.filterKeys, () => this.filterModels());
+			this.filterKeys.forEach(filter => {
+				this.$watch(filter, (v) => {
+console.log(v)
+					this.filterModels()
+				})
+			})
 
-			let response = await this.fetchJSON(this.resourceModule, Object.assign(this.options, options));
-			this.configuration = response.configuration;
-			response.data.forEach(model => {
-				this.modelsAll.push(this.buildModelObject(model));
-			});
+			let response = await this.fetchJSON(this.resourceModule, Object.assign(this.options, options))
 
-			this.postInit();
+			if (response.hasOwnProperty('configuration')) {
+				// new style configuration data
+				this.configuration = response.configuration
+				response.data.forEach(model => {
+					this.modelsAll.push(this.buildModelObject(model))
+				})
+			} else {
+				// old style flat array
+				response.forEach(model => {
+					this.modelsAll.push(this.buildModelObject(model))
+				})
+			}
 
-			this.$nextTick(() => this.filterModels());
+			this.postInit()
+
+			this.$nextTick(() => this.filterModels())
 		},
 
 		/**
@@ -180,10 +200,10 @@ window.CSJsonFeed = function(options = {}) {
 		 */
 		supportsLocalStorage() {
 			try {
-				return 'localStorage' in window && window['localStorage'] !== null;
+				return 'localStorage' in window && window['localStorage'] !== null
 			} catch {
-				return false;
+				return false
 			}
 		}
-	};
+	}
 }

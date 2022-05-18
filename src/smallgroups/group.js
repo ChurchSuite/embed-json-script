@@ -17,6 +17,7 @@ export default class Group {
 		this.image = json.images != null && json.images.constructor === Object ? json.images.md.url : '';
 		this.link = json.embed_signup == 1 || json.signup_enabled == 0 ? CSJsonFeed.url + '/groups/' + json.identifier : '';
 		this.location = json.location.name;
+		this.labels = json.labels;
 		this.latitude = json.location.latitude;
 		this.longitude = json.location.longitude;
 		this.members = json.no_members;
@@ -28,8 +29,8 @@ export default class Group {
 		this.signupRunning = this.signupIsRunning(json);
 		this.signupInFuture = this.signupInFuture();
 		this.site = json.site != null ? json.site.name : null;
-		this.labels = json.labels;
-		this.labelsMatch = json.labelsMatch;
+		this.tags = json.tags;
+		this.tagsMatch = json.tagsMatch;
 		this.time = json.time != null ? dayjs((new Date()).toISOString().slice(0, 11) + json.time + ':00') : null;
 	}
 
@@ -56,8 +57,8 @@ export default class Group {
 	}
 
 	dayMatches(value) {
-		let dayValue = Array.isArray(value) ? value : (value ? [value] : []);
-		return !dayValue.length || dayValue.includes(this.day.format('dddd'));
+		let dayValue = Array.isArray(value) ? value : (!value ? [] : [value]);
+		return this.day == null || !dayValue.length || dayValue.includes(this.day.format('dddd'));
 	}
 
 	/**
@@ -93,9 +94,27 @@ export default class Group {
 	}
 
 	labelMatches(value) {
-		let labelValue = Array.isArray(value) ? value : (value ? [value] : []);
-		let modelLabels = Array.isArray(this.labels) ? this.labels.map(label => label.name) : [];
-		return CSMultiSelect().matches(modelLabels, labelValue, this.labelsMatch);
+		// need to match them all so set up an array of matches
+		// let filterValues = [], filterMatches = [];
+		let result = true
+		Object.values(value).forEach(v => {
+			if (v.value !== null && v.value.length && result) {
+				// set up a bool for if the label had been found
+				let labelFound = false
+				this.labels.forEach(label => {
+					if (label.id == v.id) {
+						// if this is the right label mark as found
+						labelFound = true
+						// now check for a match - update result if false
+						if (!label.value.includes(v.value)) result = false
+					}
+				})
+				// if this group doesn't have this label then update result
+				if (!labelFound) result = false
+			}
+		})
+
+		return result;
 	}
 
 	signupInFuture() {
@@ -130,6 +149,12 @@ export default class Group {
 	siteMatches(value) {
 		let sitesValue = Array.isArray(value) ? value : (value ? [value] : []);
 		return this.site == null || !sitesValue.length || sitesValue.includes(this.site);
+	}
+
+	tagMatches(value) {
+		let tagValue = Array.isArray(value) ? value : (value ? [value] : []);
+		let modelTags = Array.isArray(this.tags) ? this.tags.map(tag => tag.name) : [];
+		return CSMultiSelect().matches(modelTags, tagValue, this.tagsMatch);
 	}
 
 }

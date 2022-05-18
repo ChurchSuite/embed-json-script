@@ -1,5 +1,5 @@
-import "./cs";
-import Event from "./calendar/event";
+import "./cs"
+import Event from "./calendar/event"
 
 document.addEventListener('alpine:init', () => {
 	Alpine.data('CSEvents', (options = {}) => ({...CSJsonFeed(options), ...{
@@ -21,15 +21,15 @@ document.addEventListener('alpine:init', () => {
 
 		buildModelObject(model) {
 			// capture unique categories and sites
-			if (model.category != null && !this.categories.includes(model.category.name)) this.categories.push(model.category.name);
-			if (model.site != null && !this.sites.includes(model.site.name)) this.sites.push(model.site.name);
+			if (model.category != null && !this.categories.includes(model.category.name)) this.categories.push(model.category.name)
+			if (model.site != null && !this.sites.includes(model.site.name)) this.sites.push(model.site.name)
 
-			let event = new Event(model);
+			let event = new Event(model)
 
 			// build an array of events to show when merged together (first in sequence etc)
-			if (model.merged_by_strategy == 0) this.modelsMerged.push(event);
+			if (model.merged_by_strategy == 0) this.modelsMerged.push(event)
 
-			return event;
+			return event
 		},
 
 		/**
@@ -38,12 +38,12 @@ document.addEventListener('alpine:init', () => {
 		filterModelsEnabled() {
 			if (!this.search.length && !this.category.length && !this.site.length) {
 				// if we're not filtering by anything, only show merged events (following merge strategy)
-				this.models = this.modelsMerged;
-				return false;
+				this.models = this.modelsMerged
+				return false
 			} else {
 				// first update the searchQuery so we don't do it for every model in this.filterModel() - replace date separators with spaces
-				this.searchQuery = this.search.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase();
-				return true;
+				this.searchQuery = this.search.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase()
+				return true
 			}
 		},
 
@@ -53,8 +53,8 @@ document.addEventListener('alpine:init', () => {
 		filterModel(model) {
 			return model.categoryMatches(this.category)
 				&& model.searchMatches(this.searchQuery)
-				&& model.siteMatches(this.site);
+				&& model.siteMatches(this.site)
 		}
 
 	}}))
-});
+})
