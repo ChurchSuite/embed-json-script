@@ -40,11 +40,6 @@ window.CSJsonFeed = function(options = {}) {
 		models: [], // our filtered model objects
 		modelsAll: [], // all of our model objects
 
-		// x-bind info
-		root: {
-			['x-effect']: 'console.log(this)'
-		},
-
 		/**
 		 * To be overwritten by child classes.
 		 * Builds/initialises a model object, using the given data object.
@@ -162,12 +157,7 @@ window.CSJsonFeed = function(options = {}) {
 		async init() {
 			dayjs.locale(this.locale)
 
-			this.filterKeys.forEach(filter => {
-				this.$watch(filter, (v) => {
-console.log(v)
-					this.filterModels()
-				})
-			})
+			this.$watch(this.filterKeys, (v) => this.filterModels())
 
 			let response = await this.fetchJSON(this.resourceModule, Object.assign(this.options, options))
 
