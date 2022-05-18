@@ -52,9 +52,9 @@ document.addEventListener('alpine:init', () => {
 		 * Returns true if the given model should be visible, based on the filters.
 		 */
 		filterModel(model) {
-			return model.categoryMatches(this.category)
-				&& model.searchMatches(this.searchQuery)
-				&& model.siteMatches(this.site)
+			return model._matchCategory(this.category)
+				&& model._matchSearch(this.searchQuery)
+				&& model._matchSite(this.site)
 		}
 
 	}}))

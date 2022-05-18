@@ -33,7 +33,11 @@ export default class Event {
 		this._original = json;
 	}
 
-	searchMatches(value) {
+	_matchCategory(categoryName) {
+		return !categoryName.length || this.category == categoryName;
+	}
+
+	_matchSearch(value) {
 		if (!value.length) return true;
 
 		// build a model search name with varying levels of date formats and event info
@@ -61,11 +65,7 @@ export default class Event {
 		return searchName.includes(value);
 	}
 
-	categoryMatches(categoryName) {
-		return !categoryName.length || this.category == categoryName;
-	}
-
-	siteMatches(value) {
+	_matchSite(value) {
 		let sitesValue = Array.isArray(value) ? value : (value ? [value] : []);
 		return this.site == null || !sitesValue.length || sitesValue.includes(this.site);
 	}

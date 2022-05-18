@@ -37,7 +37,7 @@ document.addEventListener('alpine:init', () => {
 			// push formatted data to the models array
 			model.tagsMatch = this.tagsMatch // pass this config value over to the model for ease of access
 
-			// loop the labels and create filters for them
+			// loop the labels and capture them
 			if (this.options.hasOwnProperty('show_labels')) {
 				this.options.show_labels.forEach(labelId => {
 					if (this.labelsProcessed.includes(labelId)) return
@@ -75,18 +75,28 @@ document.addEventListener('alpine:init', () => {
 		postInit() {
 			// load in array of days for day filter dropdown
 			this.days = this.daysOfWeek()
-			this.tagsMatch = this.configuration.filterByLabelMatch
+			this.tagsMatch = this.configuration.filterByTagMatch
+		},
+
+		/**
+		 * Returns true if we should be filtering models.
+		 */
+		filterModelsEnabled() {
+			// first update the searchQuery so we don't do it for every model in this.filterModel() - replace date separators with spaces
+			this.searchQuery = this.search.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase()
+			return true
 		},
 
 		/**
 		 * Returns true if the given model should be visible, based on the filters.
 		 */
 		filterModel(model) {
-			return model.clusterMatches(this.cluster)
-				&& model.dayMatches(this.day)
-				&& model.labelMatches(this.label)
-				&& model.siteMatches(this.site)
-				&& model.tagMatches(this.tag)
+			return model._matchCluster(this.cluster)
+				&& model._matchDay(this.day)
+				&& model._matchLabel(this.label)
+				&& model._matchSearch(this.searchQuery)
+				&& model._matchSite(this.site)
+				&& model._matchTag(this.tag)
 		}
 
 	}}))
