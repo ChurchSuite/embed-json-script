@@ -7,6 +7,7 @@ document.addEventListener('alpine:init', () => {
 		filterKeys: ['day', 'tag', 'search', 'site', 'label', 'cluster'],
 		resourceModule: 'smallgroups',
 		groups() { return this.models },
+
 		// Filter Data
 		cluster: '',
 		clusters: [],
@@ -34,9 +35,6 @@ document.addEventListener('alpine:init', () => {
 			if (model.site != null && !this.sites.includes(model.site.name)) this.sites.push(model.site.name)
 			this.tags.sort()
 			this.sites.sort()
-
-			// push formatted data to the models array
-			model.tagsMatch = this.tagsMatch // pass this config value over to the model for ease of access
 
 			// loop the labels and capture them
 			if (this.options.hasOwnProperty('show_labels')) {
@@ -76,6 +74,7 @@ document.addEventListener('alpine:init', () => {
 		postInit() {
 			// load in array of days for day filter dropdown
 			this.days = this.daysOfWeek()
+			// pull across the tagsMatch from the configuration
 			this.tagsMatch = this.configuration.filterByTagMatch
 		},
 
@@ -155,7 +154,7 @@ document.addEventListener('alpine:init', () => {
 		filterModel_Tag(model) {
 			let tagValue = Array.isArray(this.tag) ? this.tag : (this.tag ? [this.tag] : []);
 			let modelTags = Array.isArray(model._original.tags) ? model._original.tags.map(tag => tag.name) : [];
-			return CSMultiSelect().matches(modelTags, tagValue, model._original.tagsMatch);
+			return CSMultiSelect().matches(modelTags, tagValue, this.tagsMatch);
 		}
 
 	}}))
