@@ -33,41 +33,4 @@ export default class Event {
 		this._original = json;
 	}
 
-	_matchCategory(categoryName) {
-		return !categoryName.length || this.category == categoryName;
-	}
-
-	_matchSearch(value) {
-		if (!value.length) return true;
-
-		// build a model search name with varying levels of date formats and event info
-		let searchName = (
-			this.name
-			+ ' ' + this.start.format('M D YY')
-			+ ' ' + this.start.format('D M YY')
-			+ ' ' + this.start.format('MM DD YY')
-			+ ' ' + this.start.format('DD MM YY')
-			+ ' ' + this.start.format('MMM DD YY')
-			+ ' ' + this.start.format('DD MMM YY')
-			+ ' ' + this.start.format('MMMM DD YY')
-			+ ' ' + this.start.format('DD MMMM YY')
-			+ ' ' + this.start.format('M D YYYY')
-			+ ' ' + this.start.format('D M YYYY')
-			+ ' ' + this.start.format('MM DD YYYY')
-			+ ' ' + this.start.format('DD MM YYYY')
-			+ ' ' + this.start.format('MMM DD YYYY')
-			+ ' ' + this.start.format('DD MMM YYYY')
-			+ ' ' + this.start.format('MMMM DD YYYY')
-			+ ' ' + this.start.format('DD MMMM YYYY')
-			+ ' ' + this.location
-			+ ' ' + this.category
-		).replace(/[\s\/\-\.]+/gi, ' ').toLowerCase();
-		return searchName.includes(value);
-	}
-
-	_matchSite(value) {
-		let sitesValue = Array.isArray(value) ? value : (value ? [value] : []);
-		return this.site == null || !sitesValue.length || sitesValue.includes(this.site);
-	}
-
 }

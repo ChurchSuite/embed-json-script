@@ -52,9 +52,46 @@ document.addEventListener('alpine:init', () => {
 		 * Returns true if the given model should be visible, based on the filters.
 		 */
 		filterModel(model) {
-			return model._matchCategory(this.category)
-				&& model._matchSearch(this.searchQuery)
-				&& model._matchSite(this.site)
+			return this.filterModel_Category(model)
+				&& this.filterModel_Search(model)
+				&& this.filterModel_Site(model)
+		},
+
+		filterModel_Category(model) {
+			return !this.category.length || model.category == this.category;
+		},
+
+		filterModel_Search(model) {
+			if (!this.searchQuery.length) return true;
+
+			// build a model search name with varying levels of date formats and event info
+			let searchName = (
+				model.name
+				+ ' ' + model.start.format('M D YY')
+				+ ' ' + model.start.format('D M YY')
+				+ ' ' + model.start.format('MM DD YY')
+				+ ' ' + model.start.format('DD MM YY')
+				+ ' ' + model.start.format('MMM DD YY')
+				+ ' ' + model.start.format('DD MMM YY')
+				+ ' ' + model.start.format('MMMM DD YY')
+				+ ' ' + model.start.format('DD MMMM YY')
+				+ ' ' + model.start.format('M D YYYY')
+				+ ' ' + model.start.format('D M YYYY')
+				+ ' ' + model.start.format('MM DD YYYY')
+				+ ' ' + model.start.format('DD MM YYYY')
+				+ ' ' + model.start.format('MMM DD YYYY')
+				+ ' ' + model.start.format('DD MMM YYYY')
+				+ ' ' + model.start.format('MMMM DD YYYY')
+				+ ' ' + model.start.format('DD MMMM YYYY')
+				+ ' ' + model.location
+				+ ' ' + model.category
+			).replace(/[\s\/\-\.]+/gi, ' ').toLowerCase();
+			return searchName.includes(this.searchQuery);
+		},
+
+		filterModel_Site(model) {
+			let sitesValue = Array.isArray(this.site) ? this.site : (this.site ? [this.site] : []);
+			return model.site == null || !sitesValue.length || sitesValue.includes(model.site);
 		}
 
 	}}))

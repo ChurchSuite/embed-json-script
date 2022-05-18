@@ -32,64 +32,6 @@ export default class Group {
 		this._original = json;
 	}
 
-	_matchCluster(value) {
-		let clustersValue = Array.isArray(value) ? value : (value ? [value] : []);
-		return !clustersValue.length || clustersValue.includes(this.cluster);
-	}
-
-	_matchDay(value) {
-		let dayValue = Array.isArray(value) ? value : (!value ? [] : [value]);
-		return this.day == null || !dayValue.length || dayValue.includes(this.day.format('dddd'));
-	}
-
-	_matchLabel(value) {
-		// need to match them all so set up an array of matches
-		// let filterValues = [], filterMatches = [];
-		let result = true
-		Object.values(value).forEach(v => {
-			if (v.value !== null && v.value.length && result) {
-				// set up a bool for if the label had been found
-				let labelFound = false
-				this._original.labels.forEach(label => {
-					if (label.id == v.id) {
-						// if this is the right label mark as found
-						labelFound = true
-						// now check for a match - update result if false
-						if (!label.value.includes(v.value)) result = false
-					}
-				})
-				// if this group doesn't have this label then update result
-				if (!labelFound) result = false
-			}
-		})
-
-		return result;
-	}
-
-	_matchSearch(value) {
-		if (!value.length) return true;
-
-		// build a model search name with varying levels of date formats and event info
-		let searchName = (
-			this.name
-			+ ' ' + (this.day ? this.day.format('dddd') : '')
-			+ ' ' + this.location
-			+ ' ' + this.category
-		).replace(/[\s\/\-\.]+/gi, ' ').toLowerCase();
-		return searchName.includes(value);
-	}
-
-	_matchSite(value) {
-		let sitesValue = Array.isArray(value) ? value : (value ? [value] : []);
-		return this.site == null || !sitesValue.length || sitesValue.includes(this.site);
-	}
-
-	_matchTag(value) {
-		let tagValue = Array.isArray(value) ? value : (value ? [value] : []);
-		let modelTags = Array.isArray(this._original.tags) ? this._original.tags.map(tag => tag.name) : [];
-		return CSMultiSelect().matches(modelTags, tagValue, this._original.tagsMatch);
-	}
-
 	/**
 	 * Build a more helpful array of custom field data for a group from the 3 available versions
 	 */
