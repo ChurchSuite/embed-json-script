@@ -4,7 +4,7 @@ import Group from "./smallgroups/group";
 document.addEventListener('alpine:init', () => {
 	Alpine.data('CSGroups', (options = {}) => ({...CSJsonFeed(options), ...{
 		// Configuration & Options
-		filterKeys: ['day', 'tag', 'site', 'label', 'cluster'],
+		filterKeys: ['day', 'tag', 'search', 'site', 'label', 'cluster'],
 		resourceModule: 'smallgroups',
 		groups() { return this.models },
 		// Filter Data
@@ -16,6 +16,7 @@ document.addEventListener('alpine:init', () => {
 		labels: [],
 		labelsProcessed: [],
 		search: '',
+		searchQuery: '',
 		site: '', // site string for filterModels()
 		sites: [], // sites array for site dropdown
 		tag: '', // tag string for filterModels()
