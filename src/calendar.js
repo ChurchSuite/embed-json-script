@@ -2,7 +2,7 @@ import "./cs"
 import Event from "./calendar/event"
 
 document.addEventListener('alpine:init', () => {
-	Alpine.data('CSEvents', (options = {}) => ({...CSJsonFeed(options), ...{
+	Alpine.data('CSEvents', (options = {}) => ({...CS(options), ...{
 		// Configuration & Options
 		filterKeys: ['category', 'search', 'site'],
 		options: {includeMerged: true}, // options for fetching json - we want the merged events as we filter them client-side

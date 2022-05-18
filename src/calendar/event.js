@@ -10,7 +10,7 @@ export default class Event {
 		if (json.signup_options.embed.enabled == 1) {
 			link = json.signup_options.tickets.url
 		} else if (json.signup_options.signup_enabled == 1) {
-			link = CSJsonFeed.url + '/events/' + json.identifier
+			link = CS.url + '/events/' + json.identifier
 		}
 
 		this.allDay = json.datetime_start.slice(-8) == '00:00:00' && json.datetime_end.slice(-8) == '23:59:59'

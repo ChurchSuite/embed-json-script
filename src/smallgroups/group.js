@@ -15,7 +15,7 @@ export default class Group {
 		this.endingSoon = this.isEndingSoon(json)
 		this.frequency = json.frequency == 'custom' ? json.custom_frequency : json.frequency
 		this.image = json.images != null && json.images.constructor === Object ? json.images.md.url : ''
-		this.link = json.embed_signup == 1 || json.signup_enabled == 0 ? CSJsonFeed.url + '/groups/' + json.identifier : ''
+		this.link = json.embed_signup == 1 || json.signup_enabled == 0 ? CS.url + '/groups/' + json.identifier : ''
 		this.location = json.location.name
 		this.latitude = json.location.latitude
 		this.longitude = json.location.longitude

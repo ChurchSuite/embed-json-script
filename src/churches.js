@@ -2,7 +2,7 @@ import "./cs"
 import Church from "./churches/church"
 
 document.addEventListener('alpine:init', () => {
-	Alpine.data('CSChurches', (options = {}) => ({...CSJsonFeed(options), ...{
+	Alpine.data('CSChurches', (options = {}) => ({...CS(options), ...{
 		// Configuration & Options
 		filterKeys: ['label', 'search', 'site'],
 		resourceModule: 'churches',

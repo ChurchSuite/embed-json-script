@@ -26,7 +26,7 @@ document.addEventListener('alpine:init', () => {
 })
 
 // our main json feed object
-window.CSJsonFeed = function(options = {}) {
+window.CS = function(options = {}) {
 	return {
 		// Configuration & Options
 		configuration: [], // the embed configuration
@@ -74,7 +74,8 @@ window.CSJsonFeed = function(options = {}) {
 		 */
 		async fetchJSON(type, options = {}) {
 			let data
-			let url = CSJsonFeed.url + '/embed/' + type + '/json' + this.buildOptions(options)
+			let version = options.hasOwnProperty('configuration') ? 'v2/' : ''
+			let url = CS.url + '/embed/' + version + type + '/json' + this.buildOptions(options)
 
 			// if the page has a preview=1 query, don't use cached data so changes are live updated
 			let preview = (new URLSearchParams(location.search)).get('preview') == 1

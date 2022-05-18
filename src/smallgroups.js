@@ -2,7 +2,7 @@ import "./cs";
 import Group from "./smallgroups/group";
 
 document.addEventListener('alpine:init', () => {
-	Alpine.data('CSGroups', (options = {}) => ({...CSJsonFeed(options), ...{
+	Alpine.data('CSGroups', (options = {}) => ({...CS(options), ...{
 		// Configuration & Options
 		filterKeys: ['day', 'tag', 'search', 'site', 'label', 'cluster'],
 		resourceModule: 'smallgroups',
