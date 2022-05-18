@@ -6,11 +6,7 @@ document.addEventListener('alpine:init', () => {
 		// Configuration & Options
 		filterKeys: ['day', 'tag', 'site', 'label', 'cluster'],
 		resourceModule: 'smallgroups',
-		groups() {
-			// backwards compatibility
-			return this.models
-		},
-
+		groups() { return this.models },
 		// Filter Data
 		cluster: '',
 		clusters: [],
@@ -86,10 +82,11 @@ document.addEventListener('alpine:init', () => {
 		 * Returns true if the given model should be visible, based on the filters.
 		 */
 		filterModel(model) {
-			return model.dayMatches(this.day)
-				&& model.tagMatches(this.tag)
-				&& model.siteMatches(this.site)
+			return model.clusterMatches(this.cluster)
+				&& model.dayMatches(this.day)
 				&& model.labelMatches(this.label)
+				&& model.siteMatches(this.site)
+				&& model.tagMatches(this.tag)
 		}
 
 	}}))

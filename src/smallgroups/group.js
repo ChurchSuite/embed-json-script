@@ -6,6 +6,7 @@ export default class Group {
 	 */
 	constructor(json) {
 		this.active = this.isActive(json)
+		this.cluster = json.cluster != null ? json.cluster.name : null;
 		this.customFields = json.custom_fields.constructor === Object ? this.buildCustomFields(json) : null // if no custom fields, JSON provides an empty array
 		this.dateStart = dayjs(json.date_start);
 		this.day = json.day != null ? dayjs().isoWeekday(json.day) : null;
@@ -54,6 +55,11 @@ export default class Group {
 		});
 
 		return formattedCustomFields;
+	}
+
+	clusterMatches(value) {
+		let clustersValue = Array.isArray(value) ? value : (value ? [value] : []);
+		return !clustersValue.length || clustersValue.includes(this.cluster);
 	}
 
 	dayMatches(value) {
