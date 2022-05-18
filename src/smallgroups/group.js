@@ -14,7 +14,6 @@ export default class Group {
 		this.embedSignup = json.embed_signup == 1;
 		this.endingSoon = this.isEndingSoon(json);
 		this.frequency = json.frequency == 'custom' ? json.custom_frequency : json.frequency;
-		this.id = json.id;
 		this.image = json.images != null && json.images.constructor === Object ? json.images.md.url : '';
 		this.link = json.embed_signup == 1 || json.signup_enabled == 0 ? CSJsonFeed.url + '/groups/' + json.identifier : '';
 		this.location = json.location.name;
@@ -33,6 +32,7 @@ export default class Group {
 		this.tags = json.tags;
 		this.tagsMatch = json.tagsMatch;
 		this.time = json.time != null ? dayjs((new Date()).toISOString().slice(0, 11) + json.time + ':00') : null;
+		this._original = json;
 	}
 
 	/**

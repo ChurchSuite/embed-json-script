@@ -9,6 +9,7 @@ document.addEventListener('alpine:init', () => {
 		resourceModule: 'calendar',
 
 		// Model Data
+		events() { return this.models },
 		modelsMerged: [], // array to contain the merged events, depending on merge strategy - first in sequence, etc
 
 		// Filter Data

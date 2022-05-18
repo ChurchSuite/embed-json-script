@@ -16,9 +16,8 @@ export default class Event {
 		this.allDay = json.datetime_start.slice(-8) == '00:00:00' && json.datetime_end.slice(-8) == '23:59:59';
 		this.brandEmblem = json.brand.emblem;
 		this.category = json.category != null ? json.category.name : null;
-		this.dateTimeEnd = dayjs(json.datetime_end);
-		this.dateTimeStart = dayjs(json.datetime_start);
 		this.description = json.description;
+		this.end = dayjs(json.datetime_end);
 		this.image = json.images != null && json.images.constructor === Object ? json.images.md.url : json.brand.emblem;
 		this.link = link;
 		this.location = json.location.name;
@@ -29,6 +28,9 @@ export default class Event {
 		this.postcode = json.location.address;
 		this.signupEnabled = link != '';
 		this.site = json.site != null ? json.site.name : null;
+		this.start = dayjs(json.datetime_start);
+		// add in the original json
+		this._original = json;
 	}
 
 	searchMatches(value) {
@@ -37,22 +39,22 @@ export default class Event {
 		// build a model search name with varying levels of date formats and event info
 		let searchName = (
 			this.name
-			+ ' ' + this.dateTimeStart.format('M D YY')
-			+ ' ' + this.dateTimeStart.format('D M YY')
-			+ ' ' + this.dateTimeStart.format('MM DD YY')
-			+ ' ' + this.dateTimeStart.format('DD MM YY')
-			+ ' ' + this.dateTimeStart.format('MMM DD YY')
-			+ ' ' + this.dateTimeStart.format('DD MMM YY')
-			+ ' ' + this.dateTimeStart.format('MMMM DD YY')
-			+ ' ' + this.dateTimeStart.format('DD MMMM YY')
-			+ ' ' + this.dateTimeStart.format('M D YYYY')
-			+ ' ' + this.dateTimeStart.format('D M YYYY')
-			+ ' ' + this.dateTimeStart.format('MM DD YYYY')
-			+ ' ' + this.dateTimeStart.format('DD MM YYYY')
-			+ ' ' + this.dateTimeStart.format('MMM DD YYYY')
-			+ ' ' + this.dateTimeStart.format('DD MMM YYYY')
-			+ ' ' + this.dateTimeStart.format('MMMM DD YYYY')
-			+ ' ' + this.dateTimeStart.format('DD MMMM YYYY')
+			+ ' ' + this.start.format('M D YY')
+			+ ' ' + this.start.format('D M YY')
+			+ ' ' + this.start.format('MM DD YY')
+			+ ' ' + this.start.format('DD MM YY')
+			+ ' ' + this.start.format('MMM DD YY')
+			+ ' ' + this.start.format('DD MMM YY')
+			+ ' ' + this.start.format('MMMM DD YY')
+			+ ' ' + this.start.format('DD MMMM YY')
+			+ ' ' + this.start.format('M D YYYY')
+			+ ' ' + this.start.format('D M YYYY')
+			+ ' ' + this.start.format('MM DD YYYY')
+			+ ' ' + this.start.format('DD MM YYYY')
+			+ ' ' + this.start.format('MMM DD YYYY')
+			+ ' ' + this.start.format('DD MMM YYYY')
+			+ ' ' + this.start.format('MMMM DD YYYY')
+			+ ' ' + this.start.format('DD MMMM YYYY')
 			+ ' ' + this.location
 			+ ' ' + this.category
 		).replace(/[\s\/\-\.]+/gi, ' ').toLowerCase();
