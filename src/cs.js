@@ -60,6 +60,41 @@ window.CS = function(options = {}) {
 		},
 
 		/**
+		 * Takes a model (e.g. site, cluster, tag etc.) and adds an option id and name to a particular key array
+		 */
+		buildIdNameOption(key, model) {
+			// see if we've got a legacyKey in play (category/categories!)
+			let legacyKey = arguments.length > 2 ? arguments[2] : key+'s'
+
+			// check the model exists
+			if (model == null) return;
+
+			let options = this[key+'Options']
+			let optionIds = options.map(o => o.id)
+			if (!optionIds.includes(model.id)) {
+				// populate id and name options array
+				this[key+'Options'].push({
+					id: model.id,
+					name: model.name,
+				})
+				// populate legacy key with just name options
+				this[legacyKey].push(model.name)
+			}
+		},
+
+		/**
+		 * Returns the days of the week for dropdowns in whichever language - Sunday first
+		 */
+		 dayOfWeekOptions() {
+			let dayOptions = []
+			for(var i = 0; i < 7; i++) dayOptions.push({
+				id: dayjs().isoWeekday(i).format('dddd'),
+				name: dayjs().isoWeekday(i).format('dddd')
+			})
+			return dayOptions
+		},
+
+		/**
 		 * Returns the days of the week for dropdowns in whichever language - Sunday first
 		 */
 		daysOfWeek() {
@@ -124,6 +159,38 @@ window.CS = function(options = {}) {
 				this.models = this.modelsAll.filter((model) => this.filterModel(model))
 			}
 			this.$dispatch('models-updated') // always do this!
+		},
+
+		/**
+		 * Gets a filter value either as an array or null
+		 * This also ignores 0 and '0' as values and returns null in place (for resetting selects)
+		 */
+		filterValue(key) {
+			let parent = arguments.length > 1 ? arguments[1] : this
+			let value = parent[key]
+			let result = null
+
+			if (Array.isArray(value)) {
+				// it's an array - filter out empty values
+				value = value.filter(v => (v !== 0 && v !== '0' && v !== null))
+				// return the result if it's got length otherwise null
+				result = value.length ? value : null
+			} else if (Object.prototype.toString.call(value) === '[object Object]') {
+				// we've got an object - look for the subkey otherwise return null
+				result = value
+			} else if (value === null) {
+				// always return null
+				result = null
+			} else if (typeof value === 'string' || value instanceof String) {
+				// return the value as an array if it has length and isn't empty otherwise null
+				result = value.length && value !== 0 && value !== '0' ? [value] : null
+			}
+
+			// if the result is null then reset the key reactively
+			if (result == null) parent[key] = null
+
+			// return the result
+			return result;
 		},
 
 		/**

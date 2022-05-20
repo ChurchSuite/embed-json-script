@@ -13,17 +13,21 @@ document.addEventListener('alpine:init', () => {
 		modelsMerged: [], // array to contain the merged events, depending on merge strategy - first in sequence, etc
 
 		// Filter Data
-		categories: [], // a compiled array of all event categories
-		category: '', // linked to selected option from dropdown for comparison with the event category
-		search: '', // search terms
-		searchQuery: '', // search query string
-		site: '', // site string for filterModels()
+		categories: [], // @deprecated a compiled array of all event categories
+		category: null, // linked to selected option from dropdown for comparison with the event category
+		categoryOptions: [],
+
+		search: null, // search terms
+		searchQuery: null, // search query string
+
+		site: null, // @deprecated site string for filterModels()
+		siteOptions: [],
 		sites: [], // sites array for site dropdown
 
 		buildModelObject(model) {
 			// capture unique categories and sites
-			if (model.category != null && !this.categories.includes(model.category.name)) this.categories.push(model.category.name)
-			if (model.site != null && !this.sites.includes(model.site.name)) this.sites.push(model.site.name)
+			this.buildIdNameOption('category', model.category, 'categories')
+			this.buildIdNameOption('site', model.site)
 
 			let event = new Event(model)
 
@@ -37,13 +41,18 @@ document.addEventListener('alpine:init', () => {
 		 * Returns true if we should be filtering models.
 		 */
 		filterModelsEnabled() {
-			if (!this.search.length && !this.category.length && !this.site.length) {
+			let searchFilter = this.filterValue('search')
+			let categoryFilter = this.filterValue('category')
+			let siteFilter = this.filterValue('site')
+
+			if (!(this.search || '').length && !categoryFilter && !siteFilter) {
 				// if we're not filtering by anything, only show merged events (following merge strategy)
 				this.models = this.modelsMerged
 				return false
 			} else {
 				// first update the searchQuery so we don't do it for every model in this.filterModel() - replace date separators with spaces
-				this.searchQuery = this.search.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase()
+				let q = (this.search || '')
+				this.searchQuery = q.length ? q.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase() : null
 				return true
 			}
 		},
@@ -58,11 +67,16 @@ document.addEventListener('alpine:init', () => {
 		},
 
 		filterModel_Category(model) {
-			return !this.category.length || model.category == this.category;
+			let categoryFilter = this.filterValue('category')
+			// no filter
+			if (categoryFilter == null) return true
+			// return on id or name for legacy support
+			return categoryFilter.includes(''+model._original.category.id)
+				|| categoryFilter.includes(model._original.category.name);
 		},
 
 		filterModel_Search(model) {
-			if (!this.searchQuery.length) return true;
+			if (!this.searchQuery) return true;
 
 			// build a model search name with varying levels of date formats and event info
 			let searchName = (
@@ -90,8 +104,14 @@ document.addEventListener('alpine:init', () => {
 		},
 
 		filterModel_Site(model) {
-			let sitesValue = Array.isArray(this.site) ? this.site : (this.site ? [this.site] : []);
-			return model.site == null || !sitesValue.length || sitesValue.includes(model.site);
+			let siteFilter = this.filterValue('site')
+			// no filter
+			if (siteFilter == null) return true
+			// all sites event
+			if (model._original.site == null) return true
+			// return on id or name for legacy support
+			return siteFilter.includes(''+model._original.site.id)
+				|| siteFilter.includes(model._original.site.name)
 		}
 
 	}}))

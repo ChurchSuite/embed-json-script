@@ -1,38 +1,43 @@
-import "./cs";
-import Group from "./smallgroups/group";
+import "./cs"
+import Group from "./smallgroups/group"
 
 document.addEventListener('alpine:init', () => {
 	Alpine.data('CSGroups', (options = {}) => ({...CS(options), ...{
 		// Configuration & Options
 		filterKeys: ['day', 'tag', 'search', 'site', 'label', 'cluster'],
 		resourceModule: 'smallgroups',
+
 		groups() { return this.models },
 
 		// Filter Data
-		cluster: '',
-		clusters: [],
-		day: '', // filterModels() day dropdown string
-		days: [], // array to contain days of the week for dropdown
-		label: {},
+		cluster: null,
+		clusterOptions: [],
+		clusters: [], // @deprecated cluster name array
+
+		day: null, // filterModels() day dropdown string
+		dayOptions: [],
+		days: [], // @deprecated array to contain days of the week for dropdown
+
+		label: {}, // label id keyed object of values - populated when building objects
 		labels: [],
 		labelsProcessed: [],
-		search: '',
-		searchQuery: '',
-		site: '', // site string for filterModels()
-		sites: [], // sites array for site dropdown
-		tag: '', // tag string for filterModels()
-		tags: [], // tags array for tag dropdown
-		tagsMatch: 'all', // if group needs to match all tags in multiselect - other option is 'any'
+
+		search: null,
+		searchQuery: null,
+
+		site: null, // site string for filterModels()
+		siteOptions: [], // id and name site options
+		sites: [], // @deprecated sites name array
+
+		tag: null, // tag string for filterModels()
+		tagOptions: [],
+		tags: [], // @deprecated tags names array
 
 		buildModelObject(model) {
 			// capture unique tags, clusters and sites for dropdowns, then sort them
-			if (model.tags != null) {
-				model.tags.forEach(tag => {
-					if (!this.tags.includes(tag.name)) this.tags.push(tag.name)
-				})
-			}
-			if (model.cluster != null && !this.clusters.includes(model.cluster.name)) this.clusters.push(model.cluster.name)
-			if (model.site != null && !this.sites.includes(model.site.name)) this.sites.push(model.site.name)
+			if (model.tags != null) model.tags.forEach(tag => this.buildIdNameOption('tag', tag))
+			this.buildIdNameOption('cluster', model.cluster)
+			this.buildIdNameOption('site', model.site)
 			this.tags.sort()
 			this.sites.sort()
 
@@ -74,8 +79,7 @@ document.addEventListener('alpine:init', () => {
 		postInit() {
 			// load in array of days for day filter dropdown
 			this.days = this.daysOfWeek()
-			// pull across the tagsMatch from the configuration
-			this.tagsMatch = this.configuration.filterByTagMatch
+			this.dayOptions = this.dayOfWeekOptions()
 		},
 
 		/**
@@ -83,7 +87,8 @@ document.addEventListener('alpine:init', () => {
 		 */
 		filterModelsEnabled() {
 			// first update the searchQuery so we don't do it for every model in this.filterModel() - replace date separators with spaces
-			this.searchQuery = this.search.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase()
+			let q = (this.search || '')
+			this.searchQuery = q.length ? q.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase() : null
 			return true
 		},
 
@@ -100,41 +105,58 @@ document.addEventListener('alpine:init', () => {
 		},
 
 		filterModel_Cluster(model) {
-			let clustersValue = Array.isArray(this.cluster) ? this.cluster : (this.cluster ? [this.cluster] : []);
-			return !clustersValue.length || clustersValue.includes(model.cluster);
+			let clusterFilter = this.filterValue('cluster')
+			// no filter
+			if (clusterFilter == null) return true
+			// return on id or name for legacy support
+			return clusterFilter.includes(''+model._original.cluster.id)
+				|| clusterFilter.includes(''+model._original.cluster.name)
 		},
 
 		filterModel_Day(model) {
-			let dayValue = Array.isArray(this.day) ? this.day : (!this.day ? [] : [this.day]);
-			return model.day == null || !dayValue.length || dayValue.includes(model.day.format('dddd'));
+			let dayValue = this.filterValue('day')
+			// no filter
+			if (dayValue == null) return true
+			// various days for group
+			if (model.day == null) return true
+			// return on id or name for legacy support
+			return dayValue.includes(model.day.format('dddd'))
+				|| dayValue.includes(model._original.day)
 		},
 
 		filterModel_Label(model) {
 			// need to match them all so set up an array of matches
-			// let filterValues = [], filterMatches = [];
 			let result = true
 			Object.values(this.label).forEach(v => {
-				if (v.value !== null && v.value.length && result) {
-					// set up a bool for if the label had been found
-					let labelFound = false
-					model._original.labels.forEach(label => {
-						if (label.id == v.id) {
-							// if this is the right label mark as found
-							labelFound = true
-							// now check for a match - update result if false
-							if (!label.value.includes(v.value)) result = false
-						}
-					})
-					// if this group doesn't have this label then update result
-					if (!labelFound) result = false
-				}
+				let labelFilter = this.filterValue('value', v)
+				if (!labelFilter) return;
+
+				// set up a bool for if the label had been found
+				let labelFound = false
+				model._original.labels.forEach(label => {
+					if (label.id == v.id) {
+						// if this is the right label mark as found
+						labelFound = true
+						// now check for a match - update result if false
+						filterResult = false
+						labelFilter.forEach(filter => {
+							// if we find at least one match then set this filterResult to true
+							if (label.value.includes(filter)) filterResult = true
+						})
+
+						if (!filterResult) result = false
+					}
+				})
+				// if this group doesn't have this label then update result
+				if (!labelFound) result = false
 			})
 
-			return result;
+			return result
 		},
 
 		filterModel_Search(model) {
-			if (!this.searchQuery.length) return true;
+			// no filter
+			if (!this.searchQuery) return true
 
 			// build a model search name with varying levels of date formats and event info
 			let searchName = (
@@ -142,19 +164,40 @@ document.addEventListener('alpine:init', () => {
 				+ ' ' + (model.day ? model.day.format('dddd') : '')
 				+ ' ' + model.location
 				+ ' ' + model.category
-			).replace(/[\s\/\-\.]+/gi, ' ').toLowerCase();
-			return searchName.includes(this.searchQuery);
+			).replace(/[\s\/\-\.]+/gi, ' ').toLowerCase()
+			return searchName.includes(this.searchQuery)
 		},
 
 		filterModel_Site(model) {
-			let sitesValue = Array.isArray(this.site) ? this.site : (this.site ? [this.site] : []);
-			return model.site == null || !sitesValue.length || sitesValue.includes(model.site);
+			let siteFilter = this.filterValue('site')
+			// no filter
+			if (siteFilter == null) return true
+			// all sites groups
+			if (model._original.site == null) return true
+			// return on id or name for legacy support
+			return siteFilter.includes(''+model._original.site.id)
+				|| siteFilter.includes(''+model._original.site.name)
 		},
 
 		filterModel_Tag(model) {
-			let tagValue = Array.isArray(this.tag) ? this.tag : (this.tag ? [this.tag] : []);
-			let modelTags = Array.isArray(model._original.tags) ? model._original.tags.map(tag => tag.name) : [];
-			return CSMultiSelect().matches(modelTags, tagValue, this.tagsMatch);
+			let tagFilter = this.filterValue('tag')
+			// no filter
+			if (tagFilter == null) return true
+
+			let modelTagIds = Array.isArray(model._original.tags) ? model._original.tags.map(tag => ''+tag.id) : []
+			let modelTagNames = Array.isArray(model._original.tags) ? model._original.tags.map(tag => tag.name) : []
+			// there are no tags on the model - doesn't match
+			if (!modelTagIds.length) return false
+
+			let result = false
+			tagFilter.forEach(t => {
+				// if result is false see if this tag is on the model - if so return true
+				// returns on id or name for legacy support
+				if (modelTagIds.includes(t) || modelTagNames.includes(t) || result) result = true
+			})
+
+			// otherwise return false
+			return result
 		}
 
 	}}))
