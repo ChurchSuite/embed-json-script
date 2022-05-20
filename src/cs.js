@@ -175,9 +175,6 @@ window.CS = function(options = {}) {
 				value = value.filter(v => (v !== 0 && v !== '0' && v !== null))
 				// return the result if it's got length otherwise null
 				result = value.length ? value : null
-			} else if (Object.prototype.toString.call(value) === '[object Object]') {
-				// we've got an object - look for the subkey otherwise return null
-				result = value
 			} else if (value === null) {
 				// always return null
 				result = null
