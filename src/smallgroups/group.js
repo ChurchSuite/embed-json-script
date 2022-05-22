@@ -10,7 +10,7 @@ export default class Group {
 		this.customFields = json.custom_fields.constructor === Object ? this.buildCustomFields(json) : null // if no custom fields, JSON provides an empty array
 		this.dateStart = dayjs(json.date_start)
 		this.day = json.day != null ? dayjs().isoWeekday(json.day) : null
-		this.description = json.description
+		this.description = json.description.replace(/\r\n/g, '<br>')
 		this.embedSignup = json.embed_signup == 1
 		this.endingSoon = this.isEndingSoon(json)
 		this.frequency = json.frequency == 'custom' ? json.custom_frequency : json.frequency
