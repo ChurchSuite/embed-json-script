@@ -24,7 +24,7 @@ export default class Group {
 		this.online = json.location.type == 'online'
 		this.signupCapacity = json.signup_capacity
 		this.signupStart = json.signup_date_start != null ? dayjs(json.signup_date_start) : null
-		this.signupEnd = json.signup_date_end != null ? dayjs(json.signup_date_end) : null
+		this.signupEnd = json.signup_date_end ? dayjs(json.signup_date_end) : null
 		this.signupRunning = this.signupIsRunning(json)
 		this.signupInFuture = this.signupInFuture()
 		this.site = json.site != null ? json.site.name : null
