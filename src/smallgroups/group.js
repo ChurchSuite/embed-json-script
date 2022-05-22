@@ -28,6 +28,7 @@ export default class Group {
 		this.signupRunning = this.signupIsRunning(json)
 		this.signupInFuture = this.signupInFuture()
 		this.site = json.site != null ? json.site.name : null
+		this.tags = json.tags
 		this.time = json.time != null ? dayjs((new Date()).toISOString().slice(0, 11) + json.time + ':00') : null
 		this._original = json
 	}
