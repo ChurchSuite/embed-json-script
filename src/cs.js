@@ -29,10 +29,10 @@ document.addEventListener('alpine:init', () => {
 window.CS = function(options = {}) {
 	return {
 		// Configuration & Options
-		configuration: [], // the embed configuration
+		configuration: {}, // the embed configuration
 		filterKeys: [], // the names of the filters for this feed
 		locale: 'en', // the locale for DateTimes
-		options: [], // options for fetching json
+		options: {}, // options for fetching json
 		resourceModule: '', // the module we're in
 		url: '', // the churchsuite account url
 
@@ -225,10 +225,11 @@ window.CS = function(options = {}) {
 			this.$watch(this.filterKeys, (v) => this.filterModels())
 
 			let response = await this.fetchJSON(this.resourceModule, Object.assign(this.options, options))
-
 			if (response.hasOwnProperty('configuration')) {
 				// new style configuration data
 				this.configuration = response.configuration
+				this.mapConfiguration()
+
 				response.data.forEach(model => {
 					this.modelsAll.push(this.buildModelObject(model))
 				})
@@ -243,6 +244,11 @@ window.CS = function(options = {}) {
 
 			this.$nextTick(() => this.filterModels())
 		},
+
+		/**
+		 * This method maps the configuration settings over to json script options
+		 */
+		mapConfiguration() {},
 
 		/**
 		 * An empty function that runs at the end of the init() method for each module.

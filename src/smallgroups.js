@@ -20,7 +20,6 @@ document.addEventListener('alpine:init', () => {
 
 		label: {}, // label id keyed object of values - populated when building objects
 		labels: [],
-		labelsProcessed: [],
 
 		search: null,
 		searchQuery: null,
@@ -43,34 +42,59 @@ document.addEventListener('alpine:init', () => {
 
 			// loop the labels and capture them
 			if (this.options.hasOwnProperty('show_labels')) {
+				let labelIds = Object.keys(this.label)
+				let labelsIds = this.labels.map(l => ''+l.id)
+
 				this.options.show_labels.forEach(labelId => {
-					if (this.labelsProcessed.includes(labelId)) return
 					// try and find this label on the model
 					model.labels.forEach(label => {
 						if (label.id == labelId) {
-							this.labels.push({
-								id: label.id,
-								multiple: label.multiple,
-								name: label.name,
-								options: label.options,
-								required: label.required,
-							})
-							this.labelsProcessed.push(labelId)
-							this.label[labelId] = {
-								id: labelId,
-								value: null
+							// don't add a label object unless we need it by id
+							if (!labelsIds.includes(''+label.id)) {
+								this.labels.push({
+									id: label.id,
+									multiple: label.multiple,
+									name: label.name,
+									options: label.options,
+									required: label.required,
+								})
 							}
-
-							this.$watch('label['+labelId+'].value', (v) => {
-								this.filterModels()
-							})
-
+							// don't add a label filter value unless we need it by id
+							if (!labelIds.includes(''+label.id)) {
+								this.label[labelId] = {
+									id: labelId,
+									value: null
+								}
+								this.$watch('label['+labelId+'].value', (v) => {
+									this.filterModels()
+								})
+							}
 						}
 					})
 				})
 			}
 
 			return new Group(model)
+		},
+
+		/**
+		 * This method maps the configuration settings over to json script options
+		 */
+		 mapConfiguration() {
+			// map across any configuration keys and data
+			if (this.configuration.hasOwnProperty('id')) {
+				let configurationMap = {
+					showFilterLabels: 'show_labels',
+					showFilterSites: 'show_sites',
+				}
+
+				Object.keys(configurationMap).forEach(o => {
+					if (this.configuration.hasOwnProperty(o)) {
+						// set the options key
+						this.options[configurationMap[o]] = this.configuration[o]
+					}
+				})
+			}
 		},
 
 		/**

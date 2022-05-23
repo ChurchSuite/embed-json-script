@@ -6,6 +6,7 @@ document.addEventListener('alpine:init', () => {
 		// Configuration & Options
 		filterKeys: ['label', 'search', 'site'],
 		resourceModule: 'churches',
+
 		churches() { return this.models },
 
 		// Filter Data
