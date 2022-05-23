@@ -57,7 +57,7 @@ export default class Group {
 			}
 		})
 
-		return formattedCustomFields
+		return formattedCustomFields.length > 0 ? formattedCustomFields : null
 	}
 
 	/**
