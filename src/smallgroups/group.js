@@ -47,7 +47,12 @@ export default class Group {
 				formattedCustomFields.push({
 					id: field.id,
 					name: field.name,
-					value: field.formatted_value
+					value: field.formatted_value,
+					_original: [
+						json.custom_fields['custom' + field.id],
+						json.custom_fields['field' + field.id],
+						json.custom_fields['field_' + field.id],
+					],
 				})
 			}
 		})
