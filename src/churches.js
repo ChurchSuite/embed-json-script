@@ -29,11 +29,10 @@ document.addEventListener('alpine:init', () => {
 			if (this.options.hasOwnProperty('show_labels')) {
 				let labelIds = Object.keys(this.label)
 				let labelsIds = this.labels.map(l => ''+l.id)
-console.log(this.options);
+
 				this.options.show_labels.forEach(labelId => {
 					// try and find this label on the model
-console.log(model);
-					(model.labels || []).forEach(label => {
+					model.labels.forEach(label => {
 						if (label.id == labelId) {
 							// don't add a label object unless we need it by id
 							if (!labelsIds.includes(''+label.id)) {
