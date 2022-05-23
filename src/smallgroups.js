@@ -80,7 +80,7 @@ document.addEventListener('alpine:init', () => {
 		/**
 		 * This method maps the configuration settings over to json script options
 		 */
-		 mapConfiguration() {
+		mapConfiguration() {
 			// map across any configuration keys and data
 			if (this.configuration.hasOwnProperty('id')) {
 				let configurationMap = {

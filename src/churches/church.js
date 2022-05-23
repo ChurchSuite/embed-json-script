@@ -10,8 +10,8 @@ export default class Church {
 		this.email = json.email
 		this.image = json.images != null && json.images.constructor === Object ? json.images.md.url : ''
 		this.meetingAddress = json.meeting_address
-		this.latitude = json.meeting_address.latitude
-		this.longitude = json.meeting_address.longitude
+		this.latitude = json.meeting_address ? json.meeting_address.latitude : null
+		this.longitude = json.meeting_address ? json.meeting_address.longitude : null
 		this.name = json.name
 		this.officeAddress = json.office_address
 		this.singleAddress = json.single_address
