@@ -89,6 +89,7 @@ export default class Group {
 
 		let now = dayjs()
 		let dateEnd = dayjs(group.date_end)
+		if (dateEnd.isBefore(now)) return false
 		if (dateEnd.subtract(1, 'month').isBefore(now)) return true
 
 		return false
