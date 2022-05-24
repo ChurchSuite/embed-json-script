@@ -8,6 +8,7 @@ export default class Group {
 		this.active = this.isActive(json)
 		this.cluster = json.cluster != null ? json.cluster.name : null
 		this.customFields = json.custom_fields.constructor === Object ? this.buildCustomFields(json) : null // if no custom fields, JSON provides an empty array
+		this.dateEnd = json.date_end ? dayjs(json.date_end) : null
 		this.dateStart = dayjs(json.date_start)
 		this.day = json.day != null ? dayjs().isoWeekday(json.day) : null
 		this.description = json.description.replace(/\r\n/g, '<br>')
@@ -23,7 +24,8 @@ export default class Group {
 		this.name = json.name
 		this.online = json.location.type == 'online'
 		this.signupCapacity = json.signup_capacity
-		this.signupStart = json.signup_date_start != null ? dayjs(json.signup_date_start) : null
+		this.signupFull = json.signup_full,
+		this.signupStart = dayjs(json.signup_date_start)
 		this.signupEnd = json.signup_date_end ? dayjs(json.signup_date_end) : null
 		this.signupRunning = this.signupIsRunning(json)
 		this.signupInFuture = this.signupInFuture()
