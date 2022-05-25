@@ -8,8 +8,10 @@ export default class Event {
 		// sort out link URL
 		let link = ''
 		if (json.signup_options.embed.enabled == 1) {
+			// if embed signup enabled, give them the ticket URL
 			link = json.signup_options.tickets.url
-		} else if (json.signup_options.signup_enabled == 1) {
+		} else if (json.signup_options.signup_enabled == 0) {
+			// if signup is disabled, even though embed signup disabled we provide URL (they can't sign up!)
 			link = CS.url + '/events/' + json.identifier
 		}
 
