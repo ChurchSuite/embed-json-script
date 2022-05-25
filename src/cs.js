@@ -110,7 +110,14 @@ window.CS = function(options = {}) {
 		async fetchJSON(type, options = {}) {
 			let data
 			let version = options.hasOwnProperty('configuration') ? 'v2/' : ''
-			let url = CS.url + '/embed/' + version + type + '/json' + this.buildOptions(options)
+
+			// detect URL scheme if not provided
+			let scheme = ''
+			if (!['http', 'https'].includes(CS.url.split('://')[0])) {
+				scheme = ['charitysuite', 'churchsuite'].includes(CS.url.split('.').pop()) ? 'http://' : 'https://'
+			}
+
+			let url = scheme + CS.url + '/embed/' + version + type + '/json' + this.buildOptions(options)
 
 			// if the page has a preview=1 query, don't use cached data so changes are live updated
 			let preview = (new URLSearchParams(location.search)).get('preview') == 1
