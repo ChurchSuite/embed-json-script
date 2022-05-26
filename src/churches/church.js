@@ -5,7 +5,7 @@ export default class Church {
 	 * @param {object} json
 	 */
 	constructor(json) {
-		this.charity_number = json.charity_number
+		this.charityNumber = json.charity_number
 		this.customFields = json.custom_fields
 		this.email = json.email
 		this.image = json.images != null && json.images.constructor === Object ? json.images.md.url : ''
