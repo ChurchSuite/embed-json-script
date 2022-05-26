@@ -26,6 +26,7 @@ We've added a selection of helpful properties to groups to make life easier, add
 - small groups group.active property
 - small groups group.endingSoon property
 - small groups group.signupFull property
+- small groups group.signupInFuture property
 - small groups group.signupRunning property
 - all small groups filters now support easy multiselects
 - small groups now support beta Embed Configurations
