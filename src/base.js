@@ -9,25 +9,29 @@ export default class Base {
 	}
 
 	/**
-	 * Takes a model (e.g. site, cluster, tag etc.) and adds an option id and name to a particular key array
+	 * Takes a model property object (e.g. site, cluster, tag etc.) and adds it to the
+	 * {key}Options and {key}s arrays if not already there, to use for dropdowns.
+	 * @param {string} key - The JSON key to look at (e.g. category)
+	 * @param {Object} property - The property to add (e.g. an event site) with id and name properties
+	 * @param {string} [legacyKey=null] - An alternative legacy key, if not the key with an 's' (e.g. 'categories')
 	 */
-	buildIdNameOption = function (key, model) {
-		// see if we've got a legacyKey in play (category/categories!)
-		let legacyKey = arguments.length > 2 ? arguments[2] : key+'s'
+	buildIdNameOption = function (key, property, legacyKey = null) {
+		// check the property is set
+		if (property == null) return;
 
-		// check the model exists
-		if (model == null) return;
+		// if legacy key provided use it, otherwise pluralise key
+		legacyKey = legacyKey ?? key+'s'
 
 		let options = this[key+'Options']
 		let optionIds = options.map(o => o.id)
-		if (!optionIds.includes(model.id)) {
+		if (!optionIds.includes(property.id)) {
 			// populate id and name options array
 			this[key+'Options'].push({
-				id: model.id,
-				name: model.name,
+				id: property.id,
+				name: property.name,
 			})
 			// populate legacy key with just name options
-			this[legacyKey].push(model.name)
+			this[legacyKey].push(property.name)
 		}
 	}
 
