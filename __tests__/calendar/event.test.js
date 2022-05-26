@@ -172,3 +172,9 @@ test('start property', () => {
 	const event = new Event(data);
 	expect(event.start.format('DD/MM/YYYY')).toBe('25/05/2022');
 });
+
+test('_original property', () => {
+	const data = { ...json, pin: 412094 }
+	const event = new Event(data);
+	expect(event._original.pin).toBe(412094);
+});
