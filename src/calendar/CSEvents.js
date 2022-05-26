@@ -104,7 +104,7 @@ export default class CSEvents extends Base {
 	 * Sets up the x-data for CSEvents
 	 */
 	constructor(options) {
-		super(options)
+		super()
 
 		// Configuration & Options
 		this.filterKeys = ['category', 'search', 'site']
