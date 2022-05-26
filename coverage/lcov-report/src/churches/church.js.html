@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -93,20 +93,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export default class Church {
@@ -115,21 +115,21 @@
 	 * Creates a Church from the JSON feed data array.
 	 * @param {object} json
 	 */
-<span class="fstat-no" title="function not covered" >	co</span>nstructor(json) {
-<span class="cstat-no" title="statement not covered" >		this.charity_number = json.charity_number</span>
-<span class="cstat-no" title="statement not covered" >		this.customFields = json.custom_fields</span>
-<span class="cstat-no" title="statement not covered" >		this.email = json.email</span>
-<span class="cstat-no" title="statement not covered" >		this.image = json.images != null &amp;&amp; json.images.constructor === Object ? json.images.md.url : ''</span>
-<span class="cstat-no" title="statement not covered" >		this.meetingAddress = json.meeting_address</span>
-<span class="cstat-no" title="statement not covered" >		this.latitude = json.meeting_address ? json.meeting_address.latitude : null</span>
-<span class="cstat-no" title="statement not covered" >		this.longitude = json.meeting_address ? json.meeting_address.longitude : null</span>
-<span class="cstat-no" title="statement not covered" >		this.name = json.name</span>
-<span class="cstat-no" title="statement not covered" >		this.officeAddress = json.office_address</span>
-<span class="cstat-no" title="statement not covered" >		this.singleAddress = json.single_address</span>
-<span class="cstat-no" title="statement not covered" >		this.site = json.site != null ? json.site.name : null</span>
-<span class="cstat-no" title="statement not covered" >		this.telephone = json.telephone</span>
-<span class="cstat-no" title="statement not covered" >		this.urls = json.urls</span>
-<span class="cstat-no" title="statement not covered" >		this._original = json</span>
+	constructor(json) {
+		this.charityNumber = json.charity_number
+		this.customFields = json.custom_fields
+		this.email = json.email
+		this.image = json.images != null &amp;&amp; json.images.constructor === Object ? json.images.md.url : ''
+		this.meetingAddress = json.meeting_address
+		this.latitude = json.meeting_address ? json.meeting_address.latitude : null
+		this.longitude = json.meeting_address ? json.meeting_address.longitude : null
+		this.name = json.name
+		this.officeAddress = json.office_address
+		this.singleAddress = json.single_address
+		this.site = json.site != null ? json.site.name : null
+		this.telephone = json.telephone
+		this.urls = json.urls
+		this._original = json
 	}
 &nbsp;
 }</pre></td></tr></table></pre>
@@ -139,7 +139,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed May 25 2022 23:30:36 GMT+0100 (British Summer Time)
+                at Thu May 26 2022 09:37:33 GMT+0100 (British Summer Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -1,0 +1,71 @@
+{
+	"id": 2,
+	"name": "King's Hope Church",
+	"email": "kingschurch@gmail.com",
+	"telephone": "0115 854 2237",
+	"office_address": {
+		"id": 2968,
+		"line1": "43, Simpson Street",
+		"line2": "Bulwell",
+		"line3": null,
+		"city": "Nottingham",
+		"county": null,
+		"postcode": "NG1 7GL",
+		"country": null,
+		"latitude": null,
+		"longitude": null
+	},
+	"meeting_address": {
+		"id": 2967,
+		"line1": "1, Main Street",
+		"line2": "Bulwell",
+		"line3": null,
+		"city": "Nottingham",
+		"county": null,
+		"postcode": "NG1 5GH",
+		"country": null,
+		"latitude": null,
+		"longitude": null
+	},
+	"single_address": false,
+	"charity_number": "9673342",
+	"labels": [
+		{ "id": 1, "value": ["80291f79-8aca-4dde-be8e-aabf737c2f9b"] },
+		{ "id": 2, "value": ["63c0b055-caa2-4622-8c4b-9ca45addca12"] },
+		{ "id": 3, "value": ["5f2dfdc0-e99c-492c-97e2-b65a5346791e"] }
+	],
+	"images": [],
+	"urls": [
+		"https://kingshope.church",
+		"https://twitter.com/kingshope",
+		"https://www.instagram.com/churchsuite_"
+	],
+	"custom_fields": [],
+	"site": {
+		"id": 1,
+		"name": "Nottingham",
+		"initials": null,
+		"color": "#e98c90",
+		"order": 1,
+		"address": {
+			"id": null,
+			"line1": "Easter Park",
+			"line2": "Lenton Lane",
+			"line3": null,
+			"city": "Nottingham",
+			"county": "Notts",
+			"postcode": "NG7 2PX",
+			"country": null,
+			"latitude": null,
+			"longitude": null
+		},
+		"mtime": "2022-01-27 11:56:24",
+		"muser": "nathaniel",
+		"ctime": "2015-05-20 14:11:16",
+		"cuser": "churchsuite"
+	},
+	"mtime": "2022-05-08 23:28:55",
+	"muser": "Paul",
+	"ctime": "2022-05-04 19:27:52",
+	"cuser": "lindsey"
+}

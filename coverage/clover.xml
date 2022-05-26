@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1653517836574" clover="3.2.0">
-  <project timestamp="1653517836574" name="All files">
-    <metrics statements="418" coveredstatements="117" conditionals="282" coveredconditionals="77" methods="101" coveredmethods="12" elements="801" coveredelements="206" complexity="0" loc="418" ncloc="418" packages="5" files="13" classes="13"/>
+<coverage generated="1653554253465" clover="3.2.0">
+  <project timestamp="1653554253465" name="All files">
+    <metrics statements="418" coveredstatements="131" conditionals="282" coveredconditionals="87" methods="101" coveredmethods="13" elements="801" coveredelements="231" complexity="0" loc="418" ncloc="418" packages="5" files="13" classes="13"/>
     <package name="src">
       <metrics statements="114" coveredstatements="21" conditionals="61" coveredconditionals="5" methods="34" coveredmethods="3"/>
       <file name="base.js" path="/Users/anthony/churchsuite/embed-json-script/src/base.js">
@@ -191,32 +191,32 @@
       </file>
       <file name="event.js" path="/Users/anthony/churchsuite/embed-json-script/src/calendar/event.js">
         <metrics statements="22" coveredstatements="22" conditionals="14" coveredconditionals="14" methods="1" coveredmethods="1"/>
-        <line num="9" count="22" type="stmt"/>
-        <line num="10" count="22" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="23" type="stmt"/>
+        <line num="10" count="23" type="cond" truecount="2" falsecount="0"/>
         <line num="12" count="1" type="stmt"/>
-        <line num="13" count="21" type="cond" truecount="2" falsecount="0"/>
-        <line num="15" count="20" type="stmt"/>
-        <line num="18" count="22" type="cond" truecount="2" falsecount="0"/>
-        <line num="19" count="22" type="stmt"/>
-        <line num="20" count="22" type="cond" truecount="2" falsecount="0"/>
-        <line num="21" count="22" type="stmt"/>
-        <line num="22" count="22" type="stmt"/>
-        <line num="23" count="22" type="cond" truecount="4" falsecount="0"/>
-        <line num="24" count="22" type="stmt"/>
-        <line num="25" count="22" type="stmt"/>
-        <line num="26" count="22" type="stmt"/>
-        <line num="27" count="22" type="stmt"/>
-        <line num="28" count="22" type="stmt"/>
-        <line num="29" count="22" type="stmt"/>
-        <line num="30" count="22" type="stmt"/>
-        <line num="31" count="22" type="stmt"/>
-        <line num="32" count="22" type="cond" truecount="2" falsecount="0"/>
-        <line num="33" count="22" type="stmt"/>
-        <line num="35" count="22" type="stmt"/>
+        <line num="13" count="22" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="21" type="stmt"/>
+        <line num="18" count="23" type="cond" truecount="2" falsecount="0"/>
+        <line num="19" count="23" type="stmt"/>
+        <line num="20" count="23" type="cond" truecount="2" falsecount="0"/>
+        <line num="21" count="23" type="stmt"/>
+        <line num="22" count="23" type="stmt"/>
+        <line num="23" count="23" type="cond" truecount="4" falsecount="0"/>
+        <line num="24" count="23" type="stmt"/>
+        <line num="25" count="23" type="stmt"/>
+        <line num="26" count="23" type="stmt"/>
+        <line num="27" count="23" type="stmt"/>
+        <line num="28" count="23" type="stmt"/>
+        <line num="29" count="23" type="stmt"/>
+        <line num="30" count="23" type="stmt"/>
+        <line num="31" count="23" type="stmt"/>
+        <line num="32" count="23" type="cond" truecount="2" falsecount="0"/>
+        <line num="33" count="23" type="stmt"/>
+        <line num="35" count="23" type="stmt"/>
       </file>
     </package>
     <package name="src.churches">
-      <metrics statements="76" coveredstatements="0" conditionals="44" coveredconditionals="0" methods="18" coveredmethods="0"/>
+      <metrics statements="76" coveredstatements="14" conditionals="44" coveredconditionals="10" methods="18" coveredmethods="1"/>
       <file name="CSChurches.js" path="/Users/anthony/churchsuite/embed-json-script/src/churches/CSChurches.js">
         <metrics statements="62" coveredstatements="0" conditionals="34" coveredconditionals="0" methods="17" coveredmethods="0"/>
         <line num="6" count="0" type="stmt"/>
@@ -283,21 +283,21 @@
         <line num="153" count="0" type="stmt"/>
       </file>
       <file name="church.js" path="/Users/anthony/churchsuite/embed-json-script/src/churches/church.js">
-        <metrics statements="14" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
+        <metrics statements="14" coveredstatements="14" conditionals="10" coveredconditionals="10" methods="1" coveredmethods="1"/>
+        <line num="8" count="20" type="stmt"/>
+        <line num="9" count="20" type="stmt"/>
+        <line num="10" count="20" type="stmt"/>
+        <line num="11" count="20" type="cond" truecount="4" falsecount="0"/>
+        <line num="12" count="20" type="stmt"/>
+        <line num="13" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="20" type="stmt"/>
+        <line num="16" count="20" type="stmt"/>
+        <line num="17" count="20" type="stmt"/>
+        <line num="18" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="19" count="20" type="stmt"/>
+        <line num="20" count="20" type="stmt"/>
+        <line num="21" count="20" type="stmt"/>
       </file>
     </package>
     <package name="src.components">
