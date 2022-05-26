@@ -28,6 +28,12 @@ document.addEventListener('alpine:init', () => {
 import CSEvents from './calendar/CSEvents'
 window.CSEvents = CSEvents
 
+import CSChurches from './churches/CSChurches'
+window.CSChurches = CSChurches
+
+import CSGroups from './smallgroups/CSGroups'
+window.CSGroups = CSGroups
+
 // our main json feed object
 window.CS = {
 	locale: 'en', // the locale for DateTimes
