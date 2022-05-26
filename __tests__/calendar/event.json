@@ -1,0 +1,138 @@
+{
+	"id": 1126786,
+	"identifier": "gvrd2idh",
+	"sequence": "1125967",
+	"name": "Wednesday Morning Kids Club",
+	"datetime_start": "2022-05-25 09:00:00",
+	"datetime_end": "2022-05-25 11:00:00",
+	"description": "Our weekly Wednesday AM kids club. Fun and games for your pre-school kids - and for you! A great time to connect with other parents and your children. Refreshments are provided. So come along to the Life Centre and enjoy! For more info, please get in touch with Alan Jacobs.",
+	"category": { "id": 5, "name": "Kids", "color": "#0e7b35" },
+	"status": "confirmed",
+	"visible_to": [],
+	"brand": {
+		"brand_css": "https://cdn.churchsuite.com/_brand/300921/40c057.css",
+		"color": "#40c057",
+		"email_font": "Open Sans",
+		"email_footer": "",
+		"emblem": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_RLIEcV_512.png",
+		"logo": "https://cdn.churchsuite.com/2mCEi8cf/brand/logo_ksUHl5.png",
+		"name": "Kings Kids",
+		"favicon_16": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_RLIEcV_16.png",
+		"favicon_32": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_RLIEcV_32.png",
+		"favicon_64": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_RLIEcV_64.png",
+		"favicon_128": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_RLIEcV_128.png",
+		"favicon_152": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_RLIEcV_152.png",
+		"favicon_200": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_RLIEcV_200.png",
+		"favicon_512": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_RLIEcV_512.png"
+	},
+	"capacity": null,
+	"images": {
+		"thumb": {
+			"px": 128,
+			"square": true,
+			"mtime": 1610400272,
+			"url": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1125967_b6MSCW8v_thumb.jpg"
+		},
+		"sm": {
+			"px": 256,
+			"square": false,
+			"mtime": 1610400272,
+			"url": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1125967_b6MSCW8v_sm.jpg"
+		},
+		"md": {
+			"px": 512,
+			"square": false,
+			"mtime": 1610400272,
+			"url": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1125967_b6MSCW8v_md.jpg"
+		},
+		"lg": {
+			"px": 1024,
+			"square": false,
+			"mtime": 1610400272,
+			"url": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1125967_b6MSCW8v_lg.jpg"
+		},
+		"original_16": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1125967_b6MSCW8v_thumb.jpg",
+		"original_100": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1125967_b6MSCW8v_sm.jpg",
+		"original_500": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1125967_b6MSCW8v_md.jpg",
+		"original_1000": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1125967_b6MSCW8v_lg.jpg",
+		"square_16": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1125967_b6MSCW8v_thumb.jpg",
+		"square_100": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1125967_b6MSCW8v_thumb.jpg"
+	},
+	"location": {
+		"address": "NG8 3RG",
+		"latitude": "52.96245587432611",
+		"longitude": "-1.1983199649529475",
+		"name": "Life Centre",
+		"type": "physical",
+		"url": null
+	},
+	"signup_options": {
+		"notification": "0",
+		"connect": { "visible": "1" },
+		"embed": { "visible": "1", "enabled": "0" },
+		"public": { "visible": "1", "enabled": "0", "featured": "0" },
+		"sequence_signup": "0",
+		"signup_cancel": "0",
+		"signup_enabled": "0",
+		"tickets": {
+			"enabled": "0",
+			"url": "https://demo.churchsuite.com/events/gvrd2idh"
+		},
+		"visible_to_tags": [],
+		"fixed_questions": {
+			"name": {
+				"name": "Name",
+				"response_type": "Text",
+				"required": true,
+				"hidden": false
+			},
+			"email": {
+				"name": "Email",
+				"response_type": "Email",
+				"required": "first",
+				"hidden": false
+			},
+			"mobile": {
+				"name": "Phone",
+				"response_type": "Phone",
+				"required": false,
+				"hidden": false
+			},
+			"notes": {
+				"name": "Notes",
+				"response_type": "Paragraph",
+				"required": false,
+				"hidden": false
+			}
+		}
+	},
+	"site": {
+		"id": 1,
+		"name": "Nottingham",
+		"initials": "",
+		"color": "#e98c90",
+		"order": 1,
+		"address": {
+			"id": null,
+			"line1": "Easter Park",
+			"line2": "Lenton Lane",
+			"line3": "",
+			"city": "Nottingham",
+			"county": "Notts",
+			"postcode": "NG7 2PX",
+			"country": ""
+		},
+		"mtime": "2022-01-27 11:56:24",
+		"muser": "nathaniel",
+		"ctime": "2015-05-20 14:11:16",
+		"cuser": "churchsuite"
+	},
+	"pin": 412094,
+	"invite_hash": null,
+	"public_visible": true,
+	"mtime": "2021-12-16 15:23:31",
+	"muser": "nathaniel",
+	"ctime": "2021-12-16 15:23:31",
+	"cuser": "nathaniel",
+	"merged_by_strategy": false
+}

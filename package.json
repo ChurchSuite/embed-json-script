@@ -4,8 +4,10 @@
   "description": "An easy-to-use script to allow simple integration of ChurchSuite's embed JSON feeds into your website. For more information, see https://kingshope.church.",
   "main": "dist/cdn.min.js",
   "scripts": {
-    "build": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js churches.min=src/churches.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=dist --watch",
-    "deploy": "npm run build && npm publish"
+    "build": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js churches.min=src/churches.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=dist",
+    "deploy": "npm run build && npm publish",
+    "test": "jest",
+    "watch": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js churches.min=src/churches.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=dist --watch"
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,27 @@
   },
   "homepage": "https://kingshope.church",
   "devDependencies": {
+    "@babel/core": "^7.18.0",
+    "@babel/node": "^7.17.10",
+    "@babel/preset-env": "^7.18.0",
     "dayjs": "^1.10.7",
-    "esbuild": "^0.14.27"
+    "esbuild": "^0.14.27",
+    "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./src/**/*.js"
+    ],
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   }
 }
