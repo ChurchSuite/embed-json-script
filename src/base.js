@@ -53,10 +53,12 @@ export default class Base {
 	 * Filters models based on the UI's filters.
 	 */
 	filterModels = function () {
+		this.loading = true
 		if (this.filterModelsEnabled()) {
 			this.models = this.modelsAll.filter((model) => this.filterModel(model))
 		}
 		this.$dispatch('models-updated') // always do this!
+		this.loading = false
 	}
 
 	/**
@@ -136,6 +138,7 @@ export default class Base {
 		this.filterKeys = [] // the names of the filters for this feed
 		this.options = {} // options for fetching json
 		this.resourceModule = '' // the module we're in
+		this.loading = true // boolean to control loading pulses and spinners
 
 		// Model Data
 		this.models = [] // our filtered model objects
