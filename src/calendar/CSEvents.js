@@ -51,7 +51,7 @@ export default class CSEvents extends Base {
 		if (categoryFilter == null) return true
 		// return on id or name for legacy support
 		return categoryFilter.includes(''+model._original.category.id)
-			|| categoryFilter.includes(model._original.category.name);
+			|| categoryFilter.includes(''+model._original.category.name);
 	}
 
 	filterModel_Search = function (model) {
@@ -90,7 +90,7 @@ export default class CSEvents extends Base {
 		if (model._original.site == null) return true
 		// return on id or name for legacy support
 		return siteFilter.includes(''+model._original.site.id)
-			|| siteFilter.includes(model._original.site.name)
+			|| siteFilter.includes(''+model._original.site.name)
 	}
 
 	async init() {

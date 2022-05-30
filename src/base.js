@@ -71,8 +71,8 @@ export default class Base {
 		if (Array.isArray(value)) {
 			// it's an array - filter out empty values
 			value = value.filter(v => (v !== 0 && v !== '0' && v !== null))
-			// return the result if it's got length otherwise null
-			result = value.length ? value : null
+			// return the string cast array result if it's got length otherwise null
+			result = value.length ? value.map(v => ''+v) : null
 		} else if (value === null) {
 			// always return null
 			result = null
