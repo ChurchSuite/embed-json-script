@@ -124,7 +124,7 @@ export default class CSGroups extends Base {
 					// if this is the right label mark as found
 					labelFound = true
 					// now check for a match - update result if false
-					filterResult = false
+					let filterResult = false
 					labelFilter.forEach(filter => {
 						// if we find at least one match then set this filterResult to true
 						if (label.value.includes(filter)) filterResult = true
