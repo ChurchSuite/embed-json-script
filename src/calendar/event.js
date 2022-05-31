@@ -1,5 +1,4 @@
 export default class Event {
-
 	/**
 	 * Creates an Event from the JSON feed data array.
 	 * @param {object} json
@@ -15,12 +14,16 @@ export default class Event {
 			link = CS.url + '/events/' + json.identifier
 		}
 
-		this.allDay = json.datetime_start.slice(-8) == '00:00:00' && json.datetime_end.slice(-8) == '23:59:59'
+		this.allDay =
+			json.datetime_start.slice(-8) == '00:00:00' && json.datetime_end.slice(-8) == '23:59:59'
 		this.brandEmblem = json.brand.emblem
 		this.category = json.category != null ? json.category.name : null
 		this.description = json.description
 		this.end = dayjs(json.datetime_end)
-		this.image = json.images != null && json.images.constructor === Object ? json.images.md.url : json.brand.emblem
+		this.image =
+			json.images != null && json.images.constructor === Object
+				? json.images.md.url
+				: json.brand.emblem
 		this.link = link
 		this.location = json.location.name
 		this.latitude = json.location.latitude
@@ -34,5 +37,4 @@ export default class Event {
 		// add in the original json
 		this._original = json
 	}
-
 }

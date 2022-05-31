@@ -1,5 +1,4 @@
 export default class Group {
-
 	/**
 	 * Creates a Group from the JSON feed data array.
 	 * @param {object} json
@@ -7,7 +6,8 @@ export default class Group {
 	constructor(json) {
 		this.active = this.isActive(json)
 		this.cluster = json.cluster != null ? json.cluster.name : null
-		this.customFields = json.custom_fields.constructor === Object ? this.buildCustomFields(json) : null // if no custom fields, JSON provides an empty array
+		this.customFields =
+			json.custom_fields.constructor === Object ? this.buildCustomFields(json) : null // if no custom fields, JSON provides an empty array
 		this.dateEnd = json.date_end ? dayjs(json.date_end) : null
 		this.dateStart = dayjs(json.date_start)
 		this.day = json.day != null ? dayjs().isoWeekday(json.day) : null
@@ -15,8 +15,12 @@ export default class Group {
 		this.embedSignup = json.embed_signup == 1
 		this.endingSoon = this.isEndingSoon(json)
 		this.frequency = json.frequency == 'custom' ? json.custom_frequency : json.frequency
-		this.image = json.images != null && json.images.constructor === Object ? json.images.md.url : ''
-		this.link = json.embed_signup == 1 || json.signup_enabled == 0 ? CS.url + '/groups/' + json.identifier : ''
+		this.image =
+			json.images != null && json.images.constructor === Object ? json.images.md.url : ''
+		this.link =
+			json.embed_signup == 1 || json.signup_enabled == 0
+				? CS.url + '/groups/' + json.identifier
+				: ''
 		this.location = json.location.name
 		this.latitude = json.location.latitude
 		this.longitude = json.location.longitude
@@ -24,14 +28,17 @@ export default class Group {
 		this.name = json.name
 		this.online = json.location.type == 'online'
 		this.signupCapacity = json.signup_capacity
-		this.signupFull = json.signup_full,
+		this.signupFull = json.signup_full
 		this.signupStart = dayjs(json.signup_date_start)
 		this.signupEnd = json.signup_date_end ? dayjs(json.signup_date_end) : null
 		this.signupRunning = this.signupIsRunning(json)
 		this.signupInFuture = this.signupInFuture()
 		this.site = json.site != null ? json.site.name : null
 		this.tags = json.tags
-		this.time = json.time != null ? dayjs((new Date()).toISOString().slice(0, 11) + json.time + ':00') : null
+		this.time =
+			json.time != null
+				? dayjs(new Date().toISOString().slice(0, 11) + json.time + ':00')
+				: null
 		this._original = json
 	}
 
@@ -44,7 +51,11 @@ export default class Group {
 		Object.entries(json.custom_fields).forEach(customField => {
 			const field = customField[1]
 			// just use the version with a formatted_value
-			if (field.constructor === Object && field.hasOwnProperty('formatted_value') && field.settings.embed.view) {
+			if (
+				field.constructor === Object &&
+				field.hasOwnProperty('formatted_value') &&
+				field.settings.embed.view
+			) {
 				// only add if this field is visible in embed
 				formattedCustomFields.push({
 					id: field.id,
@@ -96,7 +107,11 @@ export default class Group {
 	}
 
 	signupInFuture() {
-		return this.embedSignup != '' && this.signupStart != null && this.signupStart.isAfter(dayjs(new Date()))
+		return (
+			this.embedSignup != '' &&
+			this.signupStart != null &&
+			this.signupStart.isAfter(dayjs(new Date()))
+		)
 	}
 
 	/**
@@ -123,5 +138,4 @@ export default class Group {
 
 		return true
 	}
-
 }

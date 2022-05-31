@@ -43,10 +43,10 @@ window.CS = {
 	 */
 	buildOptions(options) {
 		var searchOptions = new URLSearchParams()
-		Object.keys(options).forEach(function(key) {
+		Object.keys(options).forEach(function (key) {
 			searchOptions.append(key, options[key])
 		})
-		return (Object.keys(options).length !== 0) ? '?' + searchOptions.toString() : ''
+		return Object.keys(options).length !== 0 ? '?' + searchOptions.toString() : ''
 	},
 
 	/**
@@ -54,10 +54,11 @@ window.CS = {
 	 */
 	dayOfWeekOptions() {
 		let dayOptions = []
-		for(var i = 0; i < 7; i++) dayOptions.push({
-			id: dayjs().isoWeekday(i).format('dddd'),
-			name: dayjs().isoWeekday(i).format('dddd')
-		})
+		for (var i = 0; i < 7; i++)
+			dayOptions.push({
+				id: dayjs().isoWeekday(i).format('dddd'),
+				name: dayjs().isoWeekday(i).format('dddd'),
+			})
 		return dayOptions
 	},
 
@@ -66,7 +67,7 @@ window.CS = {
 	 */
 	daysOfWeek() {
 		let days = []
-		for(var i = 0; i < 7; i++) days.push(dayjs().isoWeekday(i).format('dddd'))
+		for (var i = 0; i < 7; i++) days.push(dayjs().isoWeekday(i).format('dddd'))
 		return days
 	},
 
@@ -81,13 +82,15 @@ window.CS = {
 		// detect URL scheme if not provided
 		let scheme = ''
 		if (!['http', 'https'].includes(CS.url.split('://')[0])) {
-			scheme = ['charitysuite', 'churchsuite'].includes(CS.url.split('.').pop()) ? 'http://' : 'https://'
+			scheme = ['charitysuite', 'churchsuite'].includes(CS.url.split('.').pop())
+				? 'http://'
+				: 'https://'
 		}
 
 		let url = scheme + CS.url + '/embed/' + version + type + '/json' + CS.buildOptions(options)
 
 		// if the page has a preview=1 query, don't use cached data so changes are live updated
-		let preview = (new URLSearchParams(location.search)).get('preview') == 1
+		let preview = new URLSearchParams(location.search).get('preview') == 1
 		let storedData = this.supportsLocalStorage() && !preview ? localStorage.getItem(url) : null
 
 		if (storedData != null && JSON.parse(storedData).expires > new Date().getTime()) {
@@ -98,14 +101,19 @@ window.CS = {
 				.then(response => {
 					if (this.supportsLocalStorage() && !preview) {
 						try {
-							localStorage.setItem(url, JSON.stringify({expires: (new Date()).getTime()+(1000*60*15), json: response})) // JS times in milliseconds, so expire in 15m
+							localStorage.setItem(
+								url,
+								JSON.stringify({
+									expires: new Date().getTime() + 1000 * 60 * 15,
+									json: response,
+								})
+							) // JS times in milliseconds, so expire in 15m
 						} catch {
 							console.error('Unable to cache data')
 						}
 					}
 					data = response
-				},
-			)
+				})
 		}
 
 		return data
@@ -119,7 +127,17 @@ window.CS = {
 	getColorRbga(hexColor, tailwindVar) {
 		const rgbColor = this.hexToRgb(hexColor)
 
-		return 'rgba('+rgbColor.r+', '+rgbColor.g+', '+rgbColor.b+', var('+tailwindVar+'))'
+		return (
+			'rgba(' +
+			rgbColor.r +
+			', ' +
+			rgbColor.g +
+			', ' +
+			rgbColor.b +
+			', var(' +
+			tailwindVar +
+			'))'
+		)
 	},
 
 	/**
@@ -130,11 +148,13 @@ window.CS = {
 	hexToRgb(hex) {
 		const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 
-		return result ? {
-			r: parseInt(result[1], 16),
-			g: parseInt(result[2], 16),
-			b: parseInt(result[3], 16)
-		} : null
+		return result
+			? {
+					r: parseInt(result[1], 16),
+					g: parseInt(result[2], 16),
+					b: parseInt(result[3], 16),
+			  }
+			: null
 	},
 
 	/**
@@ -146,5 +166,5 @@ window.CS = {
 		} catch {
 			return false
 		}
-	}
+	},
 }

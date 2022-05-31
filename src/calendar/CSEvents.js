@@ -1,8 +1,7 @@
-import Base from "../base"
-import Event from "./event"
+import Base from '../base'
+import Event from './event'
 
 export default class CSEvents extends Base {
-
 	buildModelObject = function (model) {
 		// capture unique categories and sites
 		this.buildIdNameOption('category', model.category, 'categories')
@@ -30,7 +29,7 @@ export default class CSEvents extends Base {
 			return false
 		} else {
 			// first update the searchQuery so we don't do it for every model in this.filterModel() - replace date separators with spaces
-			let q = (this.search || '')
+			let q = this.search || ''
 			this.searchQuery = q.length ? q.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase() : null
 			return true
 		}
@@ -40,9 +39,11 @@ export default class CSEvents extends Base {
 	 * Returns true if the given model should be visible, based on the filters.
 	 */
 	filterModel = function (model) {
-		return this.filterModel_Category(model)
-			&& this.filterModel_Search(model)
-			&& this.filterModel_Site(model)
+		return (
+			this.filterModel_Category(model) &&
+			this.filterModel_Search(model) &&
+			this.filterModel_Site(model)
+		)
 	}
 
 	filterModel_Category = function (model) {
@@ -50,36 +51,42 @@ export default class CSEvents extends Base {
 		// no filter
 		if (categoryFilter == null) return true
 		// return on id or name for legacy support
-		return categoryFilter.includes(''+model._original.category.id)
-			|| categoryFilter.includes(''+model._original.category.name);
+		return (
+			categoryFilter.includes('' + model._original.category.id) ||
+			categoryFilter.includes('' + model._original.category.name)
+		)
 	}
 
 	filterModel_Search = function (model) {
-		if (!this.searchQuery) return true;
+		if (!this.searchQuery) return true
 
 		// build a model search name with varying levels of date formats and event info
 		let searchName = (
-			model.name
-			+ ' ' + model.start.format('M D YY')
-			+ ' ' + model.start.format('D M YY')
-			+ ' ' + model.start.format('MM DD YY')
-			+ ' ' + model.start.format('DD MM YY')
-			+ ' ' + model.start.format('MMM DD YY')
-			+ ' ' + model.start.format('DD MMM YY')
-			+ ' ' + model.start.format('MMMM DD YY')
-			+ ' ' + model.start.format('DD MMMM YY')
-			+ ' ' + model.start.format('M D YYYY')
-			+ ' ' + model.start.format('D M YYYY')
-			+ ' ' + model.start.format('MM DD YYYY')
-			+ ' ' + model.start.format('DD MM YYYY')
-			+ ' ' + model.start.format('MMM DD YYYY')
-			+ ' ' + model.start.format('DD MMM YYYY')
-			+ ' ' + model.start.format('MMMM DD YYYY')
-			+ ' ' + model.start.format('DD MMMM YYYY')
-			+ ' ' + model.location
-			+ ' ' + model.category
-		).replace(/[\s\/\-\.]+/gi, ' ').toLowerCase();
-		return searchName.includes(this.searchQuery);
+			model.name +
+			' ' +
+			model.start.format('M D YY ') +
+			model.start.format('D M YY ') +
+			model.start.format('MM DD YY ') +
+			model.start.format('DD MM YY ') +
+			model.start.format('MMM DD YY ') +
+			model.start.format('DD MMM YY ') +
+			model.start.format('MMMM DD YY ') +
+			model.start.format('DD MMMM YY ') +
+			model.start.format('M D YYYY ') +
+			model.start.format('D M YYYY ') +
+			model.start.format('MM DD YYYY ') +
+			model.start.format('DD MM YYYY ') +
+			model.start.format('MMM DD YYYY ') +
+			model.start.format('DD MMM YYYY ') +
+			model.start.format('MMMM DD YYYY ') +
+			model.start.format('DD MMMM YYYY ') +
+			model.location +
+			' ' +
+			model.category
+		)
+			.replace(/[\s\/\-\.]+/gi, ' ')
+			.toLowerCase()
+		return searchName.includes(this.searchQuery)
 	}
 
 	filterModel_Site = function (model) {
@@ -89,15 +96,17 @@ export default class CSEvents extends Base {
 		// all sites event
 		if (model._original.site == null) return true
 		// return on id or name for legacy support
-		return siteFilter.includes(''+model._original.site.id)
-			|| siteFilter.includes(''+model._original.site.name)
+		return (
+			siteFilter.includes('' + model._original.site.id) ||
+			siteFilter.includes('' + model._original.site.name)
+		)
 	}
 
 	async init() {
-		await super.init();
+		await super.init()
 
 		// Alpine doesn't recognise a nice getter method, so use $watch to mirror models property to events
-		this.$watch('models', (value) => this.events = value)
+		this.$watch('models', value => (this.events = value))
 	}
 
 	/**

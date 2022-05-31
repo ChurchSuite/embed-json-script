@@ -1,5 +1,4 @@
 export default class Base {
-
 	/**
 	 * To be overwritten by child classes.
 	 * Builds/initialises a model object, using the given data object.
@@ -17,16 +16,16 @@ export default class Base {
 	 */
 	buildIdNameOption = function (key, property, legacyKey = null) {
 		// check the property is set
-		if (property == null) return;
+		if (property == null) return
 
 		// if legacy key provided use it, otherwise pluralise key
-		legacyKey = legacyKey ?? key+'s'
+		legacyKey = legacyKey ?? key + 's'
 
-		let options = this[key+'Options']
+		let options = this[key + 'Options']
 		let optionIds = options.map(o => o.id)
 		if (!optionIds.includes(property.id)) {
 			// populate id and name options array
-			this[key+'Options'].push({
+			this[key + 'Options'].push({
 				id: property.id,
 				name: property.name,
 			})
@@ -55,7 +54,7 @@ export default class Base {
 	filterModels = function () {
 		this.loading = true
 		if (this.filterModelsEnabled()) {
-			this.models = this.modelsAll.filter((model) => this.filterModel(model))
+			this.models = this.modelsAll.filter(model => this.filterModel(model))
 		}
 		this.$dispatch('models-updated') // always do this!
 		this.loading = false
@@ -72,9 +71,9 @@ export default class Base {
 
 		if (Array.isArray(value)) {
 			// it's an array - filter out empty values
-			value = value.filter(v => (v !== 0 && v !== '0' && v !== null && v !== ''))
+			value = value.filter(v => v !== 0 && v !== '0' && v !== null && v !== '')
 			// return the string cast array result if it's got length otherwise null
-			result = value.length ? value.map(v => ''+v) : null
+			result = value.length ? value.map(v => '' + v) : null
 		} else if (value === null) {
 			// always return null
 			result = null
@@ -87,7 +86,7 @@ export default class Base {
 		if (result == null) parent[key] = null
 
 		// return the result
-		return result;
+		return result
 	}
 
 	/**

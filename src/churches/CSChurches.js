@@ -1,8 +1,7 @@
-import Base from "../base"
-import Church from "./church"
+import Base from '../base'
+import Church from './church'
 
 export default class CSChurches extends Base {
-
 	buildModelObject = function (model) {
 		// capture unique sites
 		this.buildIdNameOption('site', model.site)
@@ -11,14 +10,14 @@ export default class CSChurches extends Base {
 		// loop the labels and capture them
 		if (this.options.hasOwnProperty('show_labels')) {
 			let labelIds = Object.keys(this.label)
-			let labelsIds = this.labels.map(l => ''+l.id)
+			let labelsIds = this.labels.map(l => '' + l.id)
 
 			this.options.show_labels.forEach(labelId => {
 				// try and find this label on the model
 				model.labels.forEach(label => {
 					if (label.id == labelId) {
 						// don't add a label object unless we need it by id
-						if (!labelsIds.includes(''+label.id)) {
+						if (!labelsIds.includes('' + label.id)) {
 							this.labels.push({
 								id: label.id,
 								multiple: label.multiple,
@@ -31,12 +30,12 @@ export default class CSChurches extends Base {
 				})
 
 				// don't add a label filter value unless we need it by id
-				if (!labelIds.includes(''+labelId)) {
+				if (!labelIds.includes('' + labelId)) {
 					this.label[labelId] = {
 						id: labelId,
-						value: null
+						value: null,
 					}
-					this.$watch('label['+labelId+'].value', (v) => {
+					this.$watch('label[' + labelId + '].value', v => {
 						this.filterModels()
 					})
 				}
@@ -72,7 +71,7 @@ export default class CSChurches extends Base {
 	 */
 	filterModelsEnabled = function () {
 		// first update the searchQuery so we don't do it for every model in this.filterModel() - replace date separators with spaces
-		let q = (this.search || '')
+		let q = this.search || ''
 		this.searchQuery = q.length ? q.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase() : null
 		return true
 	}
@@ -89,7 +88,7 @@ export default class CSChurches extends Base {
 		let result = true
 		Object.values(this.label).forEach(v => {
 			let labelFilter = this.filterValue('value', v)
-			if (!labelFilter) return;
+			if (!labelFilter) return
 
 			// set up a bool for if the label had been found
 			let labelFound = false
@@ -121,15 +120,17 @@ export default class CSChurches extends Base {
 		// all sites groups
 		if (model._original.site == null) return true
 		// return on id or name for legacy support
-		return siteFilter.includes(''+model._original.site.id)
-			|| siteFilter.includes(''+model._original.site.name)
+		return (
+			siteFilter.includes('' + model._original.site.id) ||
+			siteFilter.includes('' + model._original.site.name)
+		)
 	}
 
 	async init() {
-		await super.init();
+		await super.init()
 
 		// Alpine doesn't recognise a nice getter method, so use $watch to mirror models property to churches
-		this.$watch('models', (value) => this.churches = value)
+		this.$watch('models', value => (this.churches = value))
 	}
 
 	constructor(options) {
