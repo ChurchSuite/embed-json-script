@@ -79,7 +79,7 @@ export default class Base {
 			result = null
 		} else if (typeof value === 'string' || value instanceof String) {
 			// return the value as an array if it has length and isn't empty otherwise null
-			result = value.length && value !== 0 && value !== '0' ? [value] : null
+			result = value.length && value !== 0 && value !== '0' ? [value.toString()] : null
 		}
 
 		// if the result is null then reset the key reactively
