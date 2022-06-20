@@ -19,7 +19,6 @@ export default class CSEvents extends Base {
 	 * Returns true if we should be filtering models.
 	 */
 	filterModelsEnabled = function () {
-		let searchFilter = this.filterValue('search')
 		let categoryFilter = this.filterValue('category')
 		let siteFilter = this.filterValue('site')
 
