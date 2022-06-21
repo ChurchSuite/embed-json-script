@@ -50,6 +50,25 @@ window.CS = {
 	},
 
 	/**
+	 * Cache the JSON data in the browser local storage.
+	 * @param {String} response The raw JSON response data
+	 * @param {String} url The URL this JSON came from, to use as a key
+	 */
+	cacheJSONData(response, url) {
+		try {
+			localStorage.setItem(
+				url,
+				JSON.stringify({
+					expires: new Date().getTime() + 1000 * 60 * 15, // JS times in milliseconds, so expire in 15m
+					json: response,
+				})
+			)
+		} catch {
+			console.error('Unable to cache data')
+		}
+	},
+
+	/**
 	 * Returns the days of the week for dropdowns in whichever language - Sunday first
 	 */
 	dayOfWeekOptions() {
@@ -64,11 +83,27 @@ window.CS = {
 
 	/**
 	 * Returns the days of the week for dropdowns in whichever language - Sunday first
+	 * @returns {String[]}
 	 */
 	daysOfWeek() {
 		let days = []
 		for (var i = 0; i < 7; i++) days.push(dayjs().isoWeekday(i).format('dddd'))
 		return days
+	},
+
+	/**
+	 * Detect the URL scheme we should be using
+	 * @returns {String}
+	 */
+	detectURLScheme() {
+		let scheme = ''
+		if (!['http', 'https'].includes(CS.url.split('://')[0])) {
+			scheme = ['charitysuite', 'churchsuite'].includes(CS.url.split('.').pop())
+				? 'http://'
+				: 'https://'
+		}
+
+		return scheme
 	},
 
 	/**
@@ -80,12 +115,7 @@ window.CS = {
 		let version = options.hasOwnProperty('configuration') ? 'v2/' : ''
 
 		// detect URL scheme if not provided
-		let scheme = ''
-		if (!['http', 'https'].includes(CS.url.split('://')[0])) {
-			scheme = ['charitysuite', 'churchsuite'].includes(CS.url.split('.').pop())
-				? 'http://'
-				: 'https://'
-		}
+		let scheme = this.detectURLScheme()
 
 		let url = scheme + CS.url + '/embed/' + version + type + '/json' + CS.buildOptions(options)
 
@@ -100,17 +130,7 @@ window.CS = {
 				.then(response => response.json())
 				.then(response => {
 					if (this.supportsLocalStorage() && !preview) {
-						try {
-							localStorage.setItem(
-								url,
-								JSON.stringify({
-									expires: new Date().getTime() + 1000 * 60 * 15,
-									json: response,
-								})
-							) // JS times in milliseconds, so expire in 15m
-						} catch {
-							console.error('Unable to cache data')
-						}
+						this.cacheJSONData(response, url)
 					}
 					data = response
 				})
@@ -143,7 +163,7 @@ window.CS = {
 	/**
 	 * Takes in a hex colour, returns the result as an object.
 	 * @param {string} hex
-	 * @returns object
+	 * @returns {Object}
 	 */
 	hexToRgb(hex) {
 		const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
