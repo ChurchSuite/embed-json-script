@@ -1,5 +1,6 @@
 import Base from '../base'
 import Church from './church'
+import { buildLabels } from '../components/labels'
 
 export default class CSChurches extends Base {
 	buildModelObject = function (model) {
@@ -8,39 +9,7 @@ export default class CSChurches extends Base {
 		this.sites.sort()
 
 		// loop the labels and capture them
-		if (this.options.hasOwnProperty('show_labels')) {
-			let labelIds = Object.keys(this.label)
-			let labelsIds = this.labels.map(l => '' + l.id)
-
-			this.options.show_labels.forEach(labelId => {
-				// try and find this label on the model
-				model.labels.forEach(label => {
-					if (label.id == labelId) {
-						// don't add a label object unless we need it by id
-						if (!labelsIds.includes('' + label.id)) {
-							this.labels.push({
-								id: label.id,
-								multiple: label.multiple,
-								name: label.name,
-								options: label.options,
-								required: label.required,
-							})
-						}
-					}
-				})
-
-				// don't add a label filter value unless we need it by id
-				if (!labelIds.includes('' + labelId)) {
-					this.label[labelId] = {
-						id: labelId,
-						value: null,
-					}
-					this.$watch('label[' + labelId + '].value', v => {
-						this.filterModels()
-					})
-				}
-			})
-		}
+		this.buildLabels()
 
 		// build and return the model object
 		return new Church(model)
@@ -152,5 +121,8 @@ export default class CSChurches extends Base {
 		this.site = null // site string for filterModels()
 		this.siteOptions = [] // id and name site options
 		this.sites = [] // @deprecated sites name array
+
+		// shared function between label-using classes
+		this.buildLabels = buildLabels
 	}
 }
