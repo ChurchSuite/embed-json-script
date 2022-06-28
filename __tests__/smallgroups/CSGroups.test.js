@@ -109,3 +109,20 @@ describe('buildModelObject() method', () => {
 
 	
 })
+
+describe('mapConfiguration() method', () => {
+	test('without configuration', () => {
+		Groups.mapConfiguration();
+		expect(Groups.options).toEqual({ show_tags: 1 })
+	})
+
+	test('with configuration', () => {
+		Groups.configuration = {
+			id: 1,
+			showFilterLabels: 1,
+			showFilterSites: 1
+		}
+		Groups.mapConfiguration();
+		expect(Groups.options).toEqual({ show_tags: 1, show_labels: 1, show_sites: 1 })
+	})
+})
