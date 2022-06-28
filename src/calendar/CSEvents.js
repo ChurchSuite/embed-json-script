@@ -26,12 +26,9 @@ export default class CSEvents extends Base {
 			// if we're not filtering by anything, only show merged events (following merge strategy)
 			this.models = this.modelsMerged
 			return false
-		} else {
-			// first update the searchQuery so we don't do it for every model in this.filterModel() - replace date separators with spaces
-			let q = this.search || ''
-			this.searchQuery = q.length ? q.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase() : null
-			return true
 		}
+
+		return true
 	}
 
 	/**

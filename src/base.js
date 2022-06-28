@@ -54,6 +54,10 @@ export default class Base {
 	filterModels = function () {
 		this.loading = true
 		if (this.filterModelsEnabled()) {
+			// first update the searchQuery so we don't do it for every model in this.filterModel() - replace date separators with spaces
+			let q = this.search || ''
+			this.searchQuery = q.length ? q.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase() : null
+
 			this.models = this.modelsAll.filter(model => this.filterModel(model))
 		}
 		this.$dispatch('models-updated') // always do this!

@@ -18,16 +18,6 @@ export default class CSGroups extends Base {
 	}
 
 	/**
-	 * Returns true if we should be filtering models.
-	 */
-	filterModelsEnabled = function () {
-		// first update the searchQuery so we don't do it for every model in this.filterModel() - replace date separators with spaces
-		let q = this.search || ''
-		this.searchQuery = q.length ? q.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase() : null
-		return true
-	}
-
-	/**
 	 * Returns true if the given model should be visible, based on the filters.
 	 */
 	filterModel = function (model) {
