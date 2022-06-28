@@ -1,6 +1,6 @@
 import Base from '../base'
 import Church from './church'
-import { buildLabels } from '../components/labels'
+import { buildLabels, filterModel_Label } from '../components/labels'
 
 export default class CSChurches extends Base {
 	buildModelObject = function (model) {
@@ -52,44 +52,13 @@ export default class CSChurches extends Base {
 		return this.filterModel_Label(model) && this.filterModel_Site(model)
 	}
 
-	filterModel_Label = function (model) {
-		// need to match them all so set up an array of matches
-		let result = true
-		Object.values(this.label).forEach(v => {
-			let labelFilter = this.filterValue('value', v)
-			if (!labelFilter) return
-
-			// set up a bool for if the label had been found
-			let labelFound = false
-			model._original.labels.forEach(label => {
-				if (label.id == v.id) {
-					// if this is the right label mark as found
-					labelFound = true
-					// now check for a match - update result if false
-					let filterResult = false
-					labelFilter.forEach(filter => {
-						// if we find at least one match then set this filterResult to true
-						if (label.value.includes(filter)) filterResult = true
-					})
-
-					if (!filterResult) result = false
-				}
-			})
-			// if this group doesn't have this label then update result
-			if (!labelFound) result = false
-		})
-
-		return result
-	}
-
 	filterModel_Site = function (model) {
 		let siteFilter = this.filterValue('site')
 		// no filter
 		if (siteFilter == null) return true
 		// all sites groups
 		if (model._original.site == null) return true
-		// return on id or name for legacy support
-		return (
+		// return on id or name for legacy support		return (
 			siteFilter.includes('' + model._original.site.id) ||
 			siteFilter.includes('' + model._original.site.name)
 		)
@@ -121,5 +90,6 @@ export default class CSChurches extends Base {
 
 		// shared function between label-using classes
 		this.buildLabels = buildLabels
+		this.filterModel_Label = filterModel_Label
 	}
 }
