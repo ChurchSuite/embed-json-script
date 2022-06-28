@@ -60,9 +60,12 @@ describe('CS object', () => {
 
 	describe('cacheJSONData method', () => {
 		test('stored in local storage successfully', () => {
+			// fake the system time, to prevent 1 second errors if test runs slowly
+			jest.useFakeTimers('modern').setSystemTime(new Date('2022-01-01T13:00:00'));
+			
 			window.CS.cacheJSONData('value', 'key')
 			let expected = JSON.stringify({
-				expires: new Date().getTime() + 1000 * 60 * 15,
+				expires: new Date('2022-01-01T13:15:00').getTime(),
 				json: 'value',
 			})
 			expect(localStorage.getItem('key')).toEqual(expected)
