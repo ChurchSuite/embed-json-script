@@ -128,9 +128,6 @@ export default class CSEvents extends Base {
 		this.category = null // linked to selected option from dropdown for comparison with the event category
 		this.categoryOptions = []
 
-		this.search = null // search terms
-		this.searchQuery = null // search query string
-
 		this.site = null // @deprecated site string for filterModels()
 		this.siteOptions = []
 		this.sites = [] // sites array for site dropdown

@@ -142,5 +142,8 @@ export default class Base {
 		// Model Data
 		this.models = [] // our filtered model objects
 		this.modelsAll = [] // all of our model objects
+
+		this.search = null // search terms
+		this.searchQuery = null // search query string
 	}
 }

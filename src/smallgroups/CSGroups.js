@@ -197,9 +197,6 @@ export default class CSGroups extends Base {
 		this.label = {} // label id keyed object of values - populated when building objects
 		this.labels = []
 
-		this.search = null
-		this.searchQuery = null
-
 		this.site = null // site string for filterModels()
 		this.siteOptions = [] // id and name site options
 		this.sites = [] // @deprecated sites name array
