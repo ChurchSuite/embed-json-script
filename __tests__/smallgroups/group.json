@@ -8,7 +8,23 @@
   "custom_frequency": "",
   "frequency": "weekly",
   "day": "3",
-  "site": null,
+  "site": {
+    "id":20,
+    "name":"Leicester",
+    "initials":"",
+    "color":"#fbcf39",
+    "order":2,
+    "address":{
+      "id":null,
+      "line1":"Epic House",
+      "line2":"Lower Hill Street",
+      "line3":"",
+      "city":"Leicester",
+      "county":"",
+      "postcode":"LE1 3SH",
+      "country":""
+    }
+  },
   "time": "14:00",
   "location": {
     "address": null,
@@ -369,6 +385,16 @@
         "a897c272-58e6-4180-b380-e5f69402fe1d",
         "a6a536ef-8f3b-45bc-bcf0-c4010d413308"
       ]
+    }
+  ],
+  "tags":[
+    {
+      "id":18,
+      "name":"Daytime groups"
+    },
+    {
+      "id":19,
+      "name":"Study groups"
     }
   ]
 }
