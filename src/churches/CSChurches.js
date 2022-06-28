@@ -48,7 +48,8 @@ export default class CSChurches extends Base {
 		if (siteFilter == null) return true
 		// all sites groups
 		if (model._original.site == null) return true
-		// return on id or name for legacy support		return (
+		// return on id or name for legacy support		
+		return (
 			siteFilter.includes('' + model._original.site.id) ||
 			siteFilter.includes('' + model._original.site.name)
 		)
