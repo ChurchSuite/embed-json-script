@@ -18,26 +18,6 @@ export default class CSGroups extends Base {
 	}
 
 	/**
-	 * This method maps the configuration settings over to json script options
-	 */
-	mapConfiguration = function () {
-		// map across any configuration keys and data
-		if (this.configuration.hasOwnProperty('id')) {
-			let configurationMap = {
-				showFilterLabels: 'show_labels',
-				showFilterSites: 'show_sites',
-			}
-
-			Object.keys(configurationMap).forEach(o => {
-				if (this.configuration.hasOwnProperty(o)) {
-					// set the options key
-					this.options[configurationMap[o]] = this.configuration[o]
-				}
-			})
-		}
-	}
-
-	/**
 	 * Returns true if we should be filtering models.
 	 */
 	filterModelsEnabled = function () {
@@ -167,6 +147,26 @@ export default class CSGroups extends Base {
 
 		// otherwise return false
 		return result
+	}
+
+	/**
+	 * This method maps the configuration settings over to json script options
+	 */
+	mapConfiguration = function () {
+		// map across any configuration keys and data
+		if (this.configuration.hasOwnProperty('id')) {
+			let configurationMap = {
+				showFilterLabels: 'show_labels',
+				showFilterSites: 'show_sites',
+			}
+
+			Object.keys(configurationMap).forEach(o => {
+				if (this.configuration.hasOwnProperty(o)) {
+					// set the options key
+					this.options[configurationMap[o]] = this.configuration[o]
+				}
+			})
+		}
 	}
 
 	async init() {
