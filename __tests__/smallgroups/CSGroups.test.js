@@ -16,8 +16,7 @@ describe('non-empty value initialised properties', () => {
 	})
 
 	test('options keys', () => {
-		expect(Groups.options).toEqual({ show_tags: 1 })
-	})
+		expect(Groups.options).toEqual({ show_tags: 1 })	})
 
 	test('resource module', () => {
 		expect(Groups.resourceModule).toEqual('smallgroups')
@@ -110,6 +109,69 @@ describe('buildModelObject() method', () => {
 	
 })
 
+describe('filterModel method', () => {
+	beforeAll(() => {
+		Groups = new CSGroups()
+
+		// mock the other methods so we're just testing filterModel()
+		Groups.filterModel_Cluster = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false)
+		Groups.filterModel_Day = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
+		Groups.filterModel_Label = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
+		Groups.filterModel_Search = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
+		Groups.filterModel_Site = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
+		Groups.filterModel_Tag = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
+	})
+
+	test('filterModel with all true', () => {
+		expect(Groups.filterModel()).toEqual(true)
+	})
+
+	test('filterModel with one false', () => {
+		expect(Groups.filterModel()).toEqual(false)
+	})
+})
+
+describe('filterModel_Cluster method', () => {
+	beforeAll(() => {
+		Groups = new CSGroups()
+	})
+
+	test('null value', () => {
+		Groups.cluster = null
+		expect(Groups.filterModel_Cluster({})).toEqual(true)
+	})
+
+	test('match on id', () => {
+		Groups.cluster = 'test'
+		expect(
+			Groups.filterModel_Cluster({ _original: { cluster: { id: 'test', name: 'wwwww' } } })
+		).toEqual(true)
+	})
+
+	test('no match on id', () => {
+		Groups.cluster = 'test'
+		expect(
+			Groups.filterModel_Cluster({
+				_original: { cluster: { id: 'badger', name: 'wwwww' } },
+			})
+		).toEqual(false)
+	})
+
+	test('match on name', () => {
+		Groups.cluster = 'test'
+		expect(
+			Groups.filterModel_Cluster({ _original: { cluster: { id: 'wwww', name: 'test' } } })
+		).toEqual(true)
+	})
+
+	test('no match on named', () => {
+		Groups.cluster = 'test'
+		expect(
+			Groups.filterModel_Cluster({ _original: { cluster: { id: 'wwww', name: 'pppp' } } })
+		).toEqual(false)
+	})
+})
+
 describe('mapConfiguration() method', () => {
 	test('without configuration', () => {
 		Groups.mapConfiguration();
@@ -124,5 +186,115 @@ describe('mapConfiguration() method', () => {
 		}
 		Groups.mapConfiguration();
 		expect(Groups.options).toEqual({ show_tags: 1, show_labels: 1, show_sites: 1 })
+	})
+})
+
+describe('filterModel_Day() method', () => {
+	afterAll(() => {
+		Groups = new CSGroups()
+	})
+
+	test('no day filter', () => {
+		expect(Groups.filterModel_Day({day: 1})).toEqual(true)
+	})
+
+	test('model with no day', () => {
+		Groups.day = 'Friday'
+		expect(Groups.filterModel_Day({})).toEqual(true)
+	})
+
+	test('model matched on day string', () => {
+		Groups.day = 'Friday'
+		expect(Groups.filterModel_Day({day: dayjs('2022-07-01')})).toEqual(true)
+	})
+
+	test('model matched on day int', () => {
+		Groups.day = 4
+		let model = {
+			day: dayjs('2022-07-02'), // friday
+			_original: {
+				day: 4
+			}
+		}
+		expect(Groups.filterModel_Day(model)).toEqual(true)
+	})
+})
+
+describe('filterModel_Search() method', () => {
+	test('no search query', () => {
+		expect(Groups.filterModel_Search({})).toEqual(true)
+	})
+
+	let model = {
+		category: 'Interstellar Groups',
+		day: dayjs('2022-07-01'), // friday
+		location: 'Space',
+		name: 'Beeston'
+	}
+
+	test('no match', () => {
+		Groups.searchQuery = 'banana'
+		expect(Groups.filterModel_Search(model)).toEqual(false)
+	})
+
+	test('match on category', () => {
+		Groups.searchQuery = 'interstellar'
+		expect(Groups.filterModel_Search(model)).toEqual(true)
+	})
+
+	test('match on day', () => {
+		Groups.searchQuery = 'friday'
+		expect(Groups.filterModel_Search(model)).toEqual(true)
+	})
+
+	test('match on location', () => {
+		Groups.searchQuery = 'space'
+		expect(Groups.filterModel_Search(model)).toEqual(true)
+	})
+
+	test('match on name', () => {
+		Groups.searchQuery = 'beeston'
+		expect(Groups.filterModel_Search(model)).toEqual(true)
+	})
+})
+
+describe('filterModel_Site method', () => {
+	beforeAll(() => {
+		Groups = new CSGroups()
+	})
+
+	test('null value', () => {
+		Groups.site = null
+		expect(Groups.filterModel_Site({})).toEqual(true)
+	})
+
+	test('match on id', () => {
+		Groups.site = 'test'
+		expect(
+			Groups.filterModel_Site({ _original: { site: { id: 'test', name: 'wwwww' } } })
+		).toEqual(true)
+	})
+
+	test('no match on id', () => {
+		Groups.site = 'test'
+		expect(
+			Groups.filterModel_Site({
+				_original: { site: { id: 'badger', name: 'wwwww' } },
+			})
+		).toEqual(false)
+	})
+
+	test('match on name', () => {
+		Groups.site = 'test'
+		expect(
+			Groups.filterModel_Site({ _original: { site: { id: 'wwww', name: 'test' } } })
+		).toEqual(true)
+	})
+
+	test('no match on named', () => {
+		Groups.site = 'test'
+		expect(
+			Groups.filterModel_Site({ _original: { site: { id: 'wwww', name: 'pppp' } } })
+		).toEqual(false)
 	})
 })
