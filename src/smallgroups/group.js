@@ -19,7 +19,7 @@ export default class Group {
 			json.images != null && json.images.constructor === Object ? json.images.md.url : ''
 		this.link =
 			json.embed_signup == 1 || json.signup_enabled == 0
-				? CS.url + '/groups/' + json.identifier
+				? CS.detectURLScheme() + CS.url + '/groups/' + json.identifier
 				: ''
 		this.location = json.location.name
 		this.latitude = json.location.latitude
