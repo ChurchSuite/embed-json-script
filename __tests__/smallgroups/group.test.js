@@ -197,6 +197,13 @@ test('link property - signup enabled, embed signup enabled', () => {
 	expect(group.link).toBe('https://demo.churchsuite.com/groups/test');
 });
 
+test('link property - no URL scheme', () => {
+	window.CS.url = 'demo.churchsuite.com';
+	const group = new Group({ ...json, identifier: 'test', embed_signup: true, signup_enabled: true });
+	expect(group.link).toBe('https://demo.churchsuite.com/groups/test');
+	window.CS.url = 'https://demo.churchsuite.com';
+});
+
 // if signup not enabled, we give a link because they can't sign up anyway
 test('link property - signup disabled', () => {
 	const group = new Group({ ...json, identifier: 'test', embed_signup: false, signup_enabled: false });
