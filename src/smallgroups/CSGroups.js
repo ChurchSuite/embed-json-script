@@ -48,7 +48,7 @@ export default class CSGroups extends Base {
 		if (dayValue == null) return true
 		// various days for group
 		if (model.day == null) return true
-		// return on id or name for legacy support
+		// legacy support - match on day string or int
 		return dayValue.includes(model.day.format('dddd')) || dayValue.includes(model._original.day)
 	}
 
