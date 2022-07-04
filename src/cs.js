@@ -34,6 +34,8 @@ window.CSChurches = CSChurches
 import CSGroups from './smallgroups/CSGroups'
 window.CSGroups = CSGroups
 
+let scriptVersion = '1.2.0'
+
 // our main json feed object
 window.CS = {
 	locale: 'en', // the locale for DateTimes
@@ -126,7 +128,13 @@ window.CS = {
 		if (storedData != null && JSON.parse(storedData).expires > new Date().getTime()) {
 			data = JSON.parse(storedData).json
 		} else {
-			await fetch(url)
+			await fetch(url, {
+					method: "GET",
+					headers: { 
+						"X-ChurchSuite-JSON": window.location.href,
+						"X-ChurchSuite-Version": scriptVersion
+					}
+				})
 				.then(response => response.json())
 				.then(response => {
 					if (this.supportsLocalStorage() && !preview) {
