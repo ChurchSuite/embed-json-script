@@ -1,7 +1,7 @@
 /**
  * Loop the labels and capture them
  */
-function buildLabels() {
+function buildLabels(model) {
 	if (!this.options.hasOwnProperty('show_labels')) return
 
 	let labelIds = Object.keys(this.label)

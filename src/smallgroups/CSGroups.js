@@ -12,7 +12,7 @@ export default class CSGroups extends Base {
 		this.sites.sort()
 
 		// loop the labels and capture them
-		this.buildLabels()
+		this.buildLabels(model)
 
 		return new Group(model)
 	}
