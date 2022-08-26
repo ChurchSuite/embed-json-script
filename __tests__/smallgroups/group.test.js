@@ -139,6 +139,12 @@ test('description property', () => {
 	expect(group.description).toBe(description);
 });
 
+test('description property - null', () => {
+	const data = { ...json, description: null }
+	const group = new Group(data);
+	expect(group.description).toBe(null);
+});
+
 test('embedSignup property - true', () => {
 	const data = { ...json, embed_signup: true }
 	const group = new Group(data);
