@@ -138,13 +138,13 @@ describe('filterModel_Cluster method', () => {
 
 	test('null value', () => {
 		Groups.cluster = null
-		expect(Groups.filterModel_Cluster({})).toEqual(true)
+		expect(Groups.filterModel_Cluster({})).toEqual(false)
 	})
 
 	test('match on id', () => {
 		Groups.cluster = 'test'
 		expect(
-			Groups.filterModel_Cluster({ _original: { cluster: { id: 'test', name: 'wwwww' } } })
+			Groups.filterModel_Cluster({ cluster: 'wwwww', _original: { cluster: { id: 'test', name: 'wwwww' } } })
 		).toEqual(true)
 	})
 
@@ -152,6 +152,7 @@ describe('filterModel_Cluster method', () => {
 		Groups.cluster = 'test'
 		expect(
 			Groups.filterModel_Cluster({
+				cluster: 'wwwww',
 				_original: { cluster: { id: 'badger', name: 'wwwww' } },
 			})
 		).toEqual(false)
@@ -160,14 +161,14 @@ describe('filterModel_Cluster method', () => {
 	test('match on name', () => {
 		Groups.cluster = 'test'
 		expect(
-			Groups.filterModel_Cluster({ _original: { cluster: { id: 'wwww', name: 'test' } } })
+			Groups.filterModel_Cluster({ cluster: 'test', _original: { cluster: { id: 'wwww', name: 'test' } } })
 		).toEqual(true)
 	})
 
 	test('no match on named', () => {
 		Groups.cluster = 'test'
 		expect(
-			Groups.filterModel_Cluster({ _original: { cluster: { id: 'wwww', name: 'pppp' } } })
+			Groups.filterModel_Cluster({ cluster: 'pppp', _original: { cluster: { id: 'wwww', name: 'pppp' } } })
 		).toEqual(false)
 	})
 })

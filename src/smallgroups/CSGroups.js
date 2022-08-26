@@ -32,6 +32,9 @@ export default class CSGroups extends Base {
 	}
 
 	filterModel_Cluster = function (model) {
+		// if group has no cluster, don't show
+		if (!model.cluster) return false
+
 		let clusterFilter = this.filterValue('cluster')
 		// no filter
 		if (clusterFilter == null) return true
