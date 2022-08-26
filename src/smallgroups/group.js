@@ -11,7 +11,7 @@ export default class Group {
 		this.dateEnd = json.date_end ? dayjs(json.date_end) : null
 		this.dateStart = dayjs(json.date_start)
 		this.day = json.day != null ? dayjs().isoWeekday(json.day) : null
-		this.description = json.description.replace(/\r\n/g, '<br>')
+		this.description = json.description ? json.description.replace(/\r\n/g, '<br>') : null
 		this.embedSignup = json.embed_signup == 1
 		this.endingSoon = this.isEndingSoon(json)
 		this.frequency = json.frequency == 'custom' ? json.custom_frequency : json.frequency
