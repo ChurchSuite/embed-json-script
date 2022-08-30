@@ -2,7 +2,13 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
-## [3.0.0] - 2022-04-28 - Major Update
+## [3.0.1] - 2022-08-30
+
+### Changed
+
+- bugfix so that small groups without clusters show when not filtering by cluster
+
+## [3.0.0] - 2022-08-26 - Major Update
 
 We've reworked the structure of the JS such that it's more modular, thus easier to maintain and develop. You now can use a minified JS for a specific module, as well as the combined "cdn.min.js" file. We've also added a selection of helpful properties to groups to make life easier, added support for the beta Churches module, and added support for easy multiselects across the board! This should be fully backwards compatible with v2.0.2, but is a significant change, so we are releasing as a major version.
 

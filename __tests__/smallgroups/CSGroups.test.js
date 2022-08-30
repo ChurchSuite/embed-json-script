@@ -136,8 +136,15 @@ describe('filterModel_Cluster method', () => {
 		Groups = new CSGroups()
 	})
 
-	test('null value', () => {
+	// if not filtering by cluster, return all groups
+	test('not filtering', () => {
 		Groups.cluster = null
+		expect(Groups.filterModel_Cluster({})).toEqual(true)
+	})
+
+	// if filtering by cluster and group has no cluster, don't show
+	test('filtering - null value', () => {
+		Groups.cluster = 'Tuesday'
 		expect(Groups.filterModel_Cluster({})).toEqual(false)
 	})
 
