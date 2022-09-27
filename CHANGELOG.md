@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [3.0.2] - 2022-09-27
+
+### Changed
+
+- bugfix for days of week in filters not translating based on CS.locale
+
 ## [3.0.1] - 2022-08-30
 
 ### Changed

@@ -234,6 +234,8 @@ describe('filterValue method', () => {
 
 describe('init method', () => {
 	beforeAll(async () => {
+		window.CS.locale = 'de'
+
 		CSBase = new Base()
 		CSBase.filterKeys = ['sites']
 		CSBase.resourceModule = 'churches'
@@ -248,8 +250,6 @@ describe('init method', () => {
 
 		// mock the fetchJSON method
 		window.CS.fetchJSON = jest.fn().mockResolvedValue([])
-
-		window.CS.locale = 'de'
 
 		await CSBase.init()
 	})

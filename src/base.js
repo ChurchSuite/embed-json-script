@@ -97,8 +97,6 @@ export default class Base {
 	 * Initialises the JSON feed asynchronously.
 	 */
 	async init() {
-		dayjs.locale(CS.locale)
-
 		this.$watch(this.filterKeys, () => this.filterModels())
 
 		let response = await CS.fetchJSON(this.resourceModule, this.options)
@@ -136,6 +134,9 @@ export default class Base {
 	postInit = function () {}
 
 	constructor() {
+		// set the locale before init(), so it runs before we generate days of week
+		dayjs.locale(CS.locale)
+
 		// Configuration & Options
 		this.configuration = {} // the embed configuration
 		this.filterKeys = [] // the names of the filters for this feed
