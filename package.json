@@ -1,14 +1,14 @@
 {
 	"name": "@churchsuite/embed",
-	"version": "3.0.2",
+	"version": "3.1.0",
 	"description": "An easy-to-use script to allow simple integration of ChurchSuite's embed JSON feeds into your website. For more information, see https://kingshope.church.",
 	"main": "dist/cdn.min.js",
 	"scripts": {
-		"build": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js churches.min=src/churches.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=dist",
+		"build": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js network.min=src/network.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=dist",
 		"deploy": "jest && npm run build && npm publish",
 		"test": "jest",
-		"watch": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js churches.min=src/churches.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=dist --watch",
-		"watch-serverless": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js churches.min=src/churches.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=../embed-laravel-serverless/public/js --watch"
+		"watch": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js network.min=src/network.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=dist --watch",
+		"watch-serverless": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js network.min=src/network.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=../embed-laravel-serverless/public/js --watch"
 	},
 	"repository": {
 		"type": "git",

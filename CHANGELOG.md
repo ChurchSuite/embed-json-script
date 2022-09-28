@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [3.1.0] - 2022-09-28
+
+### Changed
+
+- the beta Churches module has been renamed to Network
+
 ## [3.0.2] - 2022-09-27
 
 ### Changed

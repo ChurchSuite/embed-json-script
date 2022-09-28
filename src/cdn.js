@@ -1,3 +1,3 @@
 import './calendar'
-import './churches'
+import './network'
 import './smallgroups'

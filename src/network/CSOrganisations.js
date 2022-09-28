@@ -2,7 +2,7 @@ import Base from '../base'
 import Organisation from './organisation'
 import { buildLabels, filterModel_Label } from '../components/labels'
 
-export default class CSChurches extends Base {
+export default class CSOrganisations extends Base {
 	buildModelObject = function (model) {
 		// capture unique sites
 		this.buildIdNameOption('site', model.site)
@@ -58,8 +58,8 @@ export default class CSChurches extends Base {
 	async init() {
 		await super.init()
 
-		// Alpine doesn't recognise a nice getter method, so use $watch to mirror models property to churches
-		this.$watch('models', value => (this.churches = value))
+		// Alpine doesn't recognise a nice getter method, so use $watch to mirror models property to organisations
+		this.$watch('models', value => (this.organisations = value))
 	}
 
 	constructor(options) {
@@ -67,9 +67,9 @@ export default class CSChurches extends Base {
 
 		// Configuration & Options
 		this.filterKeys = ['label', 'search', 'site']
-		this.resourceModule = 'churches'
+		this.resourceModule = 'network'
 		this.options = Object.assign(this.options, options) // options for fetching json - we want the merged events as we filter them client-side
-		this.churches = []
+		this.organisations = []
 
 		// Filter Data
 		this.label = {} // label id keyed object of values - populated when building objects

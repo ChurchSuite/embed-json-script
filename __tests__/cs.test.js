@@ -2,7 +2,7 @@ require('../src/cs')
 
 import CSMultiSelect from '../src/components/csMultiSelect'
 import CSEvents from '../src/calendar/CSEvents'
-import CSChurches from '../src/churches/CSChurches'
+import CSOrganisations from '../src/network/CSOrganisations'
 import CSGroups from '../src/smallgroups/CSGroups'
 
 test('dayjs is on window', () => {
@@ -33,8 +33,8 @@ test('dayjs isoWeek plugin is loaded', () => {
 // test('CSMultiSelect is on window', () => {
 // 	expect(window.CSMultiSelect()).toBeInstanceOf(CSMultiSelect)
 // })
-test('CSChurches is on window', () => {
-	expect(new window.CSChurches()).toBeInstanceOf(CSChurches)
+test('CSOrganisations is on window', () => {
+	expect(new window.CSOrganisations()).toBeInstanceOf(CSOrganisations)
 })
 test('CSEvents is on window', () => {
 	expect(new window.CSEvents()).toBeInstanceOf(CSEvents)

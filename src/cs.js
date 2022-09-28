@@ -28,13 +28,13 @@ document.addEventListener('alpine:init', () => {
 import CSEvents from './calendar/CSEvents'
 window.CSEvents = CSEvents
 
-import CSChurches from './churches/CSChurches'
-window.CSChurches = CSChurches
+import CSOrganisations from './network/CSOrganisations'
+window.CSOrganisations = CSOrganisations
 
 import CSGroups from './smallgroups/CSGroups'
 window.CSGroups = CSGroups
 
-let scriptVersion = '3.0.2'
+let scriptVersion = '3.1.0'
 
 // our main json feed object
 window.CS = {
@@ -110,7 +110,7 @@ window.CS = {
 
 	/**
 	 * Fetches JSON data from local cache (expiry 1h) or from ChurchSuite JSON feed.
-	 * Type is 'calendar', 'churches' or 'smallgroups'.
+	 * Type is 'calendar', 'network' or 'smallgroups'.
 	 */
 	async fetchJSON(type, options = {}) {
 		let data

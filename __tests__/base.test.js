@@ -238,7 +238,7 @@ describe('init method', () => {
 
 		CSBase = new Base()
 		CSBase.filterKeys = ['sites']
-		CSBase.resourceModule = 'churches'
+		CSBase.resourceModule = 'network'
 		CSBase.options = { test: 'badger' }
 
 		// mock the magic methods
