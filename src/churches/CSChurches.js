@@ -1,5 +1,5 @@
 import Base from '../base'
-import Church from './church'
+import Organisation from './organisation'
 import { buildLabels, filterModel_Label } from '../components/labels'
 
 export default class CSChurches extends Base {
@@ -12,7 +12,7 @@ export default class CSChurches extends Base {
 		this.buildLabels()
 
 		// build and return the model object
-		return new Church(model)
+		return new Organisation(model)
 	}
 
 	/**

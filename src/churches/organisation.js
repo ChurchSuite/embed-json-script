@@ -1,6 +1,6 @@
-export default class Church {
+export default class Organisation {
 	/**
-	 * Creates a Church from the JSON feed data array.
+	 * Creates an Organisation from the JSON feed data array.
 	 * @param {object} json
 	 */
 	constructor(json) {
