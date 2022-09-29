@@ -125,6 +125,21 @@ test('link property - embed signup disabled, signup enabled', () => {
 	expect(event.link).toBe('');
 });
 
+// if signup is disabled, we can link to event page (they can't sign up anyway!)
+test('link property - no url scheme', () => {
+	window.CS.url = 'demo.churchsuite.com';
+	const data = { 
+		...json, 
+		identifier: 'kaboom',
+		signup_options: {
+			embed: { enabled: "0" },
+			signup_enabled: "0",
+		}
+	}
+	const event = new Event(data);
+	expect(event.link).toBe('https://demo.churchsuite.com/events/kaboom');
+});
+
 test('location property', () => {
 	const data = { ...json, location: { name: 'spatula' } }
 	const event = new Event(data);
