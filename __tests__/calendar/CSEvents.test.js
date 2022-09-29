@@ -1,11 +1,6 @@
-var dayjs = require('dayjs')
+require('../../src/cs')
 
-// require isoweek to create dayjs objects for days
-var isoWeek = require('dayjs/plugin/isoWeek')
-dayjs.extend(isoWeek)
-window.dayjs = dayjs
-
-window.CS = { url: 'https://demo.churchsuite.com' }
+window.CS.url = 'https://demo.churchsuite.com'
 
 import CSEvents from '../../src/calendar/CSEvents'
 import Event from '../../src/calendar/event'

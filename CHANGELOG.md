@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [3.1.1] - 2022-09-29
+
+### Fixed
+
+- the link property on Calendar Events now has a URL scheme when CS.url does not have one
+
 ## [3.1.0] - 2022-09-28
 
 ### Changed
