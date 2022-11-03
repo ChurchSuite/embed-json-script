@@ -8,7 +8,7 @@
 		"deploy": "jest && npm run build && npm publish",
 		"test": "jest",
 		"watch": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js network.min=src/network.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=dist --target=es6 --watch",
-		"watch-serverless": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js network.min=src/network.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=../embed-laravel-serverless/public/js --watch"
+		"watch-serverless": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js network.min=src/network.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=../embed-laravel-serverless/public/js --target=es6 --watch"
 	},
 	"repository": {
 		"type": "git",
