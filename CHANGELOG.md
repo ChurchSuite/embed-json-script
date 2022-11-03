@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [3.1.3] - 2022-11-03
+
+### Fixed
+
+- a bug with Network organisations showing when filtered by labels has been fixed
+
 ## [3.1.2] - 2022-11-01
 
 ### Fixed
