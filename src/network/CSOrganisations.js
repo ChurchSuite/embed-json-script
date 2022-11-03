@@ -9,7 +9,7 @@ export default class CSOrganisations extends Base {
 		this.sites.sort()
 
 		// loop the labels and capture them
-		this.buildLabels()
+		this.buildLabels(model)
 
 		// build and return the model object
 		return new Organisation(model)
