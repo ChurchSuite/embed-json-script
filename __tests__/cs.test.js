@@ -18,7 +18,7 @@ test('dayjs is on window', () => {
 })
 
 describe('check dayjs locales are loaded', () => {
-	let locales = ['da', 'de', 'es', 'fr', 'it', 'nl', 'pl', 'se', 'sk']
+	let locales = ['da', 'de', 'es', 'fr', 'it', 'nl', 'pl', 'sv', 'sk']
 	locales.forEach(function (locale) {
 		test(locale + ' locale', () => {
 			expect(window.dayjs.Ls[locale].name).toEqual(locale)

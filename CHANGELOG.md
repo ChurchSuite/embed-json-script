@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [3.1.4] - 2023-02-07
+
+### Fixed
+
+- a mistake in the ISO 639-1 language code for Swedish has been corrected
+
 ## [3.1.3] - 2022-11-03
 
 ### Fixed

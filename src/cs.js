@@ -10,8 +10,8 @@ require('dayjs/locale/fr')
 require('dayjs/locale/it')
 require('dayjs/locale/nl')
 require('dayjs/locale/pl')
-require('dayjs/locale/se')
 require('dayjs/locale/sk')
+require('dayjs/locale/sv')
 
 // require isoweek to create dayjs objects for days
 var isoWeek = require('dayjs/plugin/isoWeek')
@@ -34,7 +34,7 @@ window.CSOrganisations = CSOrganisations
 import CSGroups from './smallgroups/CSGroups'
 window.CSGroups = CSGroups
 
-let scriptVersion = '3.1.3'
+let scriptVersion = '3.1.4'
 
 // our main json feed object
 window.CS = {
