@@ -10,12 +10,13 @@ export default class Organisation {
 		this.image =
 			json.images != null && json.images.constructor === Object ? json.images.md.url : ''
 		this.meetingAddress = json.meeting_address
+		this.labels = json.labels
 		this.latitude = json.meeting_address ? json.meeting_address.latitude : null
 		this.longitude = json.meeting_address ? json.meeting_address.longitude : null
 		this.name = json.name
 		this.officeAddress = json.office_address
 		this.singleAddress = json.single_address
-		this.site = json.site != null ? json.site.name : null
+		this.siteId = json.site_id
 		this.telephone = json.telephone
 		this.urls = json.urls
 		this._original = json

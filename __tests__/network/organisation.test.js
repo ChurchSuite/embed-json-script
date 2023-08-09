@@ -101,6 +101,14 @@ test('meetingAddress property', () => {
 	expect(organisation.meetingAddress).toEqual(exampleAddress);
 });
 
+test('labels property', () => {
+	const data = { ...json, labels: ['test'] }
+	const organisation = new Organisation(data);
+
+	expect(organisation.labels).toStrictEqual(['test']);
+});
+
+
 test('latitude property - given', () => {
 	let address = exampleAddress;
 	address.latitude = '-0.2345';
@@ -157,16 +165,16 @@ test('singleAddress property - false', () => {
 	expect(organisation.singleAddress).toBe(false);
 });
 
-test('site property - given', () => {
-	const data = { ...json, site: { name: 'The DSU' } }
+test('site_id property - given', () => {
+	const data = { ...json, site_id: 13 }
 	const organisation = new Organisation(data);
-	expect(organisation.site).toBe('The DSU');
+	expect(organisation.siteId).toBe(13);
 });
 
-test('site property - null', () => {
-	const data = { ...json, site: null }
+test('site_id property - null', () => {
+	const data = { ...json, site_id: null }
 	const organisation = new Organisation(data);
-	expect(organisation.site).toBe(null);
+	expect(organisation.siteId).toBe(null);
 });
 
 test('telephone property', () => {
