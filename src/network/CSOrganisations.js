@@ -1,38 +1,11 @@
 import Base from '../base'
 import Organisation from './organisation'
-import { buildLabels, filterModel_Label } from '../components/labels'
 
 export default class CSOrganisations extends Base {
 	buildModelObject = function (model) {
-		// capture unique sites
-		this.buildIdNameOption('site', model.site)
-		this.sites.sort()
-
-		// loop the labels and capture them
-		this.buildLabels(model)
 
 		// build and return the model object
 		return new Organisation(model)
-	}
-
-	/**
-	 * This method maps the configuration settings over to json script options
-	 */
-	mapConfiguration = function () {
-		// map across any configuration keys and data
-		if (this.configuration.hasOwnProperty('id')) {
-			let configurationMap = {
-				showFilterLabels: 'show_labels',
-				showFilterSites: 'show_sites',
-			}
-
-			Object.keys(configurationMap).forEach(o => {
-				if (this.configuration.hasOwnProperty(o)) {
-					// set the options key
-					this.options[configurationMap[o]] = this.configuration[o]
-				}
-			})
-		}
 	}
 
 	/**
@@ -42,17 +15,25 @@ export default class CSOrganisations extends Base {
 		return this.filterModel_Label(model) && this.filterModel_Site(model)
 	}
 
+	filterModel_Label = function (model) {
+		// get a flattened array of label options the model has
+		let modelOptions = model.labels.map(label => label.value).flat();
+
+		// get a flattened array of label options selected in the filter
+		let labelOptions = Object.values(this.label).flat().filter(a => a)
+
+		// if labelOptions is a subarray of modelOptions, return true
+		return labelOptions.every((option) => modelOptions.includes(option))
+	}
+
 	filterModel_Site = function (model) {
-		let siteFilter = this.filterValue('site')
 		// no filter
-		if (siteFilter == null) return true
+		if (this.site == null) return true
+
 		// all sites groups
-		if (model._original.site == null) return true
-		// return on id or name for legacy support		
-		return (
-			siteFilter.includes('' + model._original.site.id) ||
-			siteFilter.includes('' + model._original.site.name)
-		)
+		if (model.siteId == null) return true
+
+		return this.site.includes(model.siteId)
 	}
 
 	async init() {
@@ -76,11 +57,6 @@ export default class CSOrganisations extends Base {
 		this.labels = []
 
 		this.site = null // site string for filterModels()
-		this.siteOptions = [] // id and name site options
-		this.sites = [] // @deprecated sites name array
-
-		// shared function between label-using classes
-		this.buildLabels = buildLabels
-		this.filterModel_Label = filterModel_Label
+		this.sites = [] // array of Site objects
 	}
 }
