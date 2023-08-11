@@ -109,6 +109,14 @@ export default class Base {
 			this.emblemImage = response.brand.emblem[512].url
 		}
 
+		/** 
+		 * For efficiency, the Organisation response sends over the labels once
+		 * on page 1, rather than on every Organisation.
+		 */
+		if (response.hasOwnProperty('labels')) {
+			response.labels.forEach(label => this.labels.push(new Label(label)))
+		}
+
 		if (response.hasOwnProperty('configuration')) {
 			// new style configuration data
 			this.configuration = response.configuration
@@ -130,14 +138,6 @@ export default class Base {
 		 */
 		if (response.hasOwnProperty('sites')) {
 			response.sites.forEach(site => this.sites.push(new Site(site)))
-		}
-
-		/** 
-		 * For efficiency, the Organisation response sends over the labels once
-		 * on page 1, rather than on every Organisation.
-		 */
-		if (response.hasOwnProperty('labels')) {
-			response.labels.forEach(label => this.labels.push(new Label(label)))
 		}
 
 		this.postInit()
