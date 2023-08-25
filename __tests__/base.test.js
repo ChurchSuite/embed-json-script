@@ -259,7 +259,7 @@ describe('init method', () => {
 	})
 
 	test('$watch', () => {
-		expect(CSBase.$watch).toBeCalledWith(['sites'], expect.any(Function))
+		expect(CSBase.$watch).toBeCalledWith('sites', expect.any(Function))
 	})
 
 	test('fetchJSON', () => {

@@ -97,7 +97,7 @@ export default class Base {
 	 * Initialises the JSON feed asynchronously.
 	 */
 	async init() {
-		this.$watch(this.filterKeys, () => this.filterModels())
+		this.$watch(this.filterKeys.join(', '), () => this.filterModels())
 
 		let response = await CS.fetchJSON(this.resourceModule, this.options)
 

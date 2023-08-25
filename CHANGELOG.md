@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [3.1.5] - 2023-08-25
+
+### Fixed
+
+- Bugfix for issues caused by 3.13 release of Alpine
+
 ## [3.1.4] - 2023-02-07
 
 ### Fixed
