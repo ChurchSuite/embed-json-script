@@ -2,6 +2,18 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.0.0] - 2023-08-10 - Major Update
+
+We've made some fairly major changes to how Network Organisations are handled - they now use a paginated response, which contains labels, sites and brands separately. This change allows us to be more efficient for large datasets.
+
+Events and Groups should be unaffected by the changes.
+
+### Changed
+
+- Organisation sites now use a new Site (and Address) class
+- Organisation labels now use a new Brand class, and are no longer scraped from the organisations
+- Organisations now have a siteId rather than a site property - the site data can be retrieved from the CSOrganisations sites array
+
 ## [3.1.5] - 2023-08-25
 
 ### Fixed

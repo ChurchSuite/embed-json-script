@@ -34,7 +34,7 @@ window.CSOrganisations = CSOrganisations
 import CSGroups from './smallgroups/CSGroups'
 window.CSGroups = CSGroups
 
-let scriptVersion = '3.1.5'
+let scriptVersion = '4.0.0'
 
 // our main json feed object
 window.CS = {
@@ -115,11 +115,18 @@ window.CS = {
 	async fetchJSON(type, options = {}) {
 		let data
 		let version = options.hasOwnProperty('configuration') ? 'v2/' : ''
+		let url
 
 		// detect URL scheme if not provided
 		let scheme = this.detectURLScheme()
 
-		let url = scheme + CS.url + '/embed/' + version + type + '/json' + CS.buildOptions(options)
+		if (type == 'network') {
+			uuid = options.configuration
+			delete options.configuration
+			url = scheme + CS.url + '/-/network/' + uuid + '/json' + CS.buildOptions(options)
+		} else {
+			url = scheme + CS.url + '/embed/' + version + type + '/json' + CS.buildOptions(options)
+		}
 
 		// if the page has a preview=1 query, don't use cached data so changes are live updated
 		let preview = new URLSearchParams(location.search).get('preview') == 1

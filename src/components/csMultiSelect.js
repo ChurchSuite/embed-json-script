@@ -11,7 +11,7 @@ export default () => ({
 
 	selectedNames(placeholder) {
 		// return the placeholder for a null value
-		if (!this.valueProxy) return placeholder
+		if (!this.valueProxy || this.valueProxy.length == 0) return placeholder
 		// otherwise loop over the options and build the name
 		return this.options
 			.map(o => (this.valueProxy.includes(o.id) ? o.name : null))
