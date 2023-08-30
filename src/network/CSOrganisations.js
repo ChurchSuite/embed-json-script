@@ -22,8 +22,8 @@ export default class CSOrganisations extends Base {
 		// get a flattened array of label options selected in the filter
 		let labelOptions = Object.values(this.label).flat().filter(a => a)
 
-		// if labelOptions is a subarray of modelOptions, return true
-		return labelOptions.every((option) => modelOptions.includes(option))
+		// if labelOptions has any overlap with modelOptions, return true
+		return labelOptions.some((option) => modelOptions.includes(option))
 	}
 
 	filterModel_Site = function (model) {

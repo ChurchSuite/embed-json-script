@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.0.1] - 2023-08-30
+
+### Fixed
+
+- Bugfix for Organisation label filtering issue
+
 ## [4.0.0] - 2023-08-10 - Major Update
 
 We've made some fairly major changes to how Network Organisations are handled - they now use a paginated response, which contains labels, sites and brands separately. This change allows us to be more efficient for large datasets.
