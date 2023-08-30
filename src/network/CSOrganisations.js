@@ -22,6 +22,9 @@ export default class CSOrganisations extends Base {
 		// get a flattened array of label options selected in the filter
 		let labelOptions = Object.values(this.label).flat().filter(a => a)
 
+		// if nothing is selected, return true
+		if (labelOptions.length == 0) return true;
+
 		// if labelOptions has any overlap with modelOptions, return true
 		return labelOptions.some((option) => modelOptions.includes(option))
 	}

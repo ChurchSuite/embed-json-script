@@ -31,6 +31,13 @@ test('label filtering', () => {
 		]
 	}
 
+	CSO.label = {
+		'2': null
+	}
+	
+	// we've selected no labels, so model should be included
+	expect(CSO.filterModel_Label(model)).toBe(true);
+
 	// option C has been selected for label 2
 	CSO.label = {
 		'2': ['c']

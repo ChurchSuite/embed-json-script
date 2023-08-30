@@ -2,11 +2,11 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
-## [4.0.1] - 2023-08-30
+## [4.0.2] - 2023-08-30
 
 ### Fixed
 
-- Bugfix for Organisation label filtering issue
+- Bugfix for Organisation label filtering issues
 
 ## [4.0.0] - 2023-08-10 - Major Update
 
