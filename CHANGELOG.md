@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.0.3] - 2023-08-31
+
+### Added
+
+- A new brand property has been added, for use with embed configurations
+
 ## [4.0.2] - 2023-08-30
 
 ### Fixed

@@ -1,3 +1,4 @@
+import Brand from './components/brand';
 import Label from './components/label'
 import Site from './components/site'
 
@@ -107,6 +108,7 @@ export default class Base {
 		// set the default image to the brand emblem
 		if (response.hasOwnProperty('brand')) {
 			this.emblemImage = response.brand.emblem[512].url
+			this.brand = new Brand(response.brand)
 		}
 
 		/** 
@@ -184,6 +186,7 @@ export default class Base {
 		dayjs.locale(CS.locale)
 
 		// Configuration & Options
+		this.brand = {} // the brand for this configuration
 		this.configuration = {} // the embed configuration
 		this.filterKeys = [] // the names of the filters for this feed
 		this.options = {} // options for fetching json
