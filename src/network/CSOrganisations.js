@@ -16,14 +16,14 @@ export default class CSOrganisations extends Base {
 	}
 
 	filterModel_Label = function (model) {
-		// get a flattened array of label options the model has
-		let modelOptions = model.labels.map(label => label.value).flat();
-
 		// get a flattened array of label options selected in the filter
 		let labelOptions = Object.values(this.label).flat().filter(a => a)
 
 		// if nothing is selected, return true
 		if (labelOptions.length == 0) return true;
+
+		// get a flattened array of label options the model has
+		let modelOptions = model.labels.map(label => label.value).flat();
 
 		// if labelOptions has any overlap with modelOptions, return true
 		return labelOptions.some((option) => modelOptions.includes(option))
@@ -38,7 +38,6 @@ export default class CSOrganisations extends Base {
 
 		return this.site.includes(model.siteId)
 	}
-
 	async init() {
 		await super.init()
 
