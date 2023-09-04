@@ -30,14 +30,15 @@ export default class CSOrganisations extends Base {
 	}
 
 	filterModel_Site = function (model) {
-		// no filter
-		if (this.site == null) return true
+		// no filter selected
+		if (this.site.length == 0) return true
 
 		// all sites groups
 		if (model.siteId == null) return true
 
 		return this.site.includes(model.siteId)
 	}
+
 	async init() {
 		await super.init()
 
@@ -58,7 +59,7 @@ export default class CSOrganisations extends Base {
 		this.label = {} // label id keyed object of values - populated when building objects
 		this.labels = []
 
-		this.site = null // site string for filterModels()
+		this.site = [] // site array for filterModels()
 		this.sites = [] // array of Site objects
 	}
 }

@@ -243,7 +243,7 @@ describe('init method', () => {
 
 		// mock the magic methods
 		CSBase.$watch = jest.fn()
-		CSBase.$nextTick = jest.fn()
+		CSBase.$dispatch = jest.fn()
 
 		// mock postInit Method
 		CSBase.postInit = jest.fn()

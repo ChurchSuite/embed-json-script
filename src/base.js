@@ -144,7 +144,7 @@ export default class Base {
 
 		this.postInit()
 
-		this.$nextTick(() => this.filterModels())
+		this.filterModels()
 
 		// go and fetch the rest of the paginated data
 		if (response.hasOwnProperty('pagination')) {

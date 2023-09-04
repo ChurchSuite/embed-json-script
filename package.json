@@ -1,6 +1,6 @@
 {
 	"name": "@churchsuite/embed",
-	"version": "4.0.3",
+	"version": "4.0.4",
 	"description": "An easy-to-use script to allow simple integration of ChurchSuite's embed JSON feeds into your website. For more information, see https://kingshope.church.",
 	"main": "dist/cdn.min.js",
 	"scripts": {

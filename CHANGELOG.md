@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.0.4] - 2023-09-04
+
+### Fixed
+
+- The CSOrganisation site filter property is now consistently an array.
+
 ## [4.0.3] - 2023-08-31
 
 ### Added
