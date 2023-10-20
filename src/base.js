@@ -142,7 +142,7 @@ export default class Base {
 			response.sites.forEach(site => this.sites.push(new Site(site)))
 		}
 
-		this.postInit()
+		this.postInit(response)
 
 		this.filterModels()
 
@@ -179,7 +179,7 @@ export default class Base {
 	 * An empty function that runs at the end of the init() method for each module.
 	 * Overload if you need to run code at the end of initialisation.
 	 */
-	postInit = function () {}
+	postInit = function (response) {}
 
 	constructor() {
 		// set the locale before init(), so it runs before we generate days of week
