@@ -8,7 +8,6 @@ export default class Resource {
 		this.name = json.resource.name
 		this.category = json.resource.category
 		this.status = json.resource.status
-		this.typeId = json.type_id
 		this.quantity = json.resource.quantity
 		this.description = json.resource.description
 	}
