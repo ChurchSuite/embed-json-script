@@ -11,7 +11,6 @@ export default class Resource {
 		this.typeId = json.type_id
 		this.quantity = json.resource.quantity
 		this.description = json.resource.description
-		this._original = json.resource
 	}
 }
 

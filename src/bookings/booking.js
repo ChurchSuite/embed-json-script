@@ -11,7 +11,6 @@ export default class Booking {
 		this.status = json.booking_status
 		this.typeId = json.type_id
 		this.siteId = json.site_id
-		this._original = json
 	}
 }
 
