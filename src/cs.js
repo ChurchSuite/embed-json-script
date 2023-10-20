@@ -25,14 +25,17 @@ document.addEventListener('alpine:init', () => {
 	Alpine.data('CSMultiSelect', CSMultiSelect)
 })
 
+import CSBookedResources from './bookings/CSBookedResources'
+window.CSBookedResources = CSBookedResources
+
 import CSEvents from './calendar/CSEvents'
 window.CSEvents = CSEvents
 
-import CSOrganisations from './network/CSOrganisations'
-window.CSOrganisations = CSOrganisations
-
 import CSGroups from './smallgroups/CSGroups'
 window.CSGroups = CSGroups
+
+import CSOrganisations from './network/CSOrganisations'
+window.CSOrganisations = CSOrganisations
 
 let scriptVersion = '4.0.4'
 
@@ -120,10 +123,10 @@ window.CS = {
 		// detect URL scheme if not provided
 		let scheme = this.detectURLScheme()
 
-		if (type == 'network') {
+		if (['network','bookings'].contains(type)) {
 			uuid = options.configuration
 			delete options.configuration
-			url = scheme + CS.url + '/-/network/' + uuid + '/json' + CS.buildOptions(options)
+			url = scheme + CS.url + '/-/' + type + '/' + uuid + '/json' + CS.buildOptions(options)
 		} else {
 			url = scheme + CS.url + '/embed/' + version + type + '/json' + CS.buildOptions(options)
 		}
@@ -137,7 +140,7 @@ window.CS = {
 		} else {
 			await fetch(url, {
 					method: "GET",
-					headers: { 
+					headers: {
 						"X-ChurchSuite-JSON": window.location.href,
 						"X-ChurchSuite-Version": scriptVersion
 					}
