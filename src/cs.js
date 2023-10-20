@@ -123,7 +123,7 @@ window.CS = {
 		// detect URL scheme if not provided
 		let scheme = this.detectURLScheme()
 
-		if (['network','bookings'].contains(type)) {
+		if (['network','bookings'].includes(type)) {
 			uuid = options.configuration
 			delete options.configuration
 			url = scheme + CS.url + '/-/' + type + '/' + uuid + '/json' + CS.buildOptions(options)
