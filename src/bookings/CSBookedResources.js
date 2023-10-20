@@ -1,5 +1,6 @@
 import Base from '../base'
 import BookedResource from './booked-resource'
+import Resource from './resource'
 
 export default class CSBookedResources extends Base {
 	buildModelObject = function (model) {
@@ -61,10 +62,24 @@ export default class CSBookedResources extends Base {
 		this.$watch('models', value => (this.bookedResources = value))
 	}
 
+	/**
+	 * An empty function that runs at the end of the init() method for each module.
+	 * Overloaded to set up the resources
+	 */
+	postInit = function (response) {
+		/**
+		 * For efficiency, the BookedResources response sends over the resources once
+		 * on page 1, rather than on every BookedResource.
+		 */
+		if (response.hasOwnProperty('resources')) {
+			response.resources.forEach(resource => this.resources.push(new Resource(resource)))
+		}
+	}
+
 	constructor(options) {
 		super()
 		// Configuration & Options
-		this.filterKeys = ['resource', 'type', 'search', 'site']
+		this.filterKeys = ['resource', 'type', 'site']
 		this.resourceModule = 'bookings'
 		this.options = Object.assign(this.options, options) // options for fetching json - we want the merged events as we filter them client-side
 		this.bookedResources = []

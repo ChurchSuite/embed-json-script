@@ -4,12 +4,12 @@ export default class Resource {
 	 * @param {object} json
 	 */
 	constructor(json) {
-		this.id = json.resource_id
-		this.name = json.resource.name
-		this.category = json.resource.category
-		this.status = json.resource.status
-		this.quantity = json.resource.quantity
-		this.description = json.resource.description
+		this.id = json.id
+		this.name = json.name
+		this.category = json.category
+		this.status = json.status
+		this.quantity = json.quantity
+		this.description = json.description
 	}
 }
 
