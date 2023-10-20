@@ -111,7 +111,7 @@ export default class Base {
 			this.brand = new Brand(response.brand)
 		}
 
-		/** 
+		/**
 		 * For efficiency, the Organisation response sends over the labels once
 		 * on page 1, rather than on every Organisation.
 		 */
@@ -134,7 +134,7 @@ export default class Base {
 			})
 		}
 
-		/** 
+		/**
 		 * For efficiency, the Organisation response sends over the sites once
 		 * on page 1, rather than on every Organisation.
 		 */
@@ -151,7 +151,7 @@ export default class Base {
 			// don't do anything if we already have all the data
 			if (response.pagination.num_results <= response.pagination.results_per_page) return
 
-			
+
 				this.$nextTick(() => {
 					let promises = []
 					for (let page = 2; page <= response.pagination.totalPages; page++) {
@@ -165,9 +165,9 @@ export default class Base {
 
 					Promise.allSettled(promises).then(() => this.filterModels())
 				})
-			
+
 		}
-		
+
 	}
 
 	/**
