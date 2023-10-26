@@ -103,69 +103,80 @@ export default class Base {
 	async init() {
 		this.$watch(this.filterKeys.join(', '), () => this.filterModels())
 
-		let response = await CS.fetchJSON(this.resourceModule, Object.assign({}, this.options))
+		try {
+			let response = await CS.fetchJSON(this.resourceModule, Object.assign({}, this.options))
 
-		// set the default image to the brand emblem
-		if (response.hasOwnProperty('brand')) {
-			this.emblemImage = response.brand.emblem.length ? response.brand.emblem[512].url : null
-			this.brand = new Brand(response.brand)
-		}
+			// set the default image to the brand emblem
+			if (response.hasOwnProperty('brand')) {
+				this.emblemImage = response.brand.emblem.length ? response.brand.emblem[512].url : null
+				this.brand = new Brand(response.brand)
+			}
 
-		/**
-		 * For efficiency, the Organisation response sends over the labels once
-		 * on page 1, rather than on every Organisation.
-		 */
-		if (response.hasOwnProperty('labels')) {
-			response.labels.forEach(label => this.labels.push(new Label(label)))
-		}
+			/**
+			 * For efficiency, the Organisation response sends over the labels once
+			 * on page 1, rather than on every Organisation.
+			 */
+			if (response.hasOwnProperty('labels')) {
+				response.labels.forEach(label => this.labels.push(new Label(label)))
+			}
 
-		if (response.hasOwnProperty('configuration')) {
-			// new style configuration data
-			this.configuration = response.configuration
-			this.mapConfiguration()
+			if (response.hasOwnProperty('configuration')) {
+				// new style configuration data
+				this.configuration = response.configuration
+				this.mapConfiguration()
 
-			response.data.forEach(model => {
-				this.modelsAll.push(this.buildModelObject(model))
-			})
-		} else {
-			// old style flat array
-			response.forEach(model => {
-				this.modelsAll.push(this.buildModelObject(model))
-			})
-		}
-
-		/**
-		 * For efficiency, the Organisation response sends over the sites once
-		 * on page 1, rather than on every Organisation.
-		 */
-		if (response.hasOwnProperty('sites')) {
-			response.sites.forEach(site => this.sites.push(new Site(site)))
-		}
-
-		this.postInit(response)
-
-		this.filterModels()
-
-		// go and fetch the rest of the paginated data
-		if (response.hasOwnProperty('pagination')) {
-			// don't do anything if we already have all the data
-			if (response.pagination.num_results <= response.pagination.results_per_page) return
-
-
-				this.$nextTick(() => {
-					let promises = []
-					for (let page = 2; page <= response.pagination.totalPages; page++) {
-						let options = Object.assign({}, this.options)
-						options.page = page
-						promises.push(CS.fetchJSON(this.resourceModule, options)
-							.then(response => response.data.forEach(model => {
-								this.modelsAll.push(this.buildModelObject(model))
-							})))
-					}
-
-					Promise.allSettled(promises).then(() => this.filterModels())
+				response.data.forEach(model => {
+					this.modelsAll.push(this.buildModelObject(model))
 				})
+			} else {
+				// old style flat array
+				response.forEach(model => {
+					this.modelsAll.push(this.buildModelObject(model))
+				})
+			}
 
+			/**
+			 * For efficiency, the Organisation response sends over the sites once
+			 * on page 1, rather than on every Organisation.
+			 */
+			if (response.hasOwnProperty('sites')) {
+				response.sites.forEach(site => this.sites.push(new Site(site)))
+			}
+
+			this.postInit(response)
+
+			this.filterModels()
+
+			// go and fetch the rest of the paginated data
+			if (response.hasOwnProperty('pagination')) {
+				// don't do anything if we already have all the data
+				if (response.pagination.num_results <= response.pagination.results_per_page) return
+
+
+					this.$nextTick(() => {
+						let promises = []
+						for (let page = 2; page <= response.pagination.totalPages; page++) {
+							let options = Object.assign({}, this.options)
+							options.page = page
+							promises.push(CS.fetchJSON(this.resourceModule, options)
+								.then(response => response.data.forEach(model => {
+									this.modelsAll.push(this.buildModelObject(model))
+								}))
+								.catch(error => {
+									this.error = error
+									this.errorMessage = error.message
+								}))
+						}
+
+						Promise.allSettled(promises).then(() => this.filterModels())
+					})
+
+			}
+
+		} catch (error) {
+			// something went wrong - set the error and message
+			this.error = error
+			this.errorMessage = error.message
 		}
 
 	}
@@ -199,5 +210,9 @@ export default class Base {
 
 		this.search = null // search terms
 		this.searchQuery = null // search query string
+
+		// Error
+		this.error = null
+		this.errorMessage = null
 	}
 }

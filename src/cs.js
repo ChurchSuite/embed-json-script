@@ -153,6 +153,9 @@ window.CS = {
 				})
 				.then(response => response.json())
 				.then(response => {
+					// if there is an error then throw it - this is caught in base.js
+					if (response.hasOwnProperty('error')) throw response.error
+					// otherwise attempt to store the response
 					if (this.supportsLocalStorage() && !preview) {
 						this.cacheJSONData(response, url)
 					}
