@@ -16,6 +16,12 @@ require('dayjs/locale/sv')
 // require isoweek to create dayjs objects for days
 var isoWeek = require('dayjs/plugin/isoWeek')
 dayjs.extend(isoWeek)
+var duration = require('dayjs/plugin/duration')
+dayjs.extend(duration)
+var utc = require('dayjs/plugin/utc')
+dayjs.extend(utc)
+var minMax = require('dayjs/plugin/minMax')
+dayjs.extend(minMax)
 
 window.dayjs = dayjs
 

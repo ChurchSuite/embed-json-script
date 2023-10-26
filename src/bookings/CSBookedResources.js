@@ -9,6 +9,15 @@ export default class CSBookedResources extends Base {
 	}
 
 	/**
+	 * Returns an array of filtered resources which takes the resource filter into account
+	 */
+	filteredResources = function() {
+		return this.resources.filter(resource => {
+			return this.filterValue('resource') == null || this.filterValue('resource').includes('' + resource.id)
+		})
+	}
+
+	/**
 	 * Returns true if the given model should be visible, based on the filters.
 	 */
 	filterModel = function (model) {
@@ -21,12 +30,11 @@ export default class CSBookedResources extends Base {
 		if (resourceFilter == null) return true
 
 		// if group has no resource, don't show
-		if (!model.resource) return false
+		if (!model.resourceId) return false
 
 		// return on id or name for legacy support
 		return (
-			resourceFilter.includes('' + model._original.resource.id) ||
-			resourceFilter.includes('' + model._original.resource.name)
+			resourceFilter.includes('' + model._original.resource_id)
 		)
 	}
 
