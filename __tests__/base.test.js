@@ -267,7 +267,7 @@ describe('init method', () => {
 	})
 
 	test('postInit', () => {
-		expect(CSBase.postInit).toBeCalledWith()
+		expect(CSBase.postInit).toBeCalledWith([])
 	})
 
 	test('configuration key', async () => {

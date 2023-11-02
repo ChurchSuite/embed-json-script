@@ -9,5 +9,6 @@ export default class Brand {
 		this.emblem = json.emblem
 		this.logo = json.logo.full
 		this.color = json.color
+		this.css = json.css
 	}
 }

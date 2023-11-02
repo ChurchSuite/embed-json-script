@@ -16,6 +16,12 @@ require('dayjs/locale/sv')
 // require isoweek to create dayjs objects for days
 var isoWeek = require('dayjs/plugin/isoWeek')
 dayjs.extend(isoWeek)
+var duration = require('dayjs/plugin/duration')
+dayjs.extend(duration)
+var utc = require('dayjs/plugin/utc')
+dayjs.extend(utc)
+var minMax = require('dayjs/plugin/minMax')
+dayjs.extend(minMax)
 
 window.dayjs = dayjs
 
@@ -25,16 +31,19 @@ document.addEventListener('alpine:init', () => {
 	Alpine.data('CSMultiSelect', CSMultiSelect)
 })
 
+import CSBookedResources from './bookings/CSBookedResources'
+window.CSBookedResources = CSBookedResources
+
 import CSEvents from './calendar/CSEvents'
 window.CSEvents = CSEvents
-
-import CSOrganisations from './network/CSOrganisations'
-window.CSOrganisations = CSOrganisations
 
 import CSGroups from './smallgroups/CSGroups'
 window.CSGroups = CSGroups
 
-let scriptVersion = '4.0.4'
+import CSOrganisations from './network/CSOrganisations'
+window.CSOrganisations = CSOrganisations
+
+let scriptVersion = '4.1.0'
 
 // our main json feed object
 window.CS = {
@@ -120,10 +129,10 @@ window.CS = {
 		// detect URL scheme if not provided
 		let scheme = this.detectURLScheme()
 
-		if (type == 'network') {
+		if (['network','bookings'].includes(type)) {
 			uuid = options.configuration
 			delete options.configuration
-			url = scheme + CS.url + '/-/network/' + uuid + '/json' + CS.buildOptions(options)
+			url = scheme + CS.url + '/-/' + type + '/' + uuid + '/json' + CS.buildOptions(options)
 		} else {
 			url = scheme + CS.url + '/embed/' + version + type + '/json' + CS.buildOptions(options)
 		}
@@ -137,13 +146,16 @@ window.CS = {
 		} else {
 			await fetch(url, {
 					method: "GET",
-					headers: { 
+					headers: {
 						"X-ChurchSuite-JSON": window.location.href,
 						"X-ChurchSuite-Version": scriptVersion
 					}
 				})
 				.then(response => response.json())
 				.then(response => {
+					// if there is an error then throw it - this is caught in base.js
+					if (response.hasOwnProperty('error')) throw response.error
+					// otherwise attempt to store the response
 					if (this.supportsLocalStorage() && !preview) {
 						this.cacheJSONData(response, url)
 					}
