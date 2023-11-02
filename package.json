@@ -4,10 +4,10 @@
 	"description": "An easy-to-use script to allow simple integration of ChurchSuite's embed JSON feeds into your website. For more information, see https://kingshope.church.",
 	"main": "dist/cdn.min.js",
 	"scripts": {
-		"build": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js network.min=src/network.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=dist --target=es6",
+		"build": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js network.min=src/network.js smallgroups.min=src/smallgroups.js bookings.min=src/bookings.js --bundle --minify --outdir=dist --target=es6",
 		"deploy": "jest && npm run build && npm publish",
 		"test": "jest",
-		"watch": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js network.min=src/network.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=dist --target=es6 --watch",
+		"watch": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js network.min=src/network.js smallgroups.min=src/smallgroups.js bookings.min=src/bookings.js --bundle --minify --outdir=dist --target=es6 --watch",
 		"watch-embedv2": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js network.min=src/network.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=../embed-v2/public/js --target=es6 --watch",
 		"watch-embedv3": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js network.min=src/network.js smallgroups.min=src/smallgroups.js bookings.min=src/bookings.js --bundle --minify --outdir=../embed-v3/public/js --target=es6 --watch"
 	},
