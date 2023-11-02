@@ -21,7 +21,7 @@ export default class CSBookedResources extends Base {
 	 * Returns true if the given model should be visible, based on the filters.
 	 */
 	filterModel = function (model) {
-		return this.filterModel_Resource(model) && this.filterModel_Site(model) && this.filterModel_Type(model)
+		return this.filterModel_Resource(model)
 	}
 
 	filterModel_Resource = function (model) {
@@ -34,32 +34,7 @@ export default class CSBookedResources extends Base {
 
 		// return on id or name for legacy support
 		return (
-			resourceFilter.includes('' + model._original.resource_id)
-		)
-	}
-
-	filterModel_Site = function (model) {
-		// no filter
-		if (this.site == null) return true
-
-		// all sites groups
-		if (model.siteId == null) return true
-
-		return this.site.includes(model.siteId)
-	}
-
-	filterModel_Type = function (model) {
-		let typeFilter = this.filterValue('type')
-		// no filter
-		if (typeFilter == null) return true
-
-		// if group has no type, don't show
-		if (!model.type) return false
-
-		// return on id or name for legacy support
-		return (
-			typeFilter.includes('' + model._original.type.id) ||
-			typeFilter.includes('' + model._original.type.name)
+			resourceFilter.includes('' + model.resourceId)
 		)
 	}
 
@@ -87,19 +62,13 @@ export default class CSBookedResources extends Base {
 	constructor(options) {
 		super()
 		// Configuration & Options
-		this.filterKeys = ['resource', 'type', 'site']
+		this.filterKeys = ['resource']
 		this.resourceModule = 'bookings'
 		this.options = Object.assign(this.options, options) // options for fetching json - we want the merged events as we filter them client-side
 		this.bookedResources = []
 
 		// Filter Data
-		this.type = null
-		this.types = []
-
 		this.resource = null
 		this.resources = []
-
-		this.site = null // site string for filterModels()
-		this.sites = [] // array of Site objects
 	}
 }
