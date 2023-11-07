@@ -5,7 +5,6 @@ export default class Group {
 	 */
 	constructor(json) {
 		this.active = this.isActive(json)
-		this.cluster = json.cluster != null ? json.cluster.name : null
 		this.customFields =
 			json.custom_fields.constructor === Object ? this.buildCustomFields(json) : null // if no custom fields, JSON provides an empty array
 		this.dateEnd = json.date_end ? dayjs(json.date_end) : null
@@ -17,6 +16,7 @@ export default class Group {
 		this.frequency = json.frequency == 'custom' ? json.custom_frequency : json.frequency
 		this.image =
 			json.images != null && json.images.constructor === Object ? json.images.md.url : ''
+		this.labels = json.labels
 		this.link =
 			json.embed_signup == 1 || json.signup_enabled == 0
 				? CS.detectURLScheme() + CS.url + '/groups/' + json.identifier
@@ -24,7 +24,7 @@ export default class Group {
 		this.location = json.location.name
 		this.latitude = json.location.latitude
 		this.longitude = json.location.longitude
-		this.members = json.no_members
+		this.members = json.num_members
 		this.name = json.name
 		this.online = json.location.type == 'online'
 		this.signupCapacity = json.signup_capacity
@@ -33,8 +33,7 @@ export default class Group {
 		this.signupEnd = json.signup_date_end ? dayjs(json.signup_date_end) : null
 		this.signupRunning = this.signupIsRunning(json)
 		this.signupInFuture = this.signupInFuture()
-		this.site = json.site != null ? json.site.name : null
-		this.tags = json.tags
+		this.siteId = json.site_id
 		this.time =
 			json.time != null
 				? dayjs(new Date().toISOString().slice(0, 11) + json.time + ':00')

@@ -12,44 +12,20 @@ const groupJSON = require('./group.json')
 
 describe('non-empty value initialised properties', () => {
 	test('filter keys', () => {
-		expect(Groups.filterKeys).toEqual(['day', 'tag', 'search', 'site', 'label', 'cluster'])
+		expect(Groups.filterKeys).toEqual(['label', 'day', 'search', 'site'])
 	})
 
 	test('options keys', () => {
-		expect(Groups.options).toEqual({ show_tags: 1 })	})
+		expect(Groups.options).toEqual({})
+	})
 
 	test('resource module', () => {
 		expect(Groups.resourceModule).toEqual('smallgroups')
 	})
-
-	test('dayOptions property', () => {
-		expect(Groups.dayOptions).toEqual([
-			{ id: 'Sunday', name: 'Sunday' },
-			{ id: 'Monday', name: 'Monday' },
-			{ id: 'Tuesday', name: 'Tuesday' },
-			{ id: 'Wednesday', name: 'Wednesday' },
-			{ id: 'Thursday', name: 'Thursday' },
-			{ id: 'Friday', name: 'Friday' },
-			{ id: 'Saturday', name: 'Saturday' },
-		])
-	})
-
-	test('days property', () => {
-		expect(Groups.days).toEqual([
-			'Sunday',
-			'Monday',
-			'Tuesday',
-			'Wednesday',
-			'Thursday',
-			'Friday',
-			'Saturday',
-		])
-	})
-	
 })
 
 describe('empty array initialised properties', () => {
-	let keys = ['groups', 'clusterOptions', 'clusters', 'labels', 'siteOptions', 'sites', 'tagOptions', 'tags']
+	let keys = ['groups', 'labels', 'site', 'sites']
 	keys.forEach(function (key) {
 		test(key + ' property', () => {
 			expect(Groups[key]).toEqual([])
@@ -58,7 +34,7 @@ describe('empty array initialised properties', () => {
 })
 
 describe('null-initialised properties', () => {
-	let keys = ['cluster', 'day', 'search', 'searchQuery', 'site', 'tag']
+	let keys = ['day', 'search', 'searchQuery']
 	keys.forEach(function (key) {
 		test(key + ' property', () => {
 			expect(Groups[key]).toBe(null)
@@ -85,28 +61,6 @@ describe('buildModelObject() method', () => {
 	test('returns an Group object', () => {
 		expect(group).toBeInstanceOf(Group)
 	})
-
-	describe('filter properties', () => {
-		test('clusters', () => {
-			expect(Groups.clusters).toEqual(['Online Gatherings'])
-			expect(Groups.clusterOptions).toEqual([{ id: 12, name: 'Online Gatherings' }])
-		})
-
-		test('sites', () => {
-			expect(Groups.sites).toEqual(['Leicester'])
-			expect(Groups.siteOptions).toEqual([{ id: 20, name: 'Leicester' }])
-		})
-
-		test('tags', () => {
-			expect(Groups.tags).toEqual(['Daytime groups', 'Study groups'])
-			expect(Groups.tagOptions).toEqual([
-				{ id: 18, name: 'Daytime groups' },
-				{ id: 19, name: 'Study groups' }
-			])
-		})
-	})
-
-	
 })
 
 describe('filterModel method', () => {
@@ -114,12 +68,10 @@ describe('filterModel method', () => {
 		Groups = new CSGroups()
 
 		// mock the other methods so we're just testing filterModel()
-		Groups.filterModel_Cluster = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false)
 		Groups.filterModel_Day = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
-		Groups.filterModel_Label = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
+		Groups.filterModel_Label = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false)
 		Groups.filterModel_Search = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
 		Groups.filterModel_Site = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
-		Groups.filterModel_Tag = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
 	})
 
 	test('filterModel with all true', () => {
@@ -131,74 +83,8 @@ describe('filterModel method', () => {
 	})
 })
 
-describe('filterModel_Cluster method', () => {
-	beforeAll(() => {
-		Groups = new CSGroups()
-	})
-
-	// if not filtering by cluster, return all groups
-	test('not filtering', () => {
-		Groups.cluster = null
-		expect(Groups.filterModel_Cluster({})).toEqual(true)
-	})
-
-	// if filtering by cluster and group has no cluster, don't show
-	test('filtering - null value', () => {
-		Groups.cluster = 'Tuesday'
-		expect(Groups.filterModel_Cluster({})).toEqual(false)
-	})
-
-	test('match on id', () => {
-		Groups.cluster = 'test'
-		expect(
-			Groups.filterModel_Cluster({ cluster: 'wwwww', _original: { cluster: { id: 'test', name: 'wwwww' } } })
-		).toEqual(true)
-	})
-
-	test('no match on id', () => {
-		Groups.cluster = 'test'
-		expect(
-			Groups.filterModel_Cluster({
-				cluster: 'wwwww',
-				_original: { cluster: { id: 'badger', name: 'wwwww' } },
-			})
-		).toEqual(false)
-	})
-
-	test('match on name', () => {
-		Groups.cluster = 'test'
-		expect(
-			Groups.filterModel_Cluster({ cluster: 'test', _original: { cluster: { id: 'wwww', name: 'test' } } })
-		).toEqual(true)
-	})
-
-	test('no match on named', () => {
-		Groups.cluster = 'test'
-		expect(
-			Groups.filterModel_Cluster({ cluster: 'pppp', _original: { cluster: { id: 'wwww', name: 'pppp' } } })
-		).toEqual(false)
-	})
-})
-
-describe('mapConfiguration() method', () => {
-	test('without configuration', () => {
-		Groups.mapConfiguration();
-		expect(Groups.options).toEqual({ show_tags: 1 })
-	})
-
-	test('with configuration', () => {
-		Groups.configuration = {
-			id: 1,
-			showFilterLabels: 1,
-			showFilterSites: 1
-		}
-		Groups.mapConfiguration();
-		expect(Groups.options).toEqual({ show_tags: 1, show_labels: 1, show_sites: 1 })
-	})
-})
-
 describe('filterModel_Day() method', () => {
-	afterAll(() => {
+	beforeAll(() => {
 		Groups = new CSGroups()
 	})
 
@@ -207,12 +93,12 @@ describe('filterModel_Day() method', () => {
 	})
 
 	test('model with no day', () => {
-		Groups.day = 'Friday'
-		expect(Groups.filterModel_Day({})).toEqual(true)
+		Groups.day = ['Friday']
+		expect(Groups.filterModel_Day({day: null})).toEqual(true)
 	})
 
 	test('model matched on day string', () => {
-		Groups.day = 'Friday'
+		Groups.day = ['Friday']
 		expect(Groups.filterModel_Day({day: dayjs('2022-07-01')})).toEqual(true)
 	})
 
@@ -272,37 +158,71 @@ describe('filterModel_Site method', () => {
 	})
 
 	test('null value', () => {
-		Groups.site = null
+		Groups.site = []
 		expect(Groups.filterModel_Site({})).toEqual(true)
 	})
 
 	test('match on id', () => {
-		Groups.site = 'test'
+		Groups.site = ['test']
 		expect(
-			Groups.filterModel_Site({ _original: { site: { id: 'test', name: 'wwwww' } } })
+			Groups.filterModel_Site({siteId: 'test'})
 		).toEqual(true)
 	})
 
 	test('no match on id', () => {
-		Groups.site = 'test'
+		Groups.site = ['test']
 		expect(
-			Groups.filterModel_Site({
-				_original: { site: { id: 'badger', name: 'wwwww' } },
-			})
-		).toEqual(false)
-	})
-
-	test('match on name', () => {
-		Groups.site = 'test'
-		expect(
-			Groups.filterModel_Site({ _original: { site: { id: 'wwww', name: 'test' } } })
-		).toEqual(true)
-	})
-
-	test('no match on named', () => {
-		Groups.site = 'test'
-		expect(
-			Groups.filterModel_Site({ _original: { site: { id: 'wwww', name: 'pppp' } } })
+			Groups.filterModel_Site({siteId: 'badger'})
 		).toEqual(false)
 	})
 })
+
+/**
+ * Label filtering should be an OR check rather than AND - if two labels are
+ * selected, any organisation that is one OR the other should be returned.
+ */
+test('label filtering', () => {
+	let CSG = new CSGroups;
+	let model = {
+		labels: [
+			{
+				id: 1, // label id 1
+				value: ['a'], // label options
+			},
+			{
+				id: 2,
+				value: ['b', 'c'],
+			},
+		]
+	}
+
+	CSG.label = {
+		'2': null
+	}
+
+	// we've selected no labels, so model should be included
+	expect(CSG.filterModel_Label(model)).toBe(true);
+
+	// option C has been selected for label 2
+	CSG.label = {
+		'2': ['c']
+	}
+
+	// the model has label 2 with a value of c, should be fine
+	expect(CSG.filterModel_Label(model)).toBe(true);
+
+	// now we've selected a second filter - should still be fine though
+	CSG.label = {
+		'2': ['c'],
+		'3': ['d'],
+	}
+
+	expect(CSG.filterModel_Label(model)).toBe(true);
+
+	// finally, we've only selected one this model doesn't have
+	CSG.label = {
+		'3': ['d'],
+	}
+
+	expect(CSG.filterModel_Label(model)).toBe(false);
+});

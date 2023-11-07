@@ -37,17 +37,7 @@ test('active property - group should be active', () => {
 	expect(group.active).toBe(true);
 });
 
-test('cluster property - given', () => {
-	expect(group.cluster).toBe('Online Gatherings');
-});
-
-test('cluster property - null', () => {
-	const data = { ...json, cluster: null }
-	const group = new Group(data);
-	expect(group.cluster).toBe(null);
-});
-
-let customFields = { 
+let customFields = {
 	field_1280: {
 		id: 1280,
 		resource_type: 'churchsuite_module',
@@ -352,20 +342,14 @@ test('signupRunning property - signup not started yet', () => {
 	expect(group.signupRunning).toBe(false);
 });
 
-test('site property - provided', () => {
-	const group = new Group({ ...json, site: { name: 'Test Site' } });
-	expect(group.site).toBe('Test Site');
+test('site_id property - provided', () => {
+	const group = new Group({ ...json, site_id: 34 });
+	expect(group.siteId).toBe(34);
 });
 
-test('site property - not provided', () => {
-	const group = new Group({ ...json, site: null });
-	expect(group.site).toBe(null);
-});
-
-test('tags property', () => {
-	const group = new Group({ ...json, tags: [{ id: 18, name: 'Daytime groups' }] });
-	expect(group.tags[0].id).toBe(18);
-	expect(group.tags[0].name).toBe('Daytime groups');
+test('site_id property - not provided', () => {
+	const group = new Group({ ...json, site_id: null });
+	expect(group.siteId).toBe(null);
 });
 
 test('time property - provided', () => {
@@ -380,5 +364,5 @@ test('time property - not provided', () => {
 
 test('original property', () => {
 	// check for a property we don't use
-	expect(group._original.ctime).toBe('2011-08-01 09:24:34');
+	expect(group._original.id).toBe(2);
 });
