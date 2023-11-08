@@ -122,20 +122,22 @@ window.CS = {
 	 * Type is 'calendar', 'network' or 'smallgroups'.
 	 */
 	async fetchJSON(type, options = {}) {
-		let data
-		let version = options.hasOwnProperty('configuration') ? 'v2/' : ''
-		let url
+		let data, url, uuid
 
 		// detect URL scheme if not provided
 		let scheme = this.detectURLScheme()
 
-		if (['network','bookings','smallgroups'].includes(type)) {
-			uuid = options.configuration
-			delete options.configuration
-			url = scheme + CS.url + '/-/' + type + '/' + uuid + '/json' + CS.buildOptions(options)
-		} else {
-			url = scheme + CS.url + '/embed/' + version + type + '/json' + CS.buildOptions(options)
+		if (!options.hasOwnProperty('configuration')) {
+			console.error('WARNING: v4 of the ChurchSuite JSON script must be used with an embed configuration UUID. Please use v3 if using options to filter your data.')
+			throw {
+				message: 'v4 of ChurchSuite JSON script must be used with a configuration UUID.',
+				type: 'format'
+			}
 		}
+
+		uuid = options.configuration
+		delete options.configuration
+		url = scheme + CS.url + '/-/' + type + '/' + uuid + '/json' + CS.buildOptions(options)
 
 		// if the page has a preview=1 query, don't use cached data so changes are live updated
 		let preview = new URLSearchParams(location.search).get('preview') == 1
