@@ -62,7 +62,7 @@ describe('CS object', () => {
 		test('stored in local storage successfully', () => {
 			// fake the system time, to prevent 1 second errors if test runs slowly
 			jest.useFakeTimers('modern').setSystemTime(new Date('2022-01-01T13:00:00'));
-			
+
 			window.CS.cacheJSONData('value', 'key')
 			let expected = JSON.stringify({
 				expires: new Date('2022-01-01T13:15:00').getTime(),
@@ -93,25 +93,13 @@ describe('CS object', () => {
 
 	test('dayOfWeekOptions method', () => {
 		expect(window.CS.dayOfWeekOptions()).toEqual([
-			{ id: 'Sunday', name: 'Sunday' },
 			{ id: 'Monday', name: 'Monday' },
 			{ id: 'Tuesday', name: 'Tuesday' },
 			{ id: 'Wednesday', name: 'Wednesday' },
 			{ id: 'Thursday', name: 'Thursday' },
 			{ id: 'Friday', name: 'Friday' },
 			{ id: 'Saturday', name: 'Saturday' },
-		])
-	})
-
-	test('daysOfWeek method', () => {
-		expect(window.CS.daysOfWeek()).toEqual([
-			'Sunday',
-			'Monday',
-			'Tuesday',
-			'Wednesday',
-			'Thursday',
-			'Friday',
-			'Saturday',
+			{ id: 'Sunday', name: 'Sunday' },
 		])
 	})
 

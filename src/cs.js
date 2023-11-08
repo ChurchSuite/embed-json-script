@@ -80,26 +80,16 @@ window.CS = {
 	},
 
 	/**
-	 * Returns the days of the week for dropdowns in whichever language - Sunday first
+	 * Returns the days of the week for dropdowns in whichever language - Monday first
 	 */
 	dayOfWeekOptions() {
 		let dayOptions = []
-		for (var i = 0; i < 7; i++)
+		for (var i = 1; i <= 7; i++)
 			dayOptions.push({
 				id: dayjs().isoWeekday(i).format('dddd'),
 				name: dayjs().isoWeekday(i).format('dddd'),
 			})
 		return dayOptions
-	},
-
-	/**
-	 * Returns the days of the week for dropdowns in whichever language - Sunday first
-	 * @returns {String[]}
-	 */
-	daysOfWeek() {
-		let days = []
-		for (var i = 0; i < 7; i++) days.push(dayjs().isoWeekday(i).format('dddd'))
-		return days
 	},
 
 	/**
@@ -166,44 +156,6 @@ window.CS = {
 		}
 
 		return data
-	},
-
-	/**
-	 * Returns the rgba() colour to be used to style an element.
-	 * @param {string} hexColor
-	 * @param {string} tailwindVar
-	 */
-	getColorRbga(hexColor, tailwindVar) {
-		const rgbColor = this.hexToRgb(hexColor)
-
-		return (
-			'rgba(' +
-			rgbColor.r +
-			', ' +
-			rgbColor.g +
-			', ' +
-			rgbColor.b +
-			', var(' +
-			tailwindVar +
-			'))'
-		)
-	},
-
-	/**
-	 * Takes in a hex colour, returns the result as an object.
-	 * @param {string} hex
-	 * @returns {Object}
-	 */
-	hexToRgb(hex) {
-		const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-
-		return result
-			? {
-					r: parseInt(result[1], 16),
-					g: parseInt(result[2], 16),
-					b: parseInt(result[3], 16),
-			  }
-			: null
 	},
 
 	/**
