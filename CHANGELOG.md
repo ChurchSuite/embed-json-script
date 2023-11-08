@@ -2,6 +2,22 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.2.0] - 2023-11-02
+
+This update brings with it some significant changes to the way CSGroups works - they now use a paginated response which contains labels, sites, brands and configuration data. Group information can be found in the data Array. This change allows us to be more efficient for large datasets.
+
+Events are, at the moment, unaffected by the changes.
+
+### Breaking Changes
+
+-   It is no longer possible to use v4 of the JSON script with the publicly accessible JSON feed. An embed configuration must be used from within ChurchSuite. This update has been made for security, performance and consistency reasons.
+-   For developers wanting to make use of the legacy JSON scripts we recommend utilising v3 of this script at the most stable way to do so.
+-   All references to tag filter has been removed from the CSGroups class
+-   clusterOptions, dayOptions, siteOptions and tagOptions have been removed from CSGroups
+-   Group 'site' property has been removed in favour of siteId - full sites information can be found in the sites array
+-   Group 'cluster' property has been removed in favour of clusterId - full clusters information can be found in the clusters array
+-   Utility daysOfWeek, getColorRgba, hexToRgb methods have been removed from CS
+
 ## [4.1.0] - 2023-11-02
 
 ### Added
