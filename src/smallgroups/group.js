@@ -5,6 +5,7 @@ export default class Group {
 	 */
 	constructor(json) {
 		this.active = this.isActive(json)
+		this.clusterId = json.cluster != null ? json.cluster.id : null
 		this.customFields =
 			json.custom_fields.constructor === Object ? this.buildCustomFields(json) : null // if no custom fields, JSON provides an empty array
 		this.dateEnd = json.date_end ? dayjs(json.date_end) : null
