@@ -2,7 +2,7 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
-## [4.2.0] - 2023-11-02
+## [4.2.0] - 2023-11-08
 
 This update brings with it some significant changes to the way CSGroups works - they now use a paginated response which contains labels, sites, brands and configuration data. Group information can be found in the data Array. This change allows us to be more efficient for large datasets.
 
