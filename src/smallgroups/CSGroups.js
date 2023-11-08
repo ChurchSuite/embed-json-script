@@ -2,9 +2,7 @@ import Base from '../base'
 import Group from './group'
 
 export default class CSGroups extends Base {
-	buildModelObject = function (model) {
-		return new Group(model)
-	}
+	buildModelObject = (model) => new Group(model)
 
 	/**
 	 * Returns true if the given model should be visible, based on the filters.

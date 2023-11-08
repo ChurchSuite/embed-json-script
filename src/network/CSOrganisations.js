@@ -2,11 +2,7 @@ import Base from '../base'
 import Organisation from './organisation'
 
 export default class CSOrganisations extends Base {
-	buildModelObject = function (model) {
-
-		// build and return the model object
-		return new Organisation(model)
-	}
+	buildModelObject = (model) => new Organisation(model)
 
 	/**
 	 * Returns true if the given model should be visible, based on the filters.
