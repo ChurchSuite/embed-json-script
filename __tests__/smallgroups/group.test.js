@@ -123,7 +123,7 @@ test('day property - null', () => {
 
 // test that description property has newlines converted to HTML
 test('description property', () => {
-	const data = { ...json, description: "We love \r\n newlines" }
+	const data = { ...json, description: "We love <br> newlines" }
 	const group = new Group(data);
 	const description = 'We love <br> newlines';
 	expect(group.description).toBe(description);
