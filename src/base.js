@@ -101,9 +101,14 @@ export default class Base {
 	 * Initialises the JSON feed asynchronously.
 	 */
 	async init() {
+
 		this.$watch(this.filterKeys.join(', '), () => this.filterModels())
 
 		try {
+			// start by checking for IE - this throw if there is an issue
+			this.runIECheck();
+
+			// if not IE then run the JSON fetch
 			let response = await CS.fetchJSON(this.resourceModule, Object.assign({}, this.options))
 
 			// set the default image to the brand emblem
@@ -176,7 +181,10 @@ export default class Base {
 		} catch (error) {
 			// something went wrong - set the error and message
 			this.error = error
-			this.errorMessage = error.message
+			// set up the error type as http
+			this.errorType = error.type ?? 'http'
+			// the load failed but it's finished so set to false
+			this.loading = false
 		}
 
 	}
@@ -191,6 +199,18 @@ export default class Base {
 	 * Overload if you need to run code at the end of initialisation.
 	 */
 	postInit = function (response) {}
+
+	/**
+	 * Runs on init to check for IE - if it is IE then we throw an error
+	 */
+	runIECheck = function() {
+		if (navigator.userAgent.indexOf("MSIE") > -1 || navigator.userAgent.indexOf("rv:") > -1) {
+			throw {
+				message: 'Internet Explorer is no longer supported',
+				type: 'ie',
+			}
+		}
+	}
 
 	constructor() {
 		// set the locale before init(), so it runs before we generate days of week
@@ -213,6 +233,6 @@ export default class Base {
 
 		// Error
 		this.error = null
-		this.errorMessage = null
+		this.errorType = null
 	}
 }

@@ -80,26 +80,16 @@ window.CS = {
 	},
 
 	/**
-	 * Returns the days of the week for dropdowns in whichever language - Sunday first
+	 * Returns the days of the week for dropdowns in whichever language - Monday first
 	 */
 	dayOfWeekOptions() {
 		let dayOptions = []
-		for (var i = 0; i < 7; i++)
+		for (var i = 1; i <= 7; i++)
 			dayOptions.push({
 				id: dayjs().isoWeekday(i).format('dddd'),
 				name: dayjs().isoWeekday(i).format('dddd'),
 			})
 		return dayOptions
-	},
-
-	/**
-	 * Returns the days of the week for dropdowns in whichever language - Sunday first
-	 * @returns {String[]}
-	 */
-	daysOfWeek() {
-		let days = []
-		for (var i = 0; i < 7; i++) days.push(dayjs().isoWeekday(i).format('dddd'))
-		return days
 	},
 
 	/**
@@ -122,20 +112,22 @@ window.CS = {
 	 * Type is 'calendar', 'network' or 'smallgroups'.
 	 */
 	async fetchJSON(type, options = {}) {
-		let data
-		let version = options.hasOwnProperty('configuration') ? 'v2/' : ''
-		let url
+		let data, url, uuid
 
 		// detect URL scheme if not provided
 		let scheme = this.detectURLScheme()
 
-		if (['network','bookings'].includes(type)) {
-			uuid = options.configuration
-			delete options.configuration
-			url = scheme + CS.url + '/-/' + type + '/' + uuid + '/json' + CS.buildOptions(options)
-		} else {
-			url = scheme + CS.url + '/embed/' + version + type + '/json' + CS.buildOptions(options)
+		if (!options.hasOwnProperty('configuration')) {
+			console.error('WARNING: v4 of the ChurchSuite JSON script must be used with an embed configuration UUID. Please use v3 if using options to filter your data.')
+			throw {
+				message: 'v4 of ChurchSuite JSON script must be used with a configuration UUID.',
+				type: 'format'
+			}
 		}
+
+		uuid = options.configuration
+		delete options.configuration
+		url = scheme + CS.url + '/-/' + type + '/' + uuid + '/json' + CS.buildOptions(options)
 
 		// if the page has a preview=1 query, don't use cached data so changes are live updated
 		let preview = new URLSearchParams(location.search).get('preview') == 1
@@ -164,44 +156,6 @@ window.CS = {
 		}
 
 		return data
-	},
-
-	/**
-	 * Returns the rgba() colour to be used to style an element.
-	 * @param {string} hexColor
-	 * @param {string} tailwindVar
-	 */
-	getColorRbga(hexColor, tailwindVar) {
-		const rgbColor = this.hexToRgb(hexColor)
-
-		return (
-			'rgba(' +
-			rgbColor.r +
-			', ' +
-			rgbColor.g +
-			', ' +
-			rgbColor.b +
-			', var(' +
-			tailwindVar +
-			'))'
-		)
-	},
-
-	/**
-	 * Takes in a hex colour, returns the result as an object.
-	 * @param {string} hex
-	 * @returns {Object}
-	 */
-	hexToRgb(hex) {
-		const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-
-		return result
-			? {
-					r: parseInt(result[1], 16),
-					g: parseInt(result[2], 16),
-					b: parseInt(result[3], 16),
-			  }
-			: null
 	},
 
 	/**
