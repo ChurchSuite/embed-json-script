@@ -11,10 +11,8 @@ export default class Group {
 		this.dateEnd = json.date_end ? dayjs(json.date_end) : null
 		this.dateStart = dayjs(json.date_start)
 		this.day = json.day != null ? dayjs().isoWeekday(json.day) : null
-		this.description = json.description ? json.description : null
 		this.embedSignup = json.embed_signup == 1
 		this.endingSoon = this.isEndingSoon(json)
-		this.frequency = json.frequency == 'custom' ? json.custom_frequency : json.frequency
 		this.image =
 			json.images != null && json.images.constructor === Object ? json.images.md.url : ''
 		this.labels = json.labels
@@ -22,12 +20,8 @@ export default class Group {
 			json.embed_signup == 1 || json.signup_enabled == 0
 				? CS.detectURLScheme() + CS.url + '/groups/' + json.identifier
 				: ''
-		this.location = json.location.name
-		this.latitude = json.location.latitude
-		this.longitude = json.location.longitude
 		this.members = json.num_members
 		this.name = json.name
-		this.online = json.location.type == 'online'
 		this.signupCapacity = json.signup_capacity
 		this.signupFull = json.signup_full
 		this.signupStart = dayjs(json.signup_date_start)
@@ -35,11 +29,19 @@ export default class Group {
 		this.signupRunning = this.signupIsRunning(json)
 		this.signupInFuture = this.signupInFuture()
 		this.siteId = json.site_id
+		this._original = json
+
+		// optional configuration details
+		this.description = json.description
+		this.frequency = json.frequency == 'custom' ? json.custom_frequency : json.frequency
+		this.location = json.location != null && json.location.constructor === Object ? json.location.name : null
+		this.latitude = json.location != null && json.location.constructor === Object ? json.location.latitude : null
+		this.longitude = json.location != null && json.location.constructor === Object ? json.location.longitude : null
+		this.online = json.location != null && json.location.constructor === Object ? json.location.type == 'online' : null
 		this.time =
 			json.time != null
 				? dayjs(new Date().toISOString().slice(0, 11) + json.time + ':00')
 				: null
-		this._original = json
 	}
 
 	/**

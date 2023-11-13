@@ -2,6 +2,13 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.2.1] - 2023-11-13
+
+### Fixed
+
+-   Bug fix for turning off location in the configuration settings when viewing a map
+-   Bug fix for the IE check when using firefox - the userAgent test method was throwing a false positive for 'rc:'
+
 ## [4.2.0] - 2023-11-08
 
 This update brings with it some significant changes to the way CSGroups works - they now use a paginated response which contains labels, sites, brands and configuration data. Group information can be found in the data Array. This change allows us to be more efficient for large datasets.

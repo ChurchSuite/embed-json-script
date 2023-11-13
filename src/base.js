@@ -204,7 +204,7 @@ export default class Base {
 	 * Runs on init to check for IE - if it is IE then we throw an error
 	 */
 	runIECheck = function() {
-		if (navigator.userAgent.indexOf("MSIE") > -1 || navigator.userAgent.indexOf("rv:") > -1) {
+		if (window.document.documentMode) {
 			throw {
 				message: 'Internet Explorer is no longer supported',
 				type: 'ie',
