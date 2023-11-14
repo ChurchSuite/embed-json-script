@@ -106,6 +106,20 @@ export default class CSEvents extends Base {
 	}
 
 	/**
+	 * An empty function that runs at the end of the init() method for each module.
+	 * Overloaded to set up the resources
+	 */
+	postInit = function (response) {
+		/**
+		 * For efficiency, the BookedResources response sends over the resources once
+		 * on page 1, rather than on every BookedResource.
+		 */
+		if (response.hasOwnProperty('categories')) {
+			response.categories.forEach(category => this.categories.push(new Category(category)))
+		}
+	}
+
+	/**
 	 * Sets up the x-data for CSEvents
 	 */
 	constructor(options) {
@@ -120,10 +134,8 @@ export default class CSEvents extends Base {
 		this.events = []
 		this.modelsMerged = [] // array to contain the merged events, depending on merge strategy - first in sequence, etc
 
-		// Filter Data
-		this.categories = [] // @deprecated a compiled array of all event categories
-		this.category = null // linked to selected option from dropdown for comparison with the event category
-		this.categoryOptions = []
+		this.categories = []
+		this.category = []
 
 		this.site = null // @deprecated site string for filterModels()
 		this.siteOptions = []
