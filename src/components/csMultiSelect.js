@@ -5,6 +5,11 @@ export default () => ({
 	showDropdown: false,
 	valueProxy: null,
 
+	hasValue() {
+		let value = JSON.parse(JSON.stringify(this.valueProxy))
+		return Array.isArray(value) && value.length > 0
+	},
+
 	isSelected(option) {
 		return !Array.isArray(this.valueProxy) ? false : this.valueProxy.includes(option)
 	},
