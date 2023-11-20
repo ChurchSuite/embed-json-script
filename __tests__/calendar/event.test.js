@@ -32,22 +32,16 @@ test('allDay property - is not all day', () => {
 	expect(event.allDay).toBe(false);
 });
 
-test('brandEmblem property', () => {
-	const data = { ...json, brand: { emblem: 'test' } }
+test('categoryId property - provided', () => {
+	const data = { ...json, category_id: 64 }
 	const event = new Event(data);
-	expect(event.brandEmblem).toBe('test');
+	expect(event.categoryId).toBe(64);
 });
 
-test('category property - provided', () => {
-	const data = { ...json, category: { name: 'test' } }
+test('categoryId property - null', () => {
+	const data = { ...json, category_id: null }
 	const event = new Event(data);
-	expect(event.category).toBe('test');
-});
-
-test('category property - null', () => {
-	const data = { ...json, category: null }
-	const event = new Event(data);
-	expect(event.category).toBe(null);
+	expect(event.categoryId).toBe(null);
 });
 
 test('description property', () => {
@@ -72,69 +66,47 @@ test('image property - provided', () => {
 test('image property - not provided', () => {
 	const data = { ...json, brand: { emblem: 'sandwich' }, images: null }
 	const event = new Event(data);
-	expect(event.image).toBe('sandwich');
+	expect(event.image).toBe(''); // we no longer pull from emblem
 });
 
 // if signup is disabled, we can link to event page (they can't sign up anyway!)
-test('link property - signup not enabled', () => {
-	const data = { 
-		...json, 
-		identifier: 'kaboom',
-		signup_options: {
-			embed: { enabled: "0" },
-			signup_enabled: "0",
-		}
+test('link property - provided', () => {
+	const data = {
+		...json,
+		url: 'https://demo.churchsuite.com/events/kaboom',
 	}
 	const event = new Event(data);
 	expect(event.link).toBe('https://demo.churchsuite.com/events/kaboom');
+	expect(event.signupEnabled).toBe(true);
 });
 
 // if embed signup enabled, give them a link
-test('link property - embed signup enabled', () => {
-	const data = { 
-		...json, 
-		signup_options: {
-			embed: { enabled: "1" },
-			signup_enabled: "1",
-			tickets: { url: 'banana' }
-		}
-	}
-	const event = new Event(data);
-	expect(event.link).toBe('banana');
-});
-
-// if signup enabled but embed signup disabled, don't give a link
-test('link property - embed signup disabled, signup enabled', () => {
-	const data = { 
-		...json, 
-		signup_options: {
-			embed: { enabled: "0" },
-			signup_enabled: "1",
-		}
+test('link property - empty', () => {
+	const data = {
+		...json,
+		url: '',
 	}
 	const event = new Event(data);
 	expect(event.link).toBe('');
-});
-
-// if signup is disabled, we can link to event page (they can't sign up anyway!)
-test('link property - no url scheme', () => {
-	window.CS.url = 'demo.churchsuite.com';
-	const data = { 
-		...json, 
-		identifier: 'kaboom',
-		signup_options: {
-			embed: { enabled: "0" },
-			signup_enabled: "0",
-		}
-	}
-	const event = new Event(data);
-	expect(event.link).toBe('https://demo.churchsuite.com/events/kaboom');
+	expect(event.signupEnabled).toBe(false);
 });
 
 test('location property', () => {
 	const data = { ...json, location: { name: 'spatula' } }
 	const event = new Event(data);
 	expect(event.location).toBe('spatula');
+});
+
+test('latitude property', () => {
+	const data = { ...json, location: { latitude: '12345' } }
+	const event = new Event(data);
+	expect(event.latitude).toBe('12345');
+});
+
+test('longitude property', () => {
+	const data = { ...json, location: { longitude: '12345' } }
+	const event = new Event(data);
+	expect(event.longitude).toBe('12345');
 });
 
 test('name property', () => {
@@ -161,16 +133,16 @@ test('postcode property', () => {
 	expect(event.postcode).toBe('NG1 1PR');
 });
 
-test('site property - provided', () => {
-	const data = { ...json, site: { name: 'ChurchSuite Ltd' } }
+test('siteIds property - provided', () => {
+	const data = { ...json, site_ids: [2,6] }
 	const event = new Event(data);
-	expect(event.site).toBe('ChurchSuite Ltd');
+	expect(event.siteIds).toStrictEqual([2,6]);
 });
 
 test('site property - not provided', () => {
-	const data = { ...json, site: null }
+	const data = { ...json, site_ids: null }
 	const event = new Event(data);
-	expect(event.site).toBe(null);
+	expect(event.siteIds).toBe(null);
 });
 
 test('start property', () => {

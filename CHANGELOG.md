@@ -2,6 +2,25 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.3.0] - 2023-11-20
+
+This update brings with it some significant changes to the way CSEvents works - they now use a paginated response which contains categories, sites, brands and configuration data. Event information can be found in the data Array. This change allows us to be more efficient for large datasets.
+
+### Breaking Changes
+
+-   The event class has been stripped back to only include the essential information
+-   categoryOptions and siteOptions have been removed from CSEvents
+-   Event 'brandEmblem' property has been removed - the brand information can be found in the 'brand' property of the root response.
+-   Event 'site' property has been removed in favour of siteIds - full sites information can be found in the sites array in the root response
+-   Event 'category' property has been removed in favour of categoryId - full categories information can be found in the categories array in the root response
+-   Event 'merged_by_strategy' has been removed in favour of a unique 'mergeIdentifier' which can be used with the CSEvents 'mergeIdentifier' array to combine events within the feed. This ensures that merge strategies can be used across multiple pages rather than the boolean approach previous
+
+### Added
+
+-   Added a new hasValue() method to csMultiSelect returning true if the multi select has a value
+-   Added a new category object with a consistent tested output including the core category information
+-
+
 ## [4.2.1] - 2023-11-13
 
 ### Fixed

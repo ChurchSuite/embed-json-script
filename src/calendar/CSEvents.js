@@ -1,16 +1,17 @@
 import Base from '../base'
 import Event from './event'
+import Category from './category'
 
 export default class CSEvents extends Base {
 	buildModelObject = function (model) {
-		// capture unique categories and sites
-		this.buildIdNameOption('category', model.category, 'categories')
-		this.buildIdNameOption('site', model.site)
-
 		let event = new Event(model)
 
-		// build an array of events to show when merged together (first in sequence etc)
-		if (model.merged_by_strategy == 0) this.modelsMerged.push(event)
+		if (model.merge_identifier == null || !this.mergeIdentifiers.includes(model.merge_identifier)) {
+			// event should not be hidden
+			this.modelsMerged.push(event)
+			// log the merge identifier if necessary for next time around
+			if (model.merge_identifier !== null) this.mergeIdentifiers.push(model.merge_identifier)
+		}
 
 		return event
 	}
@@ -46,11 +47,8 @@ export default class CSEvents extends Base {
 		let categoryFilter = this.filterValue('category')
 		// no filter
 		if (categoryFilter == null) return true
-		// return on id or name for legacy support
-		return (
-			categoryFilter.includes('' + model._original.category.id) ||
-			categoryFilter.includes('' + model._original.category.name)
-		)
+		// return on id
+		return categoryFilter.includes('' + model.categoryId)
 	}
 
 	filterModel_Search = function (model) {
@@ -88,14 +86,14 @@ export default class CSEvents extends Base {
 	filterModel_Site = function (model) {
 		let siteFilter = this.filterValue('site')
 		// no filter
-		if (siteFilter == null) return true
+		if (siteFilter === null) return true
+
 		// all sites event
-		if (model._original.site == null) return true
-		// return on id or name for legacy support
-		return (
-			siteFilter.includes('' + model._original.site.id) ||
-			siteFilter.includes('' + model._original.site.name)
-		)
+		if (model.siteIds == null) return true
+		if (model.siteIds.length == 0) return true
+
+		// check for intersection of the two arrays
+		return siteFilter.flat().some(siteId => model.siteIds.flat().includes(siteId))
 	}
 
 	async init() {
@@ -106,6 +104,20 @@ export default class CSEvents extends Base {
 	}
 
 	/**
+	 * An empty function that runs at the end of the init() method for each module.
+	 * Overloaded to set up the resources
+	 */
+	postInit = function (response) {
+		/**
+		 * For efficiency, the BookedResources response sends over the resources once
+		 * on page 1, rather than on every BookedResource.
+		 */
+		if (response.hasOwnProperty('categories')) {
+			response.categories.forEach(category => this.categories.push(new Category(category)))
+		}
+	}
+
+	/**
 	 * Sets up the x-data for CSEvents
 	 */
 	constructor(options) {
@@ -113,20 +125,18 @@ export default class CSEvents extends Base {
 
 		// Configuration & Options
 		this.filterKeys = ['category', 'search', 'site']
-		this.options = Object.assign({ includeMerged: true }, options) // options for fetching json - we want the merged events as we filter them client-side
 		this.resourceModule = 'calendar'
+		this.options = Object.assign(this.options, options) // options for fetching json - we want the merged events as we filter them client-side
+		this.events = []
 
 		// Model Data
-		this.events = []
+		this.mergeIdentifiers = [] // array of 'used' identifiers for this batch of events
 		this.modelsMerged = [] // array to contain the merged events, depending on merge strategy - first in sequence, etc
 
-		// Filter Data
-		this.categories = [] // @deprecated a compiled array of all event categories
-		this.category = null // linked to selected option from dropdown for comparison with the event category
-		this.categoryOptions = []
+		this.categories = []
+		this.category = []
 
-		this.site = null // @deprecated site string for filterModels()
-		this.siteOptions = []
-		this.sites = [] // sites array for site dropdown
+		this.site = []
+		this.sites = []
 	}
 }

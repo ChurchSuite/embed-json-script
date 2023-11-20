@@ -16,7 +16,7 @@ describe('non-empty value initialised properties', () => {
 	})
 
 	test('options keys', () => {
-		expect(Events.options).toEqual({ includeMerged: true })
+		expect(Events.options).toEqual({})
 	})
 
 	test('resource module', () => {
@@ -25,7 +25,7 @@ describe('non-empty value initialised properties', () => {
 })
 
 describe('empty array initialised properties', () => {
-	let keys = ['categories', 'categoryOptions', 'events', 'modelsMerged', 'siteOptions', 'sites']
+	let keys = ['categories', 'category', 'events', 'mergeIdentifiers', 'modelsMerged', 'site', 'sites']
 	keys.forEach(function (key) {
 		test(key + ' property', () => {
 			expect(Events[key]).toEqual([])
@@ -34,7 +34,7 @@ describe('empty array initialised properties', () => {
 })
 
 describe('null-initialised properties', () => {
-	let keys = ['category', 'search', 'searchQuery', 'site']
+	let keys = ['search', 'searchQuery']
 	keys.forEach(function (key) {
 		test(key + ' property', () => {
 			expect(Events[key]).toBe(null)
@@ -43,10 +43,17 @@ describe('null-initialised properties', () => {
 })
 
 describe('buildModelObject() method', () => {
-	let event
+	let event, event2
 
 	beforeAll(() => {
-		event = Events.buildModelObject(eventJSON)
+		event = Events.buildModelObject({
+			...eventJSON,
+			merge_identifier: 'sameMergeIdentifier'
+		})
+		event2 = Events.buildModelObject({
+			...eventJSON,
+			merge_identifier: 'sameMergeIdentifier'
+		})
 	})
 
 	afterAll(() => {
@@ -54,19 +61,17 @@ describe('buildModelObject() method', () => {
 	})
 
 	// the model contents are tested separately
-	test('returns an Event object', () => {
+	test('returns an Event object for both events', () => {
 		expect(event).toBeInstanceOf(Event)
+		expect(event2).toBeInstanceOf(Event)
 	})
 
-	test('filter properties', () => {
-		expect(Events.categories).toEqual(['Kids'])
-		expect(Events.categoryOptions).toEqual([{ id: 5, name: 'Kids' }])
-		expect(Events.sites).toEqual(['Nottingham'])
-		expect(Events.siteOptions).toEqual([{ id: 1, name: 'Nottingham' }])
-	})
-
-	test('modelsMerged property', () => {
+	test('modelsMerged property returns only the first event', () => {
 		expect(Events.modelsMerged).toEqual([event])
+	})
+
+	test('mergeIdentifiers property returns only the first event identifier', () => {
+		expect(Events.mergeIdentifiers).toEqual([event._original.merge_identifier])
 	})
 })
 
@@ -130,32 +135,16 @@ describe('filterModel_Category method', () => {
 	})
 
 	test('match on id', () => {
-		Events.category = 'test'
+		Events.category = ['test']
 		expect(
-			Events.filterModel_Category({ _original: { category: { id: 'test', name: 'wwwww' } } })
+			Events.filterModel_Category({ categoryId: 'test' })
 		).toEqual(true)
 	})
 
 	test('no match on id', () => {
 		Events.category = 'test'
 		expect(
-			Events.filterModel_Category({
-				_original: { category: { id: 'badger', name: 'wwwww' } },
-			})
-		).toEqual(false)
-	})
-
-	test('match on name', () => {
-		Events.category = 'test'
-		expect(
-			Events.filterModel_Category({ _original: { category: { id: 'wwww', name: 'test' } } })
-		).toEqual(true)
-	})
-
-	test('no match on named', () => {
-		Events.category = 'test'
-		expect(
-			Events.filterModel_Category({ _original: { category: { id: 'wwww', name: 'pppp' } } })
+			Events.filterModel_Category({ categoryId: 'badger' })
 		).toEqual(false)
 	})
 })
@@ -166,38 +155,36 @@ describe('filterModel_Site method', () => {
 	})
 
 	test('null value', () => {
-		Events.site = null
+		Events.site = []
 		expect(Events.filterModel_Site({})).toEqual(true)
 	})
 
 	test('match on id', () => {
-		Events.site = 'test'
+		Events.site	= ['35']
 		expect(
-			Events.filterModel_Site({ _original: { site: { id: 'test', name: 'wwwww' } } })
+			Events.filterModel_Site({siteIds: ['35']})
 		).toEqual(true)
 	})
 
-	test('no match on id', () => {
-		Events.site = 'test'
+	test('match all sites event', () => {
+		Events.site = ['35', '57']
 		expect(
-			Events.filterModel_Site({
-				_original: { site: { id: 'badger', name: 'wwwww' } },
-			})
-		).toEqual(false)
-	})
-
-	test('match on name', () => {
-		Events.site = 'test'
-		expect(
-			Events.filterModel_Site({ _original: { site: { id: 'wwww', name: 'test' } } })
+			Events.filterModel_Site({siteIds: []})
 		).toEqual(true)
 	})
 
-	test('no match on named', () => {
-		Events.site = 'test'
+	test('no match on ids', () => {
+		Events.site = ['12']
 		expect(
-			Events.filterModel_Site({ _original: { site: { id: 'wwww', name: 'pppp' } } })
+			Events.filterModel_Site({siteIds: ['3','8']})
 		).toEqual(false)
+	})
+
+	test('partial match on ids', () => {
+		Events.site = ['20','45']
+		expect(
+			Events.filterModel_Site({siteIds: ['45','80']})
+		).toEqual(true)
 	})
 })
 
