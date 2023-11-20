@@ -160,17 +160,31 @@ describe('filterModel_Site method', () => {
 	})
 
 	test('match on id', () => {
-		Events.site = ['test']
+		Events.site	= ['35']
 		expect(
-			Events.filterModel_Site({siteId: 'test'})
+			Events.filterModel_Site({siteIds: ['35']})
 		).toEqual(true)
 	})
 
-	test('no match on id', () => {
-		Events.site = ['test']
+	test('match all sites event', () => {
+		Events.site = ['35', '57']
 		expect(
-			Events.filterModel_Site({siteId: 'badger'})
+			Events.filterModel_Site({siteIds: []})
+		).toEqual(true)
+	})
+
+	test('no match on ids', () => {
+		Events.site = ['12']
+		expect(
+			Events.filterModel_Site({siteIds: ['3','8']})
 		).toEqual(false)
+	})
+
+	test('partial match on ids', () => {
+		Events.site = ['20','45']
+		expect(
+			Events.filterModel_Site({siteIds: ['45','80']})
+		).toEqual(true)
 	})
 })
 

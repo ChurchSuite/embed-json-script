@@ -47,7 +47,7 @@ export default class CSEvents extends Base {
 		let categoryFilter = this.filterValue('category')
 		// no filter
 		if (categoryFilter == null) return true
-		// return on id or name for legacy support
+		// return on id
 		return categoryFilter.includes('' + model.categoryId)
 	}
 
@@ -88,10 +88,12 @@ export default class CSEvents extends Base {
 		// no filter
 		if (siteFilter === null) return true
 
-		// all sites groups
-		if (model.siteId == null) return true
+		// all sites event
+		if (model.siteIds == null) return true
+		if (model.siteIds.length == 0) return true
 
-		return siteFilter.includes('' + model.siteId)
+		// check for intersection of the two arrays
+		return siteFilter.flat().some(siteId => model.siteIds.flat().includes(siteId))
 	}
 
 	async init() {
