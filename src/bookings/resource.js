@@ -1,6 +1,6 @@
 export default class Resource {
 	/**
-	 * Creates an Organisation from the JSON feed data array.
+	 * Creates a Resource from the JSON feed data array.
 	 * @param {object} json
 	 */
 	constructor(json) {

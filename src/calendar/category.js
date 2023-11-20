@@ -1,6 +1,6 @@
-export default class Resource {
+export default class Category {
 	/**
-	 * Creates an Organisation from the JSON feed data array.
+	 * Creates a Category from the JSON feed data array.
 	 * @param {object} json
 	 */
 	constructor(json) {
