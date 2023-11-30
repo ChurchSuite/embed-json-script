@@ -74,21 +74,24 @@ test('link property - provided', () => {
 	const data = {
 		...json,
 		url: 'https://demo.churchsuite.com/events/kaboom',
+		signup_enabled: false,
 	}
 	const event = new Event(data);
 	expect(event.link).toBe('https://demo.churchsuite.com/events/kaboom');
-	expect(event.signupEnabled).toBe(true);
+	expect(event.signupEnabled).toBe(false);
 });
 
-// if embed signup enabled, give them a link
+// this can never be empty because of the API array
+// but check that it isn't linked to the signup_enabled property
 test('link property - empty', () => {
 	const data = {
 		...json,
 		url: '',
+		signup_enabled: true,
 	}
 	const event = new Event(data);
 	expect(event.link).toBe('');
-	expect(event.signupEnabled).toBe(false);
+	expect(event.signupEnabled).toBe(true);
 });
 
 test('location property', () => {
