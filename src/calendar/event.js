@@ -18,7 +18,7 @@ export default class Event {
 		this.name = json.name
 		this.online = json.location.type == 'online'
 		this.postcode = json.location.address
-		this.signupEnabled = json.url.length > 0
+		this.signupEnabled = json.signup_enabled
 		this.siteIds = json.site_ids
 		this.start = dayjs(json.datetime_start)
 		// add in the original json

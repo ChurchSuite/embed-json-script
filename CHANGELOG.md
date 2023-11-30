@@ -2,6 +2,13 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.3.1] - 2023-11-30
+
+### Fixed
+
+-   Bug fix for event page link - we always provide one in the JSON now rather than removing it when embed sign-up wasn't available.
+-   Bug fix for signupEnabled prop so that this doesn't just follow the presence of a link in the json.
+
 ## [4.3.0] - 2023-11-20
 
 This update brings with it some significant changes to the way CSEvents works - they now use a paginated response which contains categories, sites, brands and configuration data. Event information can be found in the data Array. This change allows us to be more efficient for large datasets.
