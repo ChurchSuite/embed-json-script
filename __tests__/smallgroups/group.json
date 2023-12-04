@@ -83,7 +83,7 @@
       "required": false,
       "settings": {
         "my": { "edit": true, "view": true, "required": false },
-        "embed": { "edit": false, "view": false, "required": false },
+        "embed": { "edit": false, "required": false },
         "connect": { "edit": false, "view": false, "required": false }
       },
       "ctime": "2022-05-04 23:21:36",
@@ -114,7 +114,7 @@
       "required": false,
       "settings": {
         "my": { "edit": true, "view": true, "required": false },
-        "embed": { "edit": false, "view": false, "required": false },
+        "embed": { "edit": false, "required": false },
         "connect": { "edit": false, "view": false, "required": false }
       },
       "ctime": "2022-05-04 23:22:11",
@@ -184,7 +184,7 @@
       "required": false,
       "settings": {
         "my": { "edit": true, "view": true, "required": false },
-        "embed": { "edit": false, "view": true, "required": false },
+        "embed": { "edit": false, "required": false },
         "connect": { "edit": false, "view": true, "required": false }
       },
       "ctime": "2021-02-03 20:46:12",
@@ -269,7 +269,7 @@
       "required": false,
       "settings": {
         "my": { "edit": true, "view": true, "required": false },
-        "embed": { "edit": false, "view": true, "required": false },
+        "embed": { "edit": false, "required": false },
         "connect": { "edit": false, "view": true, "required": false }
       },
       "ctime": "2021-02-03 08:06:15",
@@ -322,7 +322,7 @@
       "required": true,
       "settings": {
         "my": { "edit": false, "view": false, "required": false },
-        "embed": { "edit": false, "view": false, "required": false },
+        "embed": { "edit": false, "required": false },
         "connect": { "edit": false, "view": false, "required": false }
       },
       "ctime": "2021-02-03 08:06:15",

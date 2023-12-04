@@ -38,7 +38,7 @@ test('active property - group should be active', () => {
 });
 
 let customFields = {
-	field_1280: {
+	field_1280: { 
 		id: 1280,
 		resource_type: 'churchsuite_module',
 		resource_id: 9,
@@ -71,7 +71,7 @@ let customFields = {
 	}
 };
 
-test('customFields property - provided, embed visible', () => {
+test('customFields property - provided', () => {
 	const data = { ...json, custom_fields: customFields }
 	const group = new Group(data);
 
@@ -79,14 +79,6 @@ test('customFields property - provided, embed visible', () => {
 	expect(group.customFields[0].name).toBe('Leader/s');
 	expect(group.customFields[0].value).toBe('');
 	expect(group.customFields[0]._original[2].required).toBe(false);
-});
-
-test('customFields property - provided, embed not visible', () => {
-	customFields.field_1280.settings.embed.view = false;
-	const data = { ...json, custom_fields: customFields }
-	const group = new Group(data);
-
-	expect(group.customFields).toBe(null);
 });
 
 test('customFields property - none given', () => {
