@@ -55,8 +55,7 @@ export default class Group {
 			// just use the version with a formatted_value
 			if (
 				field.constructor === Object &&
-				field.hasOwnProperty('formatted_value') &&
-				field.settings.embed.view
+				field.hasOwnProperty('formatted_value')
 			) {
 				// only add if this field is visible in embed
 				formattedCustomFields.push({

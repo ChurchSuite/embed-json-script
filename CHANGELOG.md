@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.3.2] - 2023-11-30
+
+### Fixed
+
+-   Bug fix for group custom fields still filtering by the deprecated embed view setting which may not be present in the field object
+
 ## [4.3.1] - 2023-11-30
 
 ### Fixed
