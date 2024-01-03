@@ -36,10 +36,11 @@ export default class CSOrganisations extends Base {
 	}
 
 	async init() {
-		await super.init()
-
 		// Alpine doesn't recognise a nice getter method, so use $watch to mirror models property to organisations
+		// do this before parent init() so that when we filterModels in it, it initialises this property
 		this.$watch('models', value => (this.organisations = value))
+
+		await super.init()
 	}
 
 	constructor(options) {
