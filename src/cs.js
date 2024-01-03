@@ -43,7 +43,7 @@ window.CSGroups = CSGroups
 import CSOrganisations from './network/CSOrganisations'
 window.CSOrganisations = CSOrganisations
 
-let scriptVersion = '4.3.2'
+let scriptVersion = '4.3.3'
 
 // our main json feed object
 window.CS = {
