@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.3.4] - 2024-01-31
+
+### Fixed
+
+- Bug fix for groups not filtering by site, caused by group siteId not being typed properly as int/null
+
 ## [4.3.3] - 2024-01-03
 
 ### Fixed
