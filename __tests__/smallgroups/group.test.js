@@ -335,7 +335,8 @@ test('signupRunning property - signup not started yet', () => {
 });
 
 test('site_id property - provided', () => {
-	const group = new Group({ ...json, site_id: 34 });
+	// API data comes over as strings - make sure it's an integer for filtering
+	const group = new Group({ ...json, site_id: "34" });
 	expect(group.siteId).toBe(34);
 });
 

@@ -28,7 +28,7 @@ export default class Group {
 		this.signupEnd = json.signup_date_end ? dayjs(json.signup_date_end) : null
 		this.signupRunning = this.signupIsRunning(json)
 		this.signupInFuture = this.signupInFuture()
-		this.siteId = json.site_id
+		this.siteId = json.site_id ? parseInt(json.site_id) : null
 		this._original = json
 
 		// optional configuration details
