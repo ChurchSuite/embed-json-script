@@ -21,6 +21,7 @@ export default class Event {
 		this.signupEnabled = json.signup_enabled
 		this.siteIds = json.site_ids
 		this.start = dayjs(json.datetime_start)
+		this.status = json.status
 		// add in the original json
 		this._original = json
 	}

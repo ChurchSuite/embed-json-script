@@ -154,6 +154,12 @@ test('start property', () => {
 	expect(event.start.format('DD/MM/YYYY')).toBe('25/05/2022');
 });
 
+test('status property', () => {
+	const data = { ...json, status: "pending" }
+	const event = new Event(data);
+	expect(event.status).toBe('pending');
+});
+
 test('_original property', () => {
 	const data = { ...json, pin: 412094 }
 	const event = new Event(data);

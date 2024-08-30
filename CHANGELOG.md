@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.3.5] - 2024-08-30
+
+### Added
+
+- Added a 'status' property to CA event, to start removing the need for the _original key
+
 ## [4.3.4] - 2024-01-31
 
 ### Fixed
