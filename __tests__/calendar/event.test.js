@@ -57,6 +57,12 @@ test('end property', () => {
 	expect(event.end.format('DD/MM/YYYY')).toBe('25/05/2022');
 });
 
+test('id property', () => {
+	const data = { ...json, identifier: "asdfghj" }
+	const event = new Event(data);
+	expect(event.id).toBe('asdfghj');
+});
+
 test('image property - provided', () => {
 	const data = { ...json, images: { md: { url: 'test' } } }
 	const event = new Event(data);

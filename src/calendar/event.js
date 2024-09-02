@@ -9,6 +9,7 @@ export default class Event {
 		this.categoryId = json.category_id
 		this.description = json.description
 		this.end = dayjs(json.datetime_end)
+		this.id = json.identifier
 		this.image =
 			json.images != null && json.images.constructor === Object ? json.images.md.url : ''
 		this.link = json.url

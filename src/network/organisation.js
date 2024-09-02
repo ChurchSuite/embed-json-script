@@ -7,6 +7,7 @@ export default class Organisation {
 		this.charityNumber = json.charity_number
 		this.customFields = json.custom_fields
 		this.email = json.email
+		this.id = json.id
 		this.image =
 			json.images != null && json.images.constructor === Object ? json.images.md.url : ''
 		this.meetingAddress = json.meeting_address

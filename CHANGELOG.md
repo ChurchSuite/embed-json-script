@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.3.6] - 2024-09-02
+
+### Added
+
+- SG Group, NE Organisation, CA Event and BO Booked Resource models all now have an id property, so that all models now have a consistent unique id property
+
 ## [4.3.5] - 2024-08-30
 
 ### Added

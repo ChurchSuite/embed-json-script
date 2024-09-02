@@ -170,6 +170,11 @@ test('frequency property - custom', () => {
 	expect(group.frequency).toBe('every other minute');
 });
 
+test('id property', () => {
+	const group = new Group({ ...json, identifier: 'asdfasdf' });
+	expect(group.id).toBe('asdfasdf');
+});
+
 test('image property - provided', () => {
 	expect(group.image).toBe('https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/2_uxcyQI88_md.png');
 });

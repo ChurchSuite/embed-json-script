@@ -13,6 +13,7 @@ const json = {
 
 const bookedResource = new BookedResource(json);
 
+test('id property', () => expect(bookedResource.id).toBe(17687));
 test('name property', () => expect(bookedResource.name).toBe('Lounge'));
 test('quantity property', () => expect(bookedResource.quantity).toBe(1));
 test('start property', () => expect(bookedResource.start.isSame(dayjs("2023-11-01 08:00:00"))).toBe(true));

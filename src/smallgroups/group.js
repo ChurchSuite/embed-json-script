@@ -13,6 +13,7 @@ export default class Group {
 		this.day = json.day != null ? dayjs().isoWeekday(json.day) : null
 		this.embedSignup = json.embed_signup == 1
 		this.endingSoon = this.isEndingSoon(json)
+		this.id = json.identifier
 		this.image =
 			json.images != null && json.images.constructor === Object ? json.images.md.url : ''
 		this.labels = json.labels

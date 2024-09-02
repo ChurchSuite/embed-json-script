@@ -70,6 +70,12 @@ test('email property', () => {
 	expect(organisation.email).toBe('support@churchsuite.com');
 });
 
+test('id property', () => {
+	const data = { ...json, id: 123 }
+	const organisation = new Organisation(data);
+	expect(organisation.id).toBe(123);
+});
+
 test('image property - provided', () => {
 	const data = { ...json, images: { md: { url: 'google.com' } } }
 	const organisation = new Organisation(data);
