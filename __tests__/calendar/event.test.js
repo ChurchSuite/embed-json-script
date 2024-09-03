@@ -58,9 +58,9 @@ test('end property', () => {
 });
 
 test('id property', () => {
-	const data = { ...json, identifier: "asdfghj" }
+	const data = { ...json, id: 12344 }
 	const event = new Event(data);
-	expect(event.id).toBe('asdfghj');
+	expect(event.id).toBe(12344);
 });
 
 test('image property - provided', () => {

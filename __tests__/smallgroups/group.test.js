@@ -171,8 +171,8 @@ test('frequency property - custom', () => {
 });
 
 test('id property', () => {
-	const group = new Group({ ...json, identifier: 'asdfasdf' });
-	expect(group.id).toBe('asdfasdf');
+	const group = new Group({ ...json, id: 1235 });
+	expect(group.id).toBe(1235);
 });
 
 test('image property - provided', () => {

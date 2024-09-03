@@ -2,7 +2,7 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
-## [4.3.6] - 2024-09-02
+## [4.3.7] - 2024-09-02
 
 ### Added
 
