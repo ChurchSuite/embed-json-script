@@ -31,17 +31,17 @@ document.addEventListener('alpine:init', () => {
 	Alpine.data('CSMultiSelect', CSMultiSelect)
 })
 
-import CSBookedResources from './bookings/CSBookedResources'
-window.CSBookedResources = CSBookedResources
+// import CSBookedResources from './bookings/CSBookedResources'
+// window.CSBookedResources = CSBookedResources
 
 import CSEvents from './calendar/CSEvents'
 window.CSEvents = CSEvents
 
-import CSGroups from './smallgroups/CSGroups'
-window.CSGroups = CSGroups
+// import CSGroups from './smallgroups/CSGroups'
+// window.CSGroups = CSGroups
 
-import CSOrganisations from './network/CSOrganisations'
-window.CSOrganisations = CSOrganisations
+// import CSOrganisations from './network/CSOrganisations'
+// window.CSOrganisations = CSOrganisations
 
 let scriptVersion = '@package_version@'
 
@@ -116,14 +116,6 @@ window.CS = {
 
 		// detect URL scheme if not provided
 		let scheme = this.detectURLScheme()
-
-		if (!options.hasOwnProperty('configuration')) {
-			console.error('WARNING: v4 of the ChurchSuite JSON script must be used with an embed configuration UUID. Please use v3 if using options to filter your data.')
-			throw {
-				message: 'v4 of ChurchSuite JSON script must be used with a configuration UUID.',
-				type: 'format'
-			}
-		}
 
 		uuid = options.configuration
 		delete options.configuration
