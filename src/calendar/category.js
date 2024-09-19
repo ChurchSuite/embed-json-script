@@ -6,7 +6,8 @@ export default class Category {
 	constructor(json) {
 		this.id = json.id
 		this.name = json.name
-		this.colour = json.colour
+		this.brand_id = json.brand_id
+		this.color = json.color
 		this.status = json.status
 	}
 }
