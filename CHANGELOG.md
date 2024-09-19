@@ -2,6 +2,15 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.0.0] - 2024-09-19 - Major Update
+
+As part of ongoing work to improve our developer APIs, we've redesigned and documented the JSON endpoint for Calendar events, and so have made corresponding updates to this package. As other module JSON feeds are redesigned and documented, they will be reintroduced to this major version.
+
+### Changed
+
+- SG Groups, NE Organisations and BO Booked Resources have been disabled, pending further improvement
+- The Brand logo property now contains the height and width alongside the URL, and the emblem size properties have changed
+
 ## [4.3.7] - 2024-09-02
 
 ### Added
