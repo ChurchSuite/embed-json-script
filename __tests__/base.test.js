@@ -271,19 +271,12 @@ describe('init method', () => {
 	})
 
 	test('configuration key', async () => {
-		window.CS.fetchJSON = jest.fn().mockResolvedValue({ configuration: 'yes', data: ['test'] })
+		window.CS.fetchJSON = jest.fn().mockResolvedValue({ configuration: 'yes', events: ['test'] })
+		CSBase.resourceModule = 'calendar'
 		await CSBase.init()
 
 		expect(CSBase.configuration).toEqual('yes')
 		expect(CSBase.modelsAll).toEqual(['test'])
-	})
-
-	test('no configuration key', async () => {
-		CSBase.modelsAll = []
-		window.CS.fetchJSON = jest.fn().mockResolvedValue(['test2'])
-		await CSBase.init()
-
-		expect(CSBase.modelsAll).toEqual(['test2'])
 	})
 })
 

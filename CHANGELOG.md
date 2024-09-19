@@ -11,6 +11,7 @@ As part of ongoing work to improve our developer APIs, we've redesigned and docu
 - SG Groups, NE Organisations and BO Booked Resources have been disabled, pending further improvement
 - The Brand logo property now contains the height and width alongside the URL, and the emblem size properties have changed
 - CA Category now has a brand_id property, and the "colour" key has been renamed to "color"
+- Site addresses now have latitude and longitude keys
 
 ## [4.3.7] - 2024-09-02
 

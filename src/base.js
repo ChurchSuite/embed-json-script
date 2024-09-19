@@ -140,8 +140,7 @@ export default class Base {
 			}
 
 			/**
-			 * For efficiency, the Organisation response sends over the sites once
-			 * on page 1, rather than on every Organisation.
+			 * For efficiency, we send over the sites once on page 1
 			 */
 			if (response.hasOwnProperty('sites')) {
 				response.sites.forEach(site => this.sites.push(new Site(site)))
