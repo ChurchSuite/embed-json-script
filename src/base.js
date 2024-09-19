@@ -130,12 +130,11 @@ export default class Base {
 				this.configuration = response.configuration
 				this.mapConfiguration()
 
-				response.data.forEach(model => {
-					this.modelsAll.push(this.buildModelObject(model))
-				})
-			} else {
-				// old style flat array
-				response.forEach(model => {
+				let key = {
+					calendar: 'events',
+				}[this.resourceModule]
+
+				response[key].forEach(model => {
 					this.modelsAll.push(this.buildModelObject(model))
 				})
 			}
