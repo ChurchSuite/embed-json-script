@@ -269,15 +269,6 @@ describe('init method', () => {
 	test('postInit', () => {
 		expect(CSBase.postInit).toBeCalledWith([])
 	})
-
-	test('configuration key', async () => {
-		window.CS.fetchJSON = jest.fn().mockResolvedValue({ configuration: 'yes', events: ['test'] })
-		CSBase.resourceModule = 'calendar'
-		await CSBase.init()
-
-		expect(CSBase.configuration).toEqual('yes')
-		expect(CSBase.modelsAll).toEqual(['test'])
-	})
 })
 
 test('postInit function', () => {

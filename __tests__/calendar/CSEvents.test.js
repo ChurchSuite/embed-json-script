@@ -71,7 +71,7 @@ describe('buildModelObject() method', () => {
 	})
 
 	test('mergeIdentifiers property returns only the first event identifier', () => {
-		expect(Events.mergeIdentifiers).toEqual([event._original.merge_identifier])
+		expect(Events.mergeIdentifiers).toEqual([event.mergeIdentifier])
 	})
 })
 

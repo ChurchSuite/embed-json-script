@@ -5,25 +5,32 @@ export default class Event {
 	 */
 	constructor(json) {
 		this.allDay =
-			json.datetime_start.slice(-8) == '00:00:00' && json.datetime_end.slice(-8) == '23:59:59'
+			json.starts_at.slice(-9) == '00:00:00Z' && json.ends_at.slice(-9) == '23:59:59Z'
+		this.allSites = json.all_sites
 		this.categoryId = json.category_id
 		this.description = json.description
-		this.end = dayjs(json.datetime_end)
+		this.end = dayjs(json.ends_at)
 		this.id = json.id
-		this.image =
-			json.images != null && json.images.constructor === Object ? json.images.md.url : ''
+		this.identifier = json.identifier
+		this.image = json.image == null ? null : {
+			thumbnail: json.image.thumbnail,
+			small: json.image.small,
+			medium: json.image.medium,
+			large: json.image.large,
+		}
+		this.latitude = json.location.latitude
 		this.link = json.url
 		this.location = json.location.name
-		this.latitude = json.location.latitude
 		this.longitude = json.location.longitude
+		this.meetingUrl = json.location.type == 'online' ? json.location.url : null
+		this.mergeIdentifier = json.merge_identifier
 		this.name = json.name
 		this.online = json.location.type == 'online'
 		this.postcode = json.location.address
+		this.sequenceId = json.sequence_id
 		this.signupEnabled = json.signup_enabled
 		this.siteIds = json.site_ids
-		this.start = dayjs(json.datetime_start)
+		this.start = dayjs(json.starts_at)
 		this.status = json.status
-		// add in the original json
-		this._original = json
 	}
 }

@@ -15,19 +15,19 @@ const json = require('./event.json');
 const event = new Event(json);
 
 test('allDay property - is all day', () => {
-	const data = { ...json, datetime_start: "2022-05-25 00:00:00", datetime_end: "2022-05-25 23:59:59" }
+	const data = { ...json, starts_at: "2022-05-25T00:00:00Z", ends_at: "2022-05-25T23:59:59Z" }
 	const event = new Event(data);
 	expect(event.allDay).toBe(true);
 });
 
 test('allDay property - is not all day', () => {
-	const data = { ...json, datetime_start: "2022-05-25 09:00:00", datetime_end: "2022-05-25 23:59:59" }
+	const data = { ...json, starts_at: "2022-05-25T09:00:00Z", ends_at: "2022-05-25T23:59:59Z" }
 	const event = new Event(data);
 	expect(event.allDay).toBe(false);
 });
 
 test('allDay property - is not all day', () => {
-	const data = { ...json, datetime_start: "2022-05-25 00:00:00", datetime_end: "2022-05-25 16:00:00" }
+	const data = { ...json, starts_at: "2022-05-25T00:00:00Z", ends_at: "2022-05-25T16:00:00Z" }
 	const event = new Event(data);
 	expect(event.allDay).toBe(false);
 });
@@ -52,7 +52,7 @@ test('description property', () => {
 });
 
 test('end property', () => {
-	const data = { ...json, datetime_end: "2022-05-25 00:00:00" }
+	const data = { ...json, ends_at: "2022-05-25T00:00:00Z" }
 	const event = new Event(data);
 	expect(event.end.format('DD/MM/YYYY')).toBe('25/05/2022');
 });
@@ -63,16 +63,21 @@ test('id property', () => {
 	expect(event.id).toBe(12344);
 });
 
-test('image property - provided', () => {
-	const data = { ...json, images: { md: { url: 'test' } } }
+test('identifier property', () => {
+	const data = { ...json, identifier: 'asdf' }
 	const event = new Event(data);
-	expect(event.image).toBe('test');
+	expect(event.identifier).toBe('asdf');
+});
+
+test('image property - provided', () => {
+	const event = new Event(json);
+	expect(event.image.medium).toBe('https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1129693_neNagBWQ_md.jpg');
 });
 
 test('image property - not provided', () => {
-	const data = { ...json, brand: { emblem: 'sandwich' }, images: null }
+	const data = { ...json, brand: { emblem: 'sandwich' }, image: null }
 	const event = new Event(data);
-	expect(event.image).toBe(''); // we no longer pull from emblem
+	expect(event.image).toBe(null); // we no longer pull from emblem
 });
 
 // if signup is disabled, we can link to event page (they can't sign up anyway!)
@@ -125,15 +130,23 @@ test('name property', () => {
 });
 
 test('online property - true', () => {
-	const data = { ...json, location: { type: 'online' } }
+	const data = { ...json, location: { type: 'online', url: 'asdf' } }
 	const event = new Event(data);
 	expect(event.online).toBe(true);
+	expect(event.meetingUrl).toBe('asdf');
 });
 
 test('online property - false', () => {
-	const data = { ...json, location: { type: 'physical' } }
+	const data = { ...json, location: { type: 'physical', url: 'asdf' } }
 	const event = new Event(data);
 	expect(event.online).toBe(false);
+	expect(event.meetingUrl).toBe(null);
+});
+
+test('mergeIdentifier property', () => {
+	const data = { ...json, merge_identifier: 'asdf' }
+	const event = new Event(data);
+	expect(event.mergeIdentifier).toBe('asdf');
 });
 
 test('postcode property', () => {
@@ -143,19 +156,20 @@ test('postcode property', () => {
 });
 
 test('siteIds property - provided', () => {
-	const data = { ...json, site_ids: [2,6] }
+	const data = { ...json, site_ids: [2,6], all_sites: false }
 	const event = new Event(data);
 	expect(event.siteIds).toStrictEqual([2,6]);
+	expect(event.allSites).toBe(false);
 });
 
-test('site property - not provided', () => {
-	const data = { ...json, site_ids: null }
+test('allSites property', () => {
+	const data = { ...json, site_ids: [2, 5], all_sites: true }
 	const event = new Event(data);
-	expect(event.siteIds).toBe(null);
+	expect(event.allSites).toBe(true);
 });
 
 test('start property', () => {
-	const data = { ...json, datetime_start: "2022-05-25 00:00:00" }
+	const data = { ...json, starts_at: "2022-05-25T00:00:00Z" }
 	const event = new Event(data);
 	expect(event.start.format('DD/MM/YYYY')).toBe('25/05/2022');
 });
@@ -164,10 +178,4 @@ test('status property', () => {
 	const data = { ...json, status: "pending" }
 	const event = new Event(data);
 	expect(event.status).toBe('pending');
-});
-
-test('_original property', () => {
-	const data = { ...json, pin: 412094 }
-	const event = new Event(data);
-	expect(event._original.pin).toBe(412094);
 });
