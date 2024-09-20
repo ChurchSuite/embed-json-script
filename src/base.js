@@ -150,30 +150,27 @@ export default class Base {
 			this.filterModels()
 
 			// go and fetch the rest of the paginated data
-			if (response.hasOwnProperty('pagination')) {
-				// don't do anything if we already have all the data
-				if (response.pagination.num_results <= response.pagination.results_per_page) return
+			if (response.pagination.num_results <= response.pagination.per_page) return
 
+			const totalPages = Math.ceil(response.pagination.num_results / response.pagination.per_page)
 
-					this.$nextTick(() => {
-						let promises = []
-						for (let page = 2; page <= response.pagination.totalPages; page++) {
-							let options = Object.assign({}, this.options)
-							options.page = page
-							promises.push(CS.fetchJSON(this.resourceModule, options)
-								.then(response => response.data.forEach(model => {
-									this.modelsAll.push(this.buildModelObject(model))
-								}))
-								.catch(error => {
-									this.error = error
-									this.errorMessage = error.message
-								}))
-						}
+			this.$nextTick(() => {
+				let promises = []
+				for (let page = 2; page <= totalPages; page++) {
+					let options = Object.assign({}, this.options)
+					options.page = page
+					promises.push(CS.fetchJSON(this.resourceModule, options)
+						.then(response => response.data.forEach(model => {
+							this.modelsAll.push(this.buildModelObject(model))
+						}))
+						.catch(error => {
+							this.error = error
+							this.errorMessage = error.message
+						}))
+				}
 
-						Promise.allSettled(promises).then(() => this.filterModels())
-					})
-
-			}
+				Promise.allSettled(promises).then(() => this.filterModels())
+			})
 
 		} catch (error) {
 			// something went wrong - set the error and message
