@@ -1,6 +1,7 @@
 import Base from '../base'
 import Event from './event'
 import Category from './category'
+import Configuration from './configuration';
 
 export default class CSEvents extends Base {
 	buildModelObject = function (model) {
@@ -14,6 +15,13 @@ export default class CSEvents extends Base {
 		}
 
 		return event
+	}
+
+	/**
+	 * Convert the Embed Configuration data into a nice Configuration model.
+	 */
+	buildConfiguration = function (data) {
+		return new Configuration(data)
 	}
 
 	/**

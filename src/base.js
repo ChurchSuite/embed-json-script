@@ -127,7 +127,7 @@ export default class Base {
 
 			if (response.hasOwnProperty('configuration')) {
 				// new style configuration data
-				this.configuration = response.configuration
+				this.configuration = this.buildConfiguration(response.configuration)
 
 				let key = {
 					calendar: 'events',

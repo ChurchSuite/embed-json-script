@@ -12,6 +12,7 @@ As part of ongoing work to improve our developer APIs, we've redesigned and docu
 - The Brand logo property now contains the height and width alongside the URL, and the emblem size properties have changed
 - CA Category now has a brand_id property, and the "colour" key has been renamed to "color"
 - Site addresses now have latitude and longitude keys
+- The CA Embed Configuration model no longer has id/mtime/muser/ctime/cuser/resource_module properties, and the "type" property has been renamed to "format"
 
 ## [4.3.7] - 2024-09-02
 
