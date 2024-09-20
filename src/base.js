@@ -128,7 +128,6 @@ export default class Base {
 			if (response.hasOwnProperty('configuration')) {
 				// new style configuration data
 				this.configuration = response.configuration
-				this.mapConfiguration()
 
 				let key = {
 					calendar: 'events',
@@ -186,11 +185,6 @@ export default class Base {
 		}
 
 	}
-
-	/**
-	 * This method maps the configuration settings over to json script options
-	 */
-	mapConfiguration = function () {}
 
 	/**
 	 * An empty function that runs at the end of the init() method for each module.

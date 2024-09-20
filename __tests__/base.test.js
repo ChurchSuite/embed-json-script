@@ -280,10 +280,6 @@ describe('init method', () => {
 	})
 })
 
-test('mapConfiguration function', () => {
-	expect(CSBase.mapConfiguration()).toEqual(undefined)
-})
-
 test('postInit function', () => {
 	expect(CSBase.postInit()).toEqual(undefined)
 })
