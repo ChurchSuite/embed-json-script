@@ -96,9 +96,7 @@ export default class CSEvents extends Base {
 		// no filter
 		if (siteFilter === null) return true
 
-		// all sites event
-		if (model.siteIds == null) return true
-		if (model.siteIds.length == 0) return true
+		if (model.allSites) return true
 
 		// check for intersection of the two arrays
 		return siteFilter.flat().some(siteId => model.siteIds.flat().includes(siteId))
