@@ -1,6 +1,7 @@
 import Base from '../base'
 import Event from './event'
 import Category from './category'
+import Configuration from './configuration';
 
 export default class CSEvents extends Base {
 	buildModelObject = function (model) {
@@ -14,6 +15,13 @@ export default class CSEvents extends Base {
 		}
 
 		return event
+	}
+
+	/**
+	 * Convert the Embed Configuration data into a nice Configuration model.
+	 */
+	buildConfiguration = function (data) {
+		return new Configuration(data)
 	}
 
 	/**
@@ -88,9 +96,7 @@ export default class CSEvents extends Base {
 		// no filter
 		if (siteFilter === null) return true
 
-		// all sites event
-		if (model.siteIds == null) return true
-		if (model.siteIds.length == 0) return true
+		if (model.allSites) return true
 
 		// check for intersection of the two arrays
 		return siteFilter.flat().some(siteId => model.siteIds.flat().includes(siteId))

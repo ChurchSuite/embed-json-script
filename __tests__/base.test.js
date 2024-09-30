@@ -269,26 +269,6 @@ describe('init method', () => {
 	test('postInit', () => {
 		expect(CSBase.postInit).toBeCalledWith([])
 	})
-
-	test('configuration key', async () => {
-		window.CS.fetchJSON = jest.fn().mockResolvedValue({ configuration: 'yes', data: ['test'] })
-		await CSBase.init()
-
-		expect(CSBase.configuration).toEqual('yes')
-		expect(CSBase.modelsAll).toEqual(['test'])
-	})
-
-	test('no configuration key', async () => {
-		CSBase.modelsAll = []
-		window.CS.fetchJSON = jest.fn().mockResolvedValue(['test2'])
-		await CSBase.init()
-
-		expect(CSBase.modelsAll).toEqual(['test2'])
-	})
-})
-
-test('mapConfiguration function', () => {
-	expect(CSBase.mapConfiguration()).toEqual(undefined)
 })
 
 test('postInit function', () => {

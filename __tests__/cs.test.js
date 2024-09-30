@@ -33,15 +33,15 @@ test('dayjs isoWeek plugin is loaded', () => {
 // test('CSMultiSelect is on window', () => {
 // 	expect(window.CSMultiSelect()).toBeInstanceOf(CSMultiSelect)
 // })
-test('CSOrganisations is on window', () => {
-	expect(new window.CSOrganisations()).toBeInstanceOf(CSOrganisations)
-})
+// test('CSOrganisations is on window', () => {
+// 	expect(new window.CSOrganisations()).toBeInstanceOf(CSOrganisations)
+// })
 test('CSEvents is on window', () => {
 	expect(new window.CSEvents()).toBeInstanceOf(CSEvents)
 })
-test('CSGroups is on window', () => {
-	expect(new window.CSGroups()).toBeInstanceOf(CSGroups)
-})
+// test('CSGroups is on window', () => {
+// 	expect(new window.CSGroups()).toBeInstanceOf(CSGroups)
+// })
 
 describe('CS object', () => {
 	test('default locale', () => {

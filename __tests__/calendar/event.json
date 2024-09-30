@@ -1,57 +1,32 @@
 {
-    "id": 1128742,
-    "identifier": "tosse8ie",
-    "sequence": "1128733",
-    "name": "The Alpha Course - Winter 2023",
-    "datetime_start": "2023-11-20 19:30:00",
-    "datetime_end": "2023-11-20 21:30:00",
-    "description": "<p>Over 27 million people <strong>worldwide</strong> have now attended an Alpha course, taking the opportunity to explore the meaning of life in a relaxed and non-pressured social environment.</p> <p>Alpha is designed for people who are interested in finding out more about the Christian faith. There is a meal, followed by a thought provoking talk, then a chance to ask questions and discuss in a small group context.</p> <p>Alpha is ideal for anyone asking questions about faith and interested in exploring ideas. It's also good for new Christians, newcomers to church and those wanting to brush up on the basics. It's totally free and you're not tied into anything.</p> <p>Missed a talk? You will find them all.<br /><br />Here's the video:<br /><br /><br /><br /></p> <iframe title=\"LOVECHURCH LIVE || 19th February 2023\" src=\"https://www.youtube.com/embed/W8Btx7yFz2Q\" width=\"450\" frameborder=\"0\" allowfullscreen=\"\"></iframe> <p><span style=\"font-size: 8pt;\">Refund policy: Once you've paid - that's it - we have your money. No refunds!</span></p>",
-    "category_id": "23",
+    "id": 1129696,
+    "identifier": "jtem7s6r",
+    "sequence_id": 1129693,
+    "name": "Parenting Course",
+    "starts_at": "2024-09-23T18:15:00Z",
+    "ends_at": "2024-09-23T20:30:00Z",
     "status": "confirmed",
-    "capacity": 35,
-    "images": {
-        "thumb": {
-            "px": 128,
-            "square": true,
-            "mtime": 1676893226,
-            "url": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1128733_fYRHN75c_thumb.jpg"
-        },
-        "sm": {
-            "px": 256,
-            "square": false,
-            "mtime": 1676893226,
-            "url": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1128733_fYRHN75c_sm.jpg"
-        },
-        "md": {
-            "px": 512,
-            "square": false,
-            "mtime": 1676893226,
-            "url": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1128733_fYRHN75c_md.jpg"
-        },
-        "lg": {
-            "px": 1024,
-            "square": false,
-            "mtime": 1676893226,
-            "url": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1128733_fYRHN75c_lg.jpg"
-        },
-        "original_16": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1128733_fYRHN75c_thumb.jpg",
-        "original_100": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1128733_fYRHN75c_sm.jpg",
-        "original_500": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1128733_fYRHN75c_md.jpg",
-        "original_1000": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1128733_fYRHN75c_lg.jpg",
-        "square_16": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1128733_fYRHN75c_thumb.jpg",
-        "square_100": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1128733_fYRHN75c_thumb.jpg"
+    "description": "Here is a brief description about the event - a five week course for parents new and old.",
+    "category_id": 21,
+    "signup_enabled": true,
+    "image": {
+        "thumbnail": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1129693_neNagBWQ_thumb.jpg",
+        "small": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1129693_neNagBWQ_sm.jpg",
+        "medium": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1129693_neNagBWQ_md.jpg",
+        "large": "https://cdn.churchsuite.com/2mCEi8cf/calendar/events/1129693_neNagBWQ_lg.jpg"
     },
     "location": {
-        "address": "123 High Street, Nottingham NG1 2AB",
-        "latitude": "52.95524628612522",
-        "longitude": "-1.1506169950370815",
-        "name": "Kings Cafe",
+        "name": "Main Church Hall",
         "type": "physical",
+        "address": "NG1 1AB",
+        "latitude": 52.954348,
+        "longitude": -1.139876,
         "url": null
     },
-    "site_ids": null,
-    "signup_enabled": true,
-    "sequence_signup": true,
-    "url": "http://dev.churchsuite/events/tosse8ie",
-    "merge_identifier": null
+    "all_sites": true,
+    "site_ids": [
+        1,
+        19
+    ],
+    "merge_identifier": "1129693|Parenting Course"
 }

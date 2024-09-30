@@ -7,13 +7,15 @@ const json = {
 	color: 'orange',
 	order: 4,
 	address: {
-		line1: 'Line 1',
-		line2: 'Line 2',
-		line3: 'Line 3',
+		line_1: 'Line 1',
+		line_2: 'Line 2',
+		line_3: 'Line 3',
 		city: 'City',
 		county: 'County',
 		country: 'Country',
 		postcode: 'Postcode',
+		latitude: 52.942637,
+		longitude: -1.171216
 	}
 }
 

@@ -4,74 +4,27 @@ const json = {
 	"id": 18,
 	"name": "Kings Hope Church",
 	"default": true,
-	"hashes": "{\"emblem\":{\"hash\":\"7KJawf\",\"extension\":\"png\",\"source\":\"admin\"},\"logo\":{\"hash\":\"D2wu3K\",\"extension\":\"png\",\"source\":\"admin\"}}",
 	"emblem": {
-		"16": {
-			"px": 16,
-			"square": true,
-			"transparent": false,
-			"mtime": "1619432247",
-			"url": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_7KJawf_16.png"
-		},
-		"32": {
-			"px": 32,
-			"square": true,
-			"transparent": false,
-			"mtime": "1619432247",
-			"url": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_7KJawf_32.png"
-		},
-		"64": {
-			"px": 64,
-			"square": true,
-			"transparent": false,
-			"mtime": "1619432247",
-			"url": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_7KJawf_64.png"
-		},
-		"128": {
-			"px": 128,
-			"square": true,
-			"transparent": false,
-			"mtime": "1619432247",
-			"url": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_7KJawf_128.png"
-		},
-		"152": {
-			"px": 152,
-			"square": true,
-			"transparent": false,
-			"mtime": "1619432247",
-			"url": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_7KJawf_152.png"
-		},
-		"200": {
-			"px": 200,
-			"square": true,
-			"transparent": false,
-			"mtime": "1619432247",
-			"url": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_7KJawf_200.png"
-		},
-		"512": {
-			"px": 512,
-			"square": true,
-			"transparent": false,
-			"mtime": "1619432247",
-			"url": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_7KJawf_512.png"
-		}
+		"px_16": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_bWxJxu_16.png",
+		"px_32": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_bWxJxu_32.png",
+		"px_64": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_bWxJxu_64.png",
+		"px_128": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_bWxJxu_128.png",
+		"px_152": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_bWxJxu_152.png",
+		"px_200": "https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_bWxJxu_200.png"
 	},
 	"logo": {
-		"full": {
-			"px": "1000",
-			"square": false,
-			"transparent": false,
-			"mtime": "1654767916",
-			"url": "https://cdn.churchsuite.com/2mCEi8cf/brand/logo_D2wu3K.png"
-		}
+		"height": 200,
+		"width": 753,
+		"url": "https://cdn.churchsuite.com/2mCEi8cf/brand/logo_IgBBdl.png"
 	},
 	"color": "#4697c9",
+	"css": "https://cdn.churchsuite.com/_brand/300921/4697c9.css"
 }
 
 const brand = new Brand(json);
 
 test('id property', () => expect(brand.id).toBe(18));
 test('name property', () => expect(brand.name).toBe('Kings Hope Church'));
-test('emblem property', () => expect(brand.emblem['512'].url).toBe('https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_7KJawf_512.png'));
-test('logo property', () => expect(brand.logo.url).toBe('https://cdn.churchsuite.com/2mCEi8cf/brand/logo_D2wu3K.png'));
+test('emblem property', () => expect(brand.emblem.px_200).toBe('https://cdn.churchsuite.com/2mCEi8cf/brand/emblem_bWxJxu_200.png'));
+test('logo property', () => expect(brand.logo.url).toBe('https://cdn.churchsuite.com/2mCEi8cf/brand/logo_IgBBdl.png'));
 test('color property', () => expect(brand.color).toBe('#4697c9'));

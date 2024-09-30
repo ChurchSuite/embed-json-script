@@ -2,6 +2,22 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.0.0] - 2024-09-19 - Major Update
+
+As part of ongoing work to improve our developer APIs, we've redesigned and documented the JSON endpoint for Calendar events, and so have made corresponding updates to this package. As other module JSON feeds are redesigned and documented, they will be reintroduced to this major version.
+
+### Changed
+
+- SG Groups, NE Organisations and BO Booked Resources have been disabled, pending further improvement
+- The Brand logo property now contains the height and width alongside the URL, and the emblem size properties have changed
+- CA Category now has a brand_id property, and the "colour" key has been renamed to "color"
+- Site addresses now have latitude and longitude keys
+- The CA Embed Configuration model no longer has id/mtime/muser/ctime/cuser/resource_module properties, and the "type" property has been renamed to "format"
+- new sequenceId, identifier and meetingUrl properties have been added to Event
+- the image properties on Event is now an object with multiple size options
+- the _original property on Event has been removed
+- the siteIds property for Event now contains an array of site IDs for All Sites models rather than being null, and a new allSites boolean property has been added
+
 ## [4.3.7] - 2024-09-02
 
 ### Added

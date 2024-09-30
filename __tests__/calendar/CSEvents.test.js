@@ -71,7 +71,7 @@ describe('buildModelObject() method', () => {
 	})
 
 	test('mergeIdentifiers property returns only the first event identifier', () => {
-		expect(Events.mergeIdentifiers).toEqual([event._original.merge_identifier])
+		expect(Events.mergeIdentifiers).toEqual([event.mergeIdentifier])
 	})
 })
 
@@ -169,7 +169,7 @@ describe('filterModel_Site method', () => {
 	test('match all sites event', () => {
 		Events.site = ['35', '57']
 		expect(
-			Events.filterModel_Site({siteIds: []})
+			Events.filterModel_Site({allSites: true, siteIds: []})
 		).toEqual(true)
 	})
 
