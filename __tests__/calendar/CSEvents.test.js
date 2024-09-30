@@ -169,7 +169,7 @@ describe('filterModel_Site method', () => {
 	test('match all sites event', () => {
 		Events.site = ['35', '57']
 		expect(
-			Events.filterModel_Site({siteIds: []})
+			Events.filterModel_Site({allSites: true, siteIds: []})
 		).toEqual(true)
 	})
 
