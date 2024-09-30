@@ -2,7 +2,7 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
-## [5.0.0] - 2024-09-19 - Major Update
+## [5.0.1] - 2024-09-19 - Major Update
 
 As part of ongoing work to improve our developer APIs, we've redesigned and documented the JSON endpoint for Calendar events, and so have made corresponding updates to this package. As other module JSON feeds are redesigned and documented, they will be reintroduced to this major version.
 

@@ -113,7 +113,7 @@ export default class Base {
 
 			// set the default image to the brand emblem
 			if (response.hasOwnProperty('brand')) {
-				this.emblemImage = response.brand.emblem.length ? response.brand.emblem[512].url : null
+				this.emblemImage = response.brand.emblem ? response.brand.emblem[512].url : null
 				this.brand = new Brand(response.brand)
 			}
 
