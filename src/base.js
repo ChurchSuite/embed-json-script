@@ -113,7 +113,7 @@ export default class Base {
 
 			// set the default image to the brand emblem
 			if (response.hasOwnProperty('brand')) {
-				this.emblemImage = response.brand.emblem ? response.brand.emblem[512].url : null
+				this.emblemImage = response.brand.emblem ? response.brand.emblem.px_200 : null
 				this.brand = new Brand(response.brand)
 			}
 
@@ -125,13 +125,13 @@ export default class Base {
 				response.labels.forEach(label => this.labels.push(new Label(label)))
 			}
 
+			let key = {
+				calendar: 'events',
+			}[this.resourceModule]
+
 			if (response.hasOwnProperty('configuration')) {
 				// new style configuration data
 				this.configuration = this.buildConfiguration(response.configuration)
-
-				let key = {
-					calendar: 'events',
-				}[this.resourceModule]
 
 				response[key].forEach(model => {
 					this.modelsAll.push(this.buildModelObject(model))
@@ -160,7 +160,7 @@ export default class Base {
 					let options = Object.assign({}, this.options)
 					options.page = page
 					promises.push(CS.fetchJSON(this.resourceModule, options)
-						.then(response => response.data.forEach(model => {
+						.then(response => response[key].forEach(model => {
 							this.modelsAll.push(this.buildModelObject(model))
 						}))
 						.catch(error => {
