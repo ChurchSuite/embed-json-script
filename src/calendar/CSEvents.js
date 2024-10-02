@@ -56,7 +56,7 @@ export default class CSEvents extends Base {
 		// no filter
 		if (categoryFilter == null) return true
 		// return on id
-		return categoryFilter.includes('' + model.categoryId)
+		return categoryFilter.includes(model.categoryId)
 	}
 
 	filterModel_Search = function (model) {

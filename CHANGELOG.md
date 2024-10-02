@@ -2,11 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
-## [5.0.3] - 2024-10-02
+## [5.0.4] - 2024-10-02
 
 ### Fixed
 
 - Fixed an issue with loading pages 2+ of JSON data
+- Fixed an issue with site filtering
 
 ## [5.0.1] - 2024-09-19 - Major Update
 

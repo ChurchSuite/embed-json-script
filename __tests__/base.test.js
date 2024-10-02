@@ -190,7 +190,7 @@ describe('filterValue method', () => {
 
 	test('array value - some left', () => {
 		CSBase.test = ['sandwich', '', 0, 'pickle', '0', null, 21]
-		expect(CSBase.filterValue('test')).toEqual(['sandwich', 'pickle', '21'])
+		expect(CSBase.filterValue('test')).toEqual(['sandwich', 'pickle', 21])
 	})
 
 	test('array value - none left', () => {
