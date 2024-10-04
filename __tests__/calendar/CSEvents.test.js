@@ -135,16 +135,46 @@ describe('filterModel_Category method', () => {
 	})
 
 	test('match on id', () => {
-		Events.category = ['test']
+		// test an array, like a multiselect - value could be integer or string
+		Events.category = ['12', 14]
 		expect(
-			Events.filterModel_Category({ categoryId: 'test' })
+			Events.filterModel_Category({ categoryId: 12 })
 		).toEqual(true)
+		expect(
+			Events.filterModel_Category({ categoryId: 14 })
+		).toEqual(true)
+		expect(
+			Events.filterModel_Category({ categoryId: 15 })
+		).toEqual(false)
+
+		// test a single select value - always a string
+		Events.category = '12'
+		expect(
+			Events.filterModel_Category({ categoryId: 12 })
+		).toEqual(true)
+		expect(
+			Events.filterModel_Category({ categoryId: 15 })
+		).toEqual(false)
+
+		// test an integer too just to be safe, in case filled by JS
+		Events.category = 12
+		expect(
+			Events.filterModel_Category({ categoryId: 12 })
+		).toEqual(true)
+		expect(
+			Events.filterModel_Category({ categoryId: 15 })
+		).toEqual(false)
 	})
 
 	test('no match on id', () => {
-		Events.category = 'test'
+		// test a single select value - always a string, but test an integer too
+		Events.category = '12'
 		expect(
-			Events.filterModel_Category({ categoryId: 'badger' })
+			Events.filterModel_Category({ categoryId: 15 })
+		).toEqual(false)
+		Events.category = 12
+		expect(
+			Events.filterModel_Category({ categoryId: 15 })
 		).toEqual(false)
 	})
 })
@@ -162,7 +192,11 @@ describe('filterModel_Site method', () => {
 	test('match on id', () => {
 		Events.site	= ['35']
 		expect(
-			Events.filterModel_Site({siteIds: ['35']})
+			Events.filterModel_Site({siteIds: [35]})
+		).toEqual(true)
+		Events.site	= [35]
+		expect(
+			Events.filterModel_Site({siteIds: [35]})
 		).toEqual(true)
 	})
 
@@ -176,14 +210,22 @@ describe('filterModel_Site method', () => {
 	test('no match on ids', () => {
 		Events.site = ['12']
 		expect(
-			Events.filterModel_Site({siteIds: ['3','8']})
+			Events.filterModel_Site({siteIds: [3, 8]})
+		).toEqual(false)
+		Events.site = [12]
+		expect(
+			Events.filterModel_Site({siteIds: [3, 8]})
 		).toEqual(false)
 	})
 
 	test('partial match on ids', () => {
-		Events.site = ['20','45']
+		Events.site = ['20', '45']
 		expect(
-			Events.filterModel_Site({siteIds: ['45','80']})
+			Events.filterModel_Site({siteIds: [45,80]})
+		).toEqual(true)
+		Events.site = [20, 45]
+		expect(
+			Events.filterModel_Site({siteIds: [45,80]})
 		).toEqual(true)
 	})
 })

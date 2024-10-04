@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.0.5] - 2024-10-03
+
+### Fixed
+
+- Updated category and site filtering to handle string or integer IDs, as single values or arrays, so that single or multiselects both filter properly whether filled by JS as integers or by inputs as strings
+
 ## [5.0.4] - 2024-10-02
 
 ### Fixed

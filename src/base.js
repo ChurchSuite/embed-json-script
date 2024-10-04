@@ -80,14 +80,15 @@ export default class Base {
 		if (Array.isArray(value)) {
 			// it's an array - filter out empty values
 			value = value.filter(v => v !== 0 && v !== '0' && v !== null && v !== '')
-			// return the array result if it's got length otherwise null
-			result = value.length ? value : null
+			// return the string cast array result if it's got length otherwise null
+			result = value.length ? value.map(v => '' + v) : null
 		} else if (value === null) {
 			// always return null
 			result = null
-		} else if (typeof value === 'string' || value instanceof String) {
+		} else {
 			// return the value as an array if it has length and isn't empty otherwise null
-			result = value.length && value !== 0 && value !== '0' ? [value.toString()] : null
+			value = '' + value
+			result = value.length && value !== '0' ? [value] : null
 		}
 
 		// if the result is null then reset the key reactively

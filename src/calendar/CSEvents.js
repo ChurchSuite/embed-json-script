@@ -56,7 +56,7 @@ export default class CSEvents extends Base {
 		// no filter
 		if (categoryFilter == null) return true
 		// return on id
-		return categoryFilter.includes(model.categoryId)
+		return categoryFilter.includes('' + model.categoryId)
 	}
 
 	filterModel_Search = function (model) {
@@ -99,7 +99,7 @@ export default class CSEvents extends Base {
 		if (model.allSites) return true
 
 		// check for intersection of the two arrays
-		return siteFilter.flat().some(siteId => model.siteIds.flat().includes(siteId))
+		return siteFilter.flat().some(siteId => model.siteIds.flat().map(v => '' + v).includes(siteId))
 	}
 
 	async init() {
