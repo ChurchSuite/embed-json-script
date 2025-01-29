@@ -38,7 +38,7 @@ export default class CSGroups extends Base {
 		let modelOptions = model.labels.map(label => label.value).flat();
 
 		// get an array of labels that have been selected (ie, aren't null)
-		const filteredLabels = Object.keys(this.label).filter(a => this.label[a])
+		const filteredLabels = Object.keys(this.label).filter(a => this.label[a] && this.label[a].length > 0)
 
 		// if nothing is selected, return true
 		if (filteredLabels.length == 0) return true;
