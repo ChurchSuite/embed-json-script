@@ -2,7 +2,7 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
-## [4.3.8] - 2025-01-29
+## [4.3.9] - 2025-01-29
 
 ### Fixed
 
