@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [4.3.8] - 2025-01-29
+
+### Fixed
+
+- NE Organisation and SG Group label filters now filter correctly when multiple label filters are used
+
 ## [4.3.7] - 2024-09-02
 
 ### Added
