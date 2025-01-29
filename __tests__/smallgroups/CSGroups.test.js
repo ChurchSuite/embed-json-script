@@ -211,13 +211,21 @@ test('label filtering', () => {
 	// the model has label 2 with a value of c, should be fine
 	expect(CSG.filterModel_Label(model)).toBe(true);
 
-	// now we've selected a second filter - should still be fine though
+	// now we've selected a second filter that matches - should still be fine though
 	CSG.label = {
+		'1': ['a'],
 		'2': ['c'],
-		'3': ['d'],
 	}
 
 	expect(CSG.filterModel_Label(model)).toBe(true);
+
+	// we've selected two filters - we match one but not the other, so we shouldn't be included
+	CSG.label = {
+		'1': ['a'],
+		'3': ['d'], // this is another label that the model doesn't match
+	}
+
+	expect(CSG.filterModel_Label(model)).toBe(false);
 
 	// finally, we've only selected one this model doesn't have
 	CSG.label = {

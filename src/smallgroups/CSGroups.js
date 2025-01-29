@@ -26,18 +26,34 @@ export default class CSGroups extends Base {
 		return dayValue.includes(model.day.format('dddd')) || dayValue.includes('' + model._original.day)
 	}
 
+	/**
+	 * For each label, check that the model has any of the selected options (to
+	 * support multiselect fields), and that that is true for all selected labels.
+	 * 
+	 * IE, OR between options for a single label, and then AND multiple labels
+	 */
 	filterModel_Label = function (model) {
-		// get a flattened array of label options selected in the filter
-		let labelOptions = Object.values(this.label).flat().filter(a => a)
-
-		// if nothing is selected, return true
-		if (labelOptions.length == 0) return true;
-
-		// get a flattened array of label options the model has
+		// get a flattened array of label options the model has - they're UUIDs
+		// so we can just check if our selected options are in the array
 		let modelOptions = model.labels.map(label => label.value).flat();
 
-		// if labelOptions has any overlap with modelOptions, return true
-		return labelOptions.some((option) => modelOptions.includes(option))
+		// get an array of labels that have been selected (ie, aren't null)
+		const filteredLabels = Object.keys(this.label).filter(a => this.label[a])
+
+		// if nothing is selected, return true
+		if (filteredLabels.length == 0) return true;
+
+		// perform the OR operation - if the model matches any of the selected label options
+		let matchesLabels = []
+		filteredLabels.forEach((options) => {
+			matchesLabels.push(this.label[options].some((option) => modelOptions.includes(option)))
+		})
+
+		/**
+		 * If the model matches at least one option in every label being filtered,
+		 * (ie, the array is all true values) return true.
+		 */
+		return matchesLabels.every((option) => option)
 	}
 
 	filterModel_Search = function (model) {
