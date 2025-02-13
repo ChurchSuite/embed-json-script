@@ -4,12 +4,14 @@ window.CS.url = 'https://demo.churchsuite.com'
 
 import CSBookedResources from '../../src/bookings/CSBookedResources'
 import BookedResource from '../../src/bookings/booked-resource'
+import Configuration from '../../src/bookings/configuration'
 import Resource from '../../src/bookings/resource'
 
 let BookedResources = new CSBookedResources()
 
 // load an example booked resource in, and convert it to JSON
 const bookedResourceJSON = require('./booked-resource.json')
+const configurationJSON = require('./configuration.json')
 
 describe('non-empty value initialised properties', () => {
 	test('filter keys', () => {
@@ -88,6 +90,23 @@ describe('filteredResources() method', () => {
 	})
 })
 
+describe('buildConfiguration() method', () => {
+	let bookedResource
+
+	beforeAll(() => {
+		bookedResource = BookedResources.buildConfiguration(configurationJSON)
+	})
+
+	afterAll(() => {
+		BookedResources = new CSBookedResources()
+	})
+
+	// the model contents are tested separately
+	test('returns a Configuration object', () => {
+		expect(bookedResource).toBeInstanceOf(Configuration)
+	})
+})
+
 describe('buildModelObject() method', () => {
 	let bookedResource
 
@@ -135,7 +154,7 @@ describe('filterModel_Resource method', () => {
 	test('match on id', () => {
 		BookedResources.resource = '34'
 		expect(
-			BookedResources.filterModel_Resource({ resourceId: 34, _original: { resource_id: 34 } })
+			BookedResources.filterModel_Resource({ resourceId: 34 })
 		).toEqual(true)
 	})
 
@@ -144,8 +163,53 @@ describe('filterModel_Resource method', () => {
 		expect(
 			BookedResources.filterModel_Resource({
 				resourceId: 12,
-				_original: { resource_id: 12 },
 			})
 		).toEqual(false)
+	})
+})
+
+describe('postInit() method', () => {
+	let bookedResource
+
+	const resourceJson = {
+		"resources": [
+			{
+				id: 12,
+				name: 'Resource Name',
+				quantity: 12,
+				description: 'Some sort of description',
+				all_sites: false,
+				site_ids: [
+					1,
+					4
+				]
+			},
+			{
+				id: 14,
+				name: 'Resource Name 2',
+				quantity: 12,
+				description: 'Some sort of description',
+				all_sites: false,
+				site_ids: [
+					1,
+					4
+				]
+			}
+		]
+	}
+
+	beforeAll(() => {
+		BookedResources.postInit(resourceJson)
+	})
+
+	afterAll(() => {
+		BookedResources = new CSBookedResources()
+	})
+
+	// the model contents are tested separately
+	test('sets up an array of Resource objects', () => {
+		BookedResources.resources.forEach(resource => {
+			expect(resource).toBeInstanceOf(Resource)
+		})
 	})
 })

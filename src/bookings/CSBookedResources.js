@@ -1,8 +1,17 @@
 import Base from '../base'
 import BookedResource from './booked-resource'
+import Configuration from './configuration';
 import Resource from './resource'
 
 export default class CSBookedResources extends Base {
+
+	/**
+	 * Convert the Embed Configuration data into a nice Configuration model.
+	 */
+	buildConfiguration = function (data) {
+		return new Configuration(data)
+	}
+
 	buildModelObject = function (model) {
 		// build and return the model object
 		return new BookedResource(model)
@@ -29,10 +38,6 @@ export default class CSBookedResources extends Base {
 		// no filter
 		if (resourceFilter == null) return true
 
-		// if group has no resource, don't show
-		if (!model.resourceId) return false
-
-		// return on id or name for legacy support
 		return (
 			resourceFilter.includes('' + model.resourceId)
 		)

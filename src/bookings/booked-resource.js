@@ -4,13 +4,12 @@ export default class BookedResource {
 	 * @param {object} json
 	 */
 	constructor(json) {
-		this.end = dayjs(json.datetime_end)
+		this.end = dayjs(json.ends_at)
 		this.id = json.id
 		this.name = json.name
 		this.quantity = json.quantity
 		this.resourceId = json.resource_id
-		this.start = dayjs(json.datetime_start)
-		this._original = json
+		this.start = dayjs(json.starts_at)
 	}
 }
 

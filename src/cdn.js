@@ -1,4 +1,4 @@
 import './bookings'
 import './calendar'
-import './network'
-import './smallgroups'
+// import './network'
+// import './smallgroups'

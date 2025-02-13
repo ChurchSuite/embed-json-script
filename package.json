@@ -1,16 +1,15 @@
 {
 	"name": "@churchsuite/embed",
-	"version": "5.0.7",
+	"version": "5.1.0",
 	"description": "An easy-to-use script to allow simple integration of ChurchSuite's embed JSON feeds into your website. For more information, see https://kingshope.church.",
 	"main": "dist/cdn.min.js",
 	"scripts": {
-		"build": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js --bundle --minify --outdir=dist --target=es6 && npm run replacePackageVersion",
+		"build": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js bookings.min=src/bookings.js --bundle --minify --outdir=dist --target=es6 && npm run replacePackageVersion",
 		"deploy": "jest && npm run build && npm publish",
 		"replacePackageVersion": "grep \"@package_version@\" ./dist -lr | xargs sed -i \"\" -e \"s/@package_version@/$npm_package_version/g\"",
 		"test": "jest",
-		"watch": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js --bundle --minify --outdir=dist --target=es6 --watch",
-		"watch-embedv2": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js --bundle --minify --outdir=../embed-v2/public/js --target=es6 --watch",
-		"embedv3": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js --bundle --minify --outdir=../embed-v3/public/js --target=es6 && grep \"@package_version@\" ../embed-v3/public/js -lr | xargs sed -i \"\" -e \"s/@package_version@/$npm_package_version/g\""
+		"watch": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js bookings.min=src/bookings.js --bundle --minify --outdir=dist --target=es6 --watch",
+		"embedv3": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js bookings.min=src/bookings.js --bundle --minify --outdir=../embed-v3/public/js --target=es6 && grep \"@package_version@\" ../embed-v3/public/js -lr | xargs sed -i \"\" -e \"s/@package_version@/$npm_package_version/g\""
 	},
 	"repository": {
 		"type": "git",

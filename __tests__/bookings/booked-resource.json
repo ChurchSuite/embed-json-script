@@ -1,8 +1,7 @@
 {
-	"id": 17687,
-	"name": "Lounge",
-	"datetime_start": "2023-11-01 08:00:00",
-	"datetime_end": "2023-11-01 11:30:00",
-	"resource_id": 5,
-	"quantity": 1
+    "id": 22477,
+    "resource_id": 43,
+    "quantity": 1,
+    "starts_at": "2025-02-12T08:00:00Z",
+    "ends_at": "2025-02-12T11:30:00Z"
 }

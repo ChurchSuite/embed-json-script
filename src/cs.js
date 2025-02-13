@@ -31,8 +31,8 @@ document.addEventListener('alpine:init', () => {
 	Alpine.data('CSMultiSelect', CSMultiSelect)
 })
 
-// import CSBookedResources from './bookings/CSBookedResources'
-// window.CSBookedResources = CSBookedResources
+import CSBookedResources from './bookings/CSBookedResources'
+window.CSBookedResources = CSBookedResources
 
 import CSEvents from './calendar/CSEvents'
 window.CSEvents = CSEvents

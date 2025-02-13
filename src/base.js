@@ -127,6 +127,7 @@ export default class Base {
 			}
 
 			let key = {
+				bookings: 'booked_resources',
 				calendar: 'events',
 			}[this.resourceModule]
 

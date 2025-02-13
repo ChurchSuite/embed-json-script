@@ -1,0 +1,11 @@
+{
+    "uuid": "6f77072e-c230-42cf-b49d-8ae5fcea2ecf",
+    "brand_id": 18,
+    "name": "Derby free/busy calendar",
+    "description": "Test 2",
+    "filter_by_resources": [],
+    "num_months": 12,
+    "day_start_time": "09: 00",
+    "day_end_time": "17: 00",
+    "week_start_day": 1
+}

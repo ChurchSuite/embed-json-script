@@ -2,6 +2,16 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.1.0] - 2025-02-13
+
+As part of ongoing work to improve our developer APIs, we've redesigned and documented the JSON endpoint for Booked Resources in the Bookings module, and so have made corresponding updates to this package.
+
+### Changed
+
+- BO Booked Resources no longer have an `original` property
+- BO Resources no longer have `category` or `status` properties, and have new `site_ids` and `allSites` properties
+- the BO Embed Configuration model has been overhauled and the properties more clearly defined
+
 ## [5.0.7] - 2025-01-29
 
 ### Fixed
