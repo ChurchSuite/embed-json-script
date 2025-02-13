@@ -6,7 +6,6 @@ export default class BookedResource {
 	constructor(json) {
 		this.end = dayjs(json.ends_at)
 		this.id = json.id
-		this.name = json.name
 		this.quantity = json.quantity
 		this.resourceId = json.resource_id
 		this.start = dayjs(json.starts_at)
