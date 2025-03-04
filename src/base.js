@@ -1,5 +1,4 @@
 import Brand from './components/brand';
-import Label from './components/label'
 import Site from './components/site'
 
 export default class Base {
@@ -118,17 +117,10 @@ export default class Base {
 				this.brand = new Brand(response.brand)
 			}
 
-			/**
-			 * For efficiency, the Organisation response sends over the labels once
-			 * on page 1, rather than on every Organisation.
-			 */
-			if (response.hasOwnProperty('labels')) {
-				response.labels.forEach(label => this.labels.push(new Label(label)))
-			}
-
 			let key = {
 				bookings: 'booked_resources',
 				calendar: 'events',
+				smallgroups: 'groups',
 			}[this.resourceModule]
 
 			if (response.hasOwnProperty('configuration')) {
@@ -166,6 +158,7 @@ export default class Base {
 							this.modelsAll.push(this.buildModelObject(model))
 						}))
 						.catch(error => {
+							console.log(error)
 							this.error = error
 							this.errorMessage = error.message
 						}))
@@ -181,6 +174,7 @@ export default class Base {
 			this.errorType = error.type ?? 'http'
 			// the load failed but it's finished so set to false
 			this.loading = false
+			console.log(error)
 		}
 
 	}

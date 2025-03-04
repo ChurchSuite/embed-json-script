@@ -4,75 +4,60 @@ export default class Group {
 	 * @param {object} json
 	 */
 	constructor(json) {
+		const dayMap = {
+			sunday: 0,
+			monday: 1,
+			tuesday: 2,
+			wednesday: 3,
+			thursday: 4,
+			friday: 5,
+			saturday: 6
+		};
+
 		this.active = this.isActive(json)
-		this.clusterId = json.cluster != null ? json.cluster.id : null
-		this.customFields =
-			json.custom_fields.constructor === Object ? this.buildCustomFields(json) : null // if no custom fields, JSON provides an empty array
-		this.dateEnd = json.date_end ? dayjs(json.date_end) : null
-		this.dateStart = dayjs(json.date_start)
-		this.day = json.day != null ? dayjs().isoWeekday(json.day) : null
-		this.embedSignup = json.embed_signup == 1
+		this.clusterId = json.cluster_id
+		this.customFields = json.custom_fields
+		this.customFrequency = !['fortnightly','monthly','quarterly','weekly'].includes(json.frequency)
+		this.dateEnd = json.ends_at ? dayjs(json.ends_at) : null
+		this.dateStart = json.starts_at ? dayjs(json.starts_at) : null
+		this.day = json.day
+		this.dayInt = json.day && json.day != 'various days' ? dayMap[json.day] : null
+		this.signupEnabled = json.signup_options != null
 		this.endingSoon = this.isEndingSoon(json)
 		this.id = json.id
-		this.image =
-			json.images != null && json.images.constructor === Object ? json.images.md.url : ''
+		this.identifier = json.identifier
+		this.image = json.image == null ? null : {
+			thumbnail: json.image.thumbnail,
+			small: json.image.small,
+			medium: json.image.medium,
+			large: json.image.large,
+		}
 		this.labels = json.labels
-		this.link =
-			json.embed_signup == 1 || json.signup_enabled == 0
-				? CS.detectURLScheme() + CS.url + '/groups/' + json.identifier
-				: ''
+		this.link = this.signupEnabled
+			? CS.detectURLScheme() + CS.url + '/groups/' + json.identifier
+			: ''
 		this.members = json.num_members
 		this.name = json.name
-		this.signupCapacity = json.signup_capacity
-		this.signupFull = json.signup_full
-		this.signupStart = dayjs(json.signup_date_start)
-		this.signupEnd = json.signup_date_end ? dayjs(json.signup_date_end) : null
+		this.signupCapacity = json.signup_options?.capacity
+		this.signupFull = this.members >= this.signupCapacity
+		this.signupStart = json.signup_options ? dayjs(json.signup_options.starts_at) : null
+		this.signupEnd = json.signup_options?.ends_at ? dayjs(json.signup_options.ends_at) : null
 		this.signupRunning = this.signupIsRunning(json)
 		this.signupInFuture = this.signupInFuture()
-		this.siteId = json.site_id ? parseInt(json.site_id) : null
-		this._original = json
+		this.allSites = json.all_sites
+		this.siteIds =json.site_ids
 
 		// optional configuration details
 		this.description = json.description
-		this.frequency = json.frequency == 'custom' ? json.custom_frequency : json.frequency
-		this.location = json.location != null && json.location.constructor === Object ? json.location.name : null
-		this.latitude = json.location != null && json.location.constructor === Object ? json.location.latitude : null
-		this.longitude = json.location != null && json.location.constructor === Object ? json.location.longitude : null
-		this.online = json.location != null && json.location.constructor === Object ? json.location.type == 'online' : null
+		this.frequency = json.frequency
+		this.location = json.location?.name
+		this.latitude = json.location?.latitude
+		this.longitude = json.location?.longitude
+		this.online = json.location != null ? json.location.type == 'online' : null
 		this.time =
 			json.time != null
 				? dayjs(new Date().toISOString().slice(0, 11) + json.time + ':00')
 				: null
-	}
-
-	/**
-	 * Build a more helpful array of custom field data for a group from the 3 available versions
-	 */
-	buildCustomFields(json) {
-		// create a formatted list of custom fields
-		let formattedCustomFields = []
-		Object.entries(json.custom_fields).forEach(customField => {
-			const field = customField[1]
-			// just use the version with a formatted_value
-			if (
-				field.constructor === Object &&
-				field.hasOwnProperty('formatted_value')
-			) {
-				// only add if this field is visible in embed
-				formattedCustomFields.push({
-					id: field.id,
-					name: field.name,
-					value: field.formatted_value,
-					_original: [
-						json.custom_fields['custom' + field.id],
-						json.custom_fields['field' + field.id],
-						json.custom_fields['field_' + field.id],
-					],
-				})
-			}
-		})
-
-		return formattedCustomFields.length > 0 ? formattedCustomFields : null
 	}
 
 	/**
@@ -82,11 +67,12 @@ export default class Group {
 	 */
 	isActive(group) {
 		let now = dayjs()
+		if (!group.starts_at) return true;
 		// if the start date isn't in the past, group isn't active
-		if (!dayjs(group.date_start).isBefore(now)) return false
-		if (group.date_end) {
+		if (!dayjs(group.starts_at).isBefore(now)) return false
+		if (group.ends_at) {
 			// if the end date is set and isn't in the future, group isn't active
-			if (!dayjs(group.date_end).isAfter(now)) return false
+			if (!dayjs(group.ends_at).isAfter(now)) return false
 		}
 
 		return true
@@ -98,20 +84,22 @@ export default class Group {
 	 * @returns {boolean} Whether the group ends in the next month.
 	 */
 	isEndingSoon(group) {
-		if (!group.date_end) return false
+		if (!group.ends_at) return false
 
 		let now = dayjs()
-		let dateEnd = dayjs(group.date_end)
+		let dateEnd = dayjs(group.ends_at)
 		if (dateEnd.isBefore(now)) return false
 		if (dateEnd.subtract(1, 'month').isBefore(now)) return true
 
 		return false
 	}
 
+	/**
+	 * @returns {boolean} Whether the group has signup enabled, and that signup starts in the future.
+	 */
 	signupInFuture() {
 		return (
-			this.embedSignup != '' &&
-			this.signupStart != null &&
+			this.signupEnabled &&
 			this.signupStart.isAfter(dayjs(new Date()))
 		)
 	}
@@ -122,19 +110,18 @@ export default class Group {
 	 * @returns {boolean} Whether the group signup is running.
 	 */
 	signupIsRunning(group) {
-		// group must have signup enabled and a signup start date
-		if (!group.signup_enabled || !group.embed_signup) return false
-		if (!group.signup_date_start) return false
+		// group must have signup enabled
+		if (!group.signup_options) return false
 
 		let now = dayjs()
-		let dateStart = dayjs(group.signup_date_start)
+		let dateStart = dayjs(group.signup_options.starts_at)
 
 		// check that signup started before now
 		if (!dateStart.isBefore(now)) return false
 
 		// if signup has an end date, check it is in the future
-		if (group.signup_date_end) {
-			let dateEnd = dayjs(group.signup_date_end)
+		if (group.signup_options.ends_at) {
+			let dateEnd = dayjs(group.signup_options.ends_at)
 			if (!dateEnd.isAfter(now)) return false
 		}
 

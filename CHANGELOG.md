@@ -2,6 +2,10 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.2.0] - 2025-03-04
+
+As part of ongoing work to improve our developer APIs, we've redesigned and documented the JSON endpoint for Groups in the Small Groups module, and so have made corresponding updates to this package.
+
 ## [5.1.0] - 2025-02-13
 
 As part of ongoing work to improve our developer APIs, we've redesigned and documented the JSON endpoint for Booked Resources in the Bookings module, and so have made corresponding updates to this package.

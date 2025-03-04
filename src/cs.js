@@ -37,8 +37,8 @@ window.CSBookedResources = CSBookedResources
 import CSEvents from './calendar/CSEvents'
 window.CSEvents = CSEvents
 
-// import CSGroups from './smallgroups/CSGroups'
-// window.CSGroups = CSGroups
+import CSGroups from './smallgroups/CSGroups'
+window.CSGroups = CSGroups
 
 // import CSOrganisations from './network/CSOrganisations'
 // window.CSOrganisations = CSOrganisations

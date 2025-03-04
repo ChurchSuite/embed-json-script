@@ -233,6 +233,13 @@ describe('filterValue method', () => {
 })
 
 describe('init method', () => {
+	const response = {
+		pagination: {
+			num_results: 0,
+			per_page: 0,
+		}
+	}
+
 	beforeAll(async () => {
 		window.CS.locale = 'de'
 
@@ -249,7 +256,7 @@ describe('init method', () => {
 		CSBase.postInit = jest.fn()
 
 		// mock the fetchJSON method
-		window.CS.fetchJSON = jest.fn().mockResolvedValue([])
+		window.CS.fetchJSON = jest.fn().mockResolvedValue(response)
 
 		await CSBase.init()
 	})
@@ -267,7 +274,7 @@ describe('init method', () => {
 	})
 
 	test('postInit', () => {
-		expect(CSBase.postInit).toBeCalledWith([])
+		expect(CSBase.postInit).toBeCalledWith(response)
 	})
 })
 

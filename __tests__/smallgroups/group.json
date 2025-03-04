@@ -1,354 +1,65 @@
 {
-  "id": 2,
-  "identifier": "rewzlrhk",
-  "name": "Beeston Daytime (Online)",
-  "date_start": "2018-02-01",
-  "date_end": "",
-  "custom_frequency": "",
-  "frequency": "weekly",
-  "day": "3",
-  "site_id": 20,
-  "time": "14:00",
+  "id": 112,
+  "identifier": "gisiog3m",
+  "name": "Arnold - North (Online)",
+  "cluster_id": 4,
+  "starts_at": "2021-09-05",
+  "ends_at": null,
+  "frequency": "weekly in term time",
+  "day": "Wednesday",
+  "time": "20:00",
   "location": {
+    "name": "",
+    "type": "physical",
     "address": null,
     "latitude": null,
     "longitude": null,
-    "name": "Skype",
-    "type": "online",
-    "url": null,
-    "address_name": "Skype"
+    "url": null
   },
-  "description": "We're a group of passionate followers of Jesus trying to do life together and be family. We meet weekly on Wednesdays - we'd love for you to join us! \r\n\r\nFor more info visit www.kingshope.church",
-  "images": {
-    "thumb": {
-      "px": 128,
-      "square": true,
-      "mtime": 1619544925,
-      "url": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/2_uxcyQI88_thumb.png"
-    },
-    "sm": {
-      "px": 256,
-      "square": false,
-      "mtime": 1619544925,
-      "url": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/2_uxcyQI88_sm.png"
-    },
-    "md": {
-      "px": 512,
-      "square": false,
-      "mtime": 1619544925,
-      "url": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/2_uxcyQI88_md.png"
-    },
-    "lg": {
-      "px": 1024,
-      "square": false,
-      "mtime": 1619544925,
-      "url": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/2_uxcyQI88_lg.png"
-    },
-    "original_16": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/2_uxcyQI88_thumb.png",
-    "original_100": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/2_uxcyQI88_sm.png",
-    "original_500": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/2_uxcyQI88_md.png",
-    "original_1000": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/2_uxcyQI88_lg.png",
-    "square_16": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/2_uxcyQI88_thumb.png",
-    "square_100": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/2_uxcyQI88_thumb.png"
+  "description": "",
+  "signup_options": {
+    "capacity": 20,
+    "starts_at": "2023-08-28",
+    "ends_at": null
   },
-  "num_members": 23,
-  "public_visible": true,
-  "public_signup": true,
-  "embed_visible": true,
-  "embed_signup": true,
-  "connect_visible": true,
-  "connect_signup": true,
-  "signup_enabled": true,
-  "signup_date_start": "2021-01-01",
-  "signup_date_end": "",
-  "signup_capacity": 23,
-  "signup_member_status": "pending",
-  "signup_details_visible": "after_signup",
-  "signup_link_visible": false,
-  "signup_full": true,
-  "cluster_id": 12,
-  "custom_fields": {
-    "field_1280": {
-      "id": 1280,
-      "resource_type": "churchsuite_module",
-      "resource_id": 9,
-      "order": 1,
-      "type": "text",
-      "name": "Leader/s",
-      "help": null,
-      "options": null,
-      "formatted_options": "",
-      "value": "",
-      "formatted_value": "",
-      "required": false,
-      "settings": {
-        "my": { "edit": true, "view": true, "required": false },
-        "embed": { "edit": false, "required": false },
-        "connect": { "edit": false, "view": false, "required": false }
-      },
-      "ctime": "2022-05-04 23:21:36",
-      "cuser": "Paul",
-      "mtime": "2022-05-04 23:22:32",
-      "muser": "Paul"
-    },
-    "custom1280": "",
-    "field1280": {
-      "id": "1280",
-      "order": 1,
-      "type": "text",
-      "name": "Leader/s",
-      "value": ""
-    },
-    "field_1281": {
-      "id": 1281,
-      "resource_type": "churchsuite_module",
-      "resource_id": 9,
-      "order": 2,
-      "type": "text",
-      "name": "Meeting duration",
-      "help": null,
-      "options": null,
-      "formatted_options": "",
-      "value": "",
-      "formatted_value": "",
-      "required": false,
-      "settings": {
-        "my": { "edit": true, "view": true, "required": false },
-        "embed": { "edit": false, "required": false },
-        "connect": { "edit": false, "view": false, "required": false }
-      },
-      "ctime": "2022-05-04 23:22:11",
-      "cuser": "Paul",
-      "mtime": "2022-05-04 23:22:23",
-      "muser": "Paul"
-    },
-    "custom1281": "",
-    "field1281": {
-      "id": "1281",
-      "order": 2,
-      "type": "text",
-      "name": "Meeting duration",
-      "value": ""
-    },
-    "field_24": {
-      "id": 24,
-      "resource_type": "churchsuite_module",
-      "resource_id": 9,
-      "order": 3,
-      "type": "checkbox",
-      "name": "Suitable for?",
-      "help": null,
-      "options": [
-        {
-          "id": "8ae816c4-0efe-4e85-9ab8-802531f8cb02",
-          "name": "Newcomers",
-          "status": "active"
-        },
-        {
-          "id": "4fa5cc74-6faa-4418-bd63-c0f16c90578e",
-          "name": "Men",
-          "status": "active"
-        },
-        {
-          "id": "8e56c3f7-0ff2-4217-8507-97c55cb387c6",
-          "name": "Women",
-          "status": "active"
-        },
-        {
-          "id": "95209064-6132-4725-88db-26d0f9dc8576",
-          "name": "Children under 13s",
-          "status": "active"
-        },
-        {
-          "id": "a512dee2-58c2-4866-9955-997af58e4ed3",
-          "name": "Young people 13-18s",
-          "status": "active"
-        },
-        {
-          "id": "8f0780ef-5a43-4b5b-a40a-39c51e1fe030",
-          "name": "Students",
-          "status": "active"
-        },
-        {
-          "id": "f2d28b65-6b0b-4012-9a99-1afdc3268a0a",
-          "name": "Clergy & Ordinands",
-          "status": "archived"
-        }
-      ],
-      "formatted_options": "Newcomers, Men, Women, Children under 13s, Young people 13-18s, Students",
-      "value": [
-        { "id": "8ae816c4-0efe-4e85-9ab8-802531f8cb02" },
-        { "id": "8f0780ef-5a43-4b5b-a40a-39c51e1fe030" }
-      ],
-      "formatted_value": "Newcomers, Students",
-      "required": false,
-      "settings": {
-        "my": { "edit": true, "view": true, "required": false },
-        "embed": { "edit": false, "required": false },
-        "connect": { "edit": false, "view": true, "required": false }
-      },
-      "ctime": "2021-02-03 20:46:12",
-      "cuser": "Paul",
-      "mtime": "2022-05-04 23:22:16",
-      "muser": "Paul"
-    },
-    "custom24": "Newcomers, Students",
-    "field24": {
-      "id": "24",
-      "order": 3,
-      "type": "checkboxes",
-      "name": "Suitable for?",
-      "value": "Newcomers, Students",
-      "options": [
-        "Newcomers",
-        "Men",
-        "Women",
-        "Children under 13s",
-        "Young people 13-18s",
-        "Students"
-      ]
-    },
-    "field_15": {
-      "id": 15,
-      "resource_type": "churchsuite_module",
-      "resource_id": 9,
-      "order": 4,
-      "type": "checkbox",
-      "name": "Group focus",
-      "help": null,
-      "options": [
-        {
-          "id": "49eae5c9-0737-4609-a674-4125e95f3e19",
-          "name": "Social action",
-          "status": "active"
-        },
-        {
-          "id": "e8e6f9f6-7265-4431-9e1a-e2e047dd5758",
-          "name": "Bible study",
-          "status": "active"
-        },
-        {
-          "id": "25e4c09c-8d71-4a00-b0a2-b9a794e4c679",
-          "name": "Social",
-          "status": "active"
-        },
-        {
-          "id": "1590054a-dd07-4264-879f-498666847bf1",
-          "name": "Sports",
-          "status": "active"
-        },
-        {
-          "id": "a379bf9c-3aab-4dae-a6de-f4c60eab933d",
-          "name": "Special interest",
-          "status": "active"
-        },
-        {
-          "id": "209c9e71-fce2-4ff6-b557-d6f87417b6c2",
-          "name": "Advocacy",
-          "status": "active"
-        },
-        {
-          "id": "e30915c4-b7cc-4a89-8ca8-d5950c7e70d4",
-          "name": "Mission",
-          "status": "active"
-        },
-        {
-          "id": "a61fcb38-0c5a-4591-a830-609c89fc3c2e",
-          "name": "Prayer",
-          "status": "active"
-        },
-        {
-          "id": "54f037e7-76f3-43d3-9555-557d42afb67a",
-          "name": "Discipleship",
-          "status": "active"
-        }
-      ],
-      "formatted_options": "Social action, Bible study, Social, Sports, Special interest, Advocacy, Mission, Prayer, Discipleship",
-      "value": [{ "id": "e8e6f9f6-7265-4431-9e1a-e2e047dd5758" }],
-      "formatted_value": "Bible study",
-      "required": false,
-      "settings": {
-        "my": { "edit": true, "view": true, "required": false },
-        "embed": { "edit": false, "required": false },
-        "connect": { "edit": false, "view": true, "required": false }
-      },
-      "ctime": "2021-02-03 08:06:15",
-      "cuser": "churchsuite",
-      "mtime": "2022-05-04 23:22:16",
-      "muser": "Paul"
-    },
-    "custom15": "Bible study",
-    "field15": {
-      "id": "15",
-      "order": 4,
-      "type": "checkboxes",
-      "name": "Group focus",
-      "value": "Bible study",
-      "options": [
-        "Social action",
-        "Bible study",
-        "Social",
-        "Sports",
-        "Special interest",
-        "Advocacy",
-        "Mission",
-        "Prayer",
-        "Discipleship"
-      ]
-    },
-    "field_13": {
-      "id": 13,
-      "resource_type": "churchsuite_module",
-      "resource_id": 9,
-      "order": 5,
-      "type": "select",
-      "name": "Risk assessment completed?",
-      "help": null,
-      "options": [
-        {
-          "id": "f6e64bb9-361d-4d40-9054-7b7f31bb2adf",
-          "name": "Yes",
-          "status": "active"
-        },
-        {
-          "id": "1076140c-8d77-449c-83c3-bba9f8c9d7b1",
-          "name": "No",
-          "status": "active"
-        }
-      ],
-      "formatted_options": "Yes, No",
-      "value": { "id": "1076140c-8d77-449c-83c3-bba9f8c9d7b1" },
-      "formatted_value": "No",
-      "required": true,
-      "settings": {
-        "my": { "edit": false, "view": false, "required": false },
-        "embed": { "edit": false, "required": false },
-        "connect": { "edit": false, "view": false, "required": false }
-      },
-      "ctime": "2021-02-03 08:06:15",
-      "cuser": "churchsuite",
-      "mtime": "2022-05-04 23:22:16",
-      "muser": "Paul"
-    },
-    "custom13": "No",
-    "field13": {
-      "id": "13",
-      "order": 5,
-      "type": "select",
-      "name": "Risk assessment completed?",
-      "value": "No",
-      "options": ["Yes", "No"]
+  "custom_fields": [
+    {
+      "id": 2418,
+      "formatted_value": "kingshope.church/arnold",
+      "value": "kingshope.church/arnold"
     }
+  ],
+  "image": {
+    "thumbnail": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/112_Vg4iWA86_thumb.png",
+    "small": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/112_Vg4iWA86_sm.png",
+    "medium": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/112_Vg4iWA86_md.png",
+    "large": "https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/112_Vg4iWA86_lg.png"
   },
+  "all_sites": true,
+  "site_ids": [
+    1,
+    19
+  ],
   "labels": [
     {
-      "id": 5,
-      "value": [
-        "c9acac6c-30bf-4072-98da-9e39695aa690",
-        "39f84b01-9534-4703-aaf8-44bfa9fc3c6c",
-        "a897c272-58e6-4180-b380-e5f69402fe1d",
-        "a6a536ef-8f3b-45bc-bcf0-c4010d413308"
+      "id": 13,
+      "options": [
+        "26ba4865-212a-4e23-82f4-0ca643e533aa"
+      ]
+    },
+    {
+      "id": 14,
+      "options": [
+        "cde141a8-0755-4f3a-b280-65740e1cf236"
+      ]
+    },
+    {
+      "id": 15,
+      "options": [
+        "e6ffb9ed-9abd-48fc-90f8-7f76d853aaa0",
+        "3fdf6cc8-5117-4dd1-b772-3742f2ebb287"
       ]
     }
-  ]
+  ],
+  "num_members": 12
 }

@@ -16,7 +16,7 @@ const json = require('./group.json');
 const group = new Group(json);
 
 test('active property - group starts tomorrow', () => {
-	const data = { ...json, date_start: dayjs().add(1, 'day').format('YYYY-MM-DD') }
+	const data = { ...json, starts_at: dayjs().add(1, 'day').format('YYYY-MM-DD') }
 	const group = new Group(data);
 	expect(group.active).toBe(false);
 });
@@ -24,7 +24,7 @@ test('active property - group starts tomorrow', () => {
 test('active property - group already finished', () => {
 	const start = dayjs().subtract(1, 'week').format('YYYY-MM-DD');
 	const end = dayjs().subtract(1, 'day').format('YYYY-MM-DD');
-	const data = { ...json, date_start: start, date_end: end }
+	const data = { ...json, starts_at: start, ends_at: end }
 	const group = new Group(data);
 	expect(group.active).toBe(false);
 });
@@ -32,79 +32,58 @@ test('active property - group already finished', () => {
 test('active property - group should be active', () => {
 	const start = dayjs().subtract(1, 'week').format('YYYY-MM-DD');
 	const end = dayjs().add(1, 'week').format('YYYY-MM-DD');
-	const data = { ...json, date_start: start, date_end: end }
+	const data = { ...json, starts_at: start, ends_at: end }
 	const group = new Group(data);
 	expect(group.active).toBe(true);
 });
 
-let customFields = {
-	field_1280: { 
-		id: 1280,
-		resource_type: 'churchsuite_module',
-		resource_id: 9,
-		order: 1,
-		type: 'text',
-		name: 'Leader/s',
-		help: null,
-		options: null,
-		formatted_options: '',
-		value: '',
-		formatted_value: '',
-		required: false,
-		settings: {
-			my: { edit: true, view: true, required: false },
-			embed: { edit: false, view: true, required: false },
-			connect: { edit: false, view: false, required: false }
-		},
-		ctime: '2022-05-04 23:21:36',
-		cuser: 'Paul',
-		mtime: '2022-05-04 23:22:32',
-		muser: 'Paul'
-	},
-	custom1280: '',
-	field1280: {
-		id: '1280',
-		order: 1,
-		type: 'text',
-		name: 'Leader/s',
-		value: ''
-	}
-};
+let customFields = [
+    {
+      "id": 2418,
+      "formatted_value": "kingshope.church/arnold",
+      "value": "kingshope.church/arnold"
+    }
+];
 
 test('customFields property - provided', () => {
 	const data = { ...json, custom_fields: customFields }
 	const group = new Group(data);
 
-	expect(group.customFields[0].id).toBe(1280);
-	expect(group.customFields[0].name).toBe('Leader/s');
-	expect(group.customFields[0].value).toBe('');
-	expect(group.customFields[0]._original[2].required).toBe(false);
+	expect(group.customFields[0].id).toBe(2418);
+	expect(group.customFields[0].formatted_value).toBe('kingshope.church/arnold');
+	expect(group.customFields[0].value).toBe('kingshope.church/arnold');
 });
 
 test('customFields property - none given', () => {
 	const data = { ...json, custom_fields: [] }
 	const group = new Group(data);
-	expect(group.customFields).toBe(null);
+	expect(group.customFields).toEqual([]);
 });
 
 test('dateEnd property - not provided', () => {
-	const data = { ...json, date_end: '' }
+	const data = { ...json, ends_at: '' }
 	const group = new Group(data);
 	expect(group.dateEnd).toBe(null);
 });
 
 test('dateEnd property - provided', () => {
-	const data = { ...json, date_end: '2024-09-14' }
+	const data = { ...json, ends_at: '2024-09-14' }
 	const group = new Group(data);
 	expect(group.dateEnd.format('DD/MM/YYYY')).toBe('14/09/2024');
 });
 
-test('dateStart property', () => {
-	expect(group.dateStart.format('DD/MM/YYYY')).toBe('01/02/2018');
+test('dateStart property - provided', () => {
+	expect(group.dateStart.format('DD/MM/YYYY')).toBe('05/09/2021');
+});
+
+test('dateStart property - not provided', () => {
+	const data = { ...json, starts_at: '' }
+	const group = new Group(data);
+	expect(group.dateStart).toBe(null);
 });
 
 test('day property - given', () => {
-	expect(group.day.format('dddd')).toBe('Wednesday');
+	expect(group.day).toBe('Wednesday');
 });
 
 test('day property - null', () => {
@@ -127,35 +106,40 @@ test('description property - null', () => {
 	expect(group.description).toBe(null);
 });
 
-test('embedSignup property - true', () => {
-	const data = { ...json, embed_signup: true }
+test('signupEnabled property - true', () => {
+	const signup_options = {
+		"capacity": 20,
+		"starts_at": "2023-08-28",
+		"ends_at": null
+	}
+	const data = { ...json, signup_options: signup_options }
 	const group = new Group(data);
-	expect(group.embedSignup).toBe(true);
+	expect(group.signupEnabled).toBe(true);
 });
 
-test('embedSignup property - false', () => {
-	const data = { ...json, embed_signup: false }
+test('signupEnabled property - false', () => {
+	const data = { ...json, signup_options: null }
 	const group = new Group(data);
-	expect(group.embedSignup).toBe(false);
+	expect(group.signupEnabled).toBe(false);
 });
 
 test('endingSoon property - ended already', () => {
 	const end = dayjs().subtract(1, 'week').format('YYYY-MM-DD');
-	const data = { ...json, date_end: end }
+	const data = { ...json, ends_at: end }
 	const group = new Group(data);
 	expect(group.endingSoon).toBe(false);
 });
 
 test('endingSoon property - ending soon', () => {
 	const end = dayjs().add(1, 'week').format('YYYY-MM-DD');
-	const data = { ...json, date_end: end }
+	const data = { ...json, ends_at: end }
 	const group = new Group(data);
 	expect(group.endingSoon).toBe(true);
 });
 
 test('endingSoon property - not ending soon', () => {
 	const end = dayjs().add(1, 'year').format('YYYY-MM-DD');
-	const data = { ...json, date_end: end }
+	const data = { ...json, ends_at: end }
 	const group = new Group(data);
 	expect(group.endingSoon).toBe(false);
 });
@@ -165,47 +149,28 @@ test('frequency property - standard', () => {
 	expect(group.frequency).toBe('weekly');
 });
 
-test('frequency property - custom', () => {
-	const group = new Group({ ...json, custom_frequency: 'every other minute', frequency: 'custom' });
-	expect(group.frequency).toBe('every other minute');
-});
-
 test('id property', () => {
 	const group = new Group({ ...json, id: 1235 });
 	expect(group.id).toBe(1235);
 });
 
 test('image property - provided', () => {
-	expect(group.image).toBe('https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/2_uxcyQI88_md.png');
+	expect(group.image.medium).toBe('https://cdn.churchsuite.com/2mCEi8cf/smallgroups/groups/112_Vg4iWA86_md.png');
 });
 
 test('image property - not given', () => {
-	const group = new Group({ ...json, images: [] });
-	expect(group.image).toBe('');
+	const group = new Group({ ...json, image: null });
+	expect(group.image).toBe(null);
 });
 
 // embed signup enabled - provide link
 test('link property - signup enabled, embed signup enabled', () => {
-	const group = new Group({ ...json, identifier: 'test', embed_signup: true, signup_enabled: true });
+	const group = new Group({ ...json, identifier: 'test', signup_options: {} });
 	expect(group.link).toBe('https://demo.churchsuite.com/groups/test');
 });
 
-test('link property - no URL scheme', () => {
-	window.CS.url = 'demo.churchsuite.com';
-	const group = new Group({ ...json, identifier: 'test', embed_signup: true, signup_enabled: true });
-	expect(group.link).toBe('https://demo.churchsuite.com/groups/test');
-	window.CS.url = 'https://demo.churchsuite.com';
-});
-
-// if signup not enabled, we give a link because they can't sign up anyway
 test('link property - signup disabled', () => {
-	const group = new Group({ ...json, identifier: 'test', embed_signup: false, signup_enabled: false });
-	expect(group.link).toBe('https://demo.churchsuite.com/groups/test');
-});
-
-// if embed signup disabled, just don't provide a link
-test('link property - signup enabled, embed signup disabled', () => {
-	const group = new Group({ ...json, embed_signup: false, signup_enabled: true });
+	const group = new Group({ ...json, identifier: 'test',  signup_options: null });
 	expect(group.link).toBe('');
 });
 
@@ -225,11 +190,11 @@ test('longitude property', () => {
 });
 
 test('members property', () => {
-	expect(group.members).toBe(23);
+	expect(group.members).toBe(12);
 });
 
 test('name property', () => {
-	expect(group.name).toBe('Beeston Daytime (Online)');
+	expect(group.name).toBe('Arnold - North (Online)');
 });
 
 test('online property - in person', () => {
@@ -242,34 +207,39 @@ test('online property - online', () => {
 	expect(group.online).toBe(true);
 });
 
+test('online property - null', () => {
+	const group = new Group({ ...json, location: null });
+	expect(group.online).toBe(null);
+});
+
 test('signupCapacity property', () => {
-	const group = new Group({ ...json, signup_capacity: 12 });
-	expect(group.signupCapacity).toBe(12);
+	const group = new Group({ ...json });
+	expect(group.signupCapacity).toBe(20);
 });
 
 test('signupFull property - full', () => {
-	const group = new Group({ ...json, signup_full: true });
+	const group = new Group({ ...json, num_members: 12, signup_options: {capacity: 12} });
 	expect(group.signupFull).toBe(true);
 });
 
 test('signupFull property - not full', () => {
-	const group = new Group({ ...json, signup_full: false });
+	const group = new Group({ ...json, num_members: 12, signup_options: {capacity: 20} });
 	expect(group.signupFull).toBe(false);
 });
 
 // signup_date_start alawys provided, even if signup not enabled
 test('signupStart property - provided', () => {
-	const group = new Group({ ...json, signup_date_start: '2021-01-01' });
+	const group = new Group({ ...json, signup_options: {starts_at: '2021-01-01'}});
 	expect(group.signupStart.format('DD/MM/YYYY')).toBe('01/01/2021');
 });
 
 test('signupEnd property - provided', () => {
-	const group = new Group({ ...json, signup_date_end: '2021-05-01' });
+	const group = new Group({ ...json, signup_options: {ends_at: '2021-05-01'} });
 	expect(group.signupEnd.format('DD/MM/YYYY')).toBe('01/05/2021');
 });
 
 test('signupEnd property - not given', () => {
-	const group = new Group({ ...json, signup_date_end: '' });
+	const group = new Group({ ...json, signup_options: {ends_at: null} });
 	expect(group.signupEnd).toBe(null);
 });
 
@@ -281,73 +251,54 @@ test('signupInFuture property - signup not enabled', () => {
 test('signupInFuture property - signup already running', () => {
 	const start = dayjs().subtract(1, 'week').format('YYYY-MM-DD');
 	const end = dayjs().add(1, 'week').format('YYYY-MM-DD');
-	const group = new Group({ ...json, embed_signup: true, signup_enabled: true, signup_date_start: start, signup_date_end: end });
+	const group = new Group({ ...json, signup_options: {starts_at: start, ends_at: end }});
 	expect(group.signupInFuture).toBe(false);
 });
 
 test('signupInFuture property - signup already finished', () => {
 	const start = dayjs().subtract(1, 'week').format('YYYY-MM-DD');
 	const end = dayjs().subtract(1, 'day').format('YYYY-MM-DD');
-	const group = new Group({ ...json, embed_signup: true, signup_enabled: true, signup_date_start: start, signup_date_end: end });
+	const group = new Group({ ...json, signup_options: {starts_at: start, ends_at: end }});
 	expect(group.signupInFuture).toBe(false);
 });
 
 test('signupInFuture property - signup in future', () => {
 	const start = dayjs().add(1, 'day').format('YYYY-MM-DD');
 	const end = dayjs().add(1, 'week').format('YYYY-MM-DD');
-	const group = new Group({ ...json, embed_signup: true, signup_enabled: true, signup_date_start: start, signup_date_end: end });
+	const group = new Group({ ...json, signup_options: {starts_at: start, ends_at: end }});
 	expect(group.signupInFuture).toBe(true);
 });
 
 test('signupRunning property - running', () => {
 	const start = dayjs().subtract(1, 'week').format('YYYY-MM-DD');
 	const end = dayjs().add(1, 'week').format('YYYY-MM-DD');
-	const group = new Group({ ...json, embed_signup: true, signup_enabled: true, signup_date_start: start, signup_date_end: end });
+	const group = new Group({ ...json, signup_options: {starts_at: start, ends_at: end }});
 	expect(group.signupRunning).toBe(true);
 });
 
 test('signupRunning property - signup not enabled', () => {
-	const start = dayjs().subtract(1, 'week').format('YYYY-MM-DD');
-	const end = dayjs().add(1, 'week').format('YYYY-MM-DD');
-	const group = new Group({ ...json, embed_signup: false, signup_enabled: false, signup_date_start: start, signup_date_end: end });
-	expect(group.signupRunning).toBe(false);
-});
-
-test('signupRunning property - no start date', () => {
-	const group = new Group({ ...json, embed_signup: true, signup_enabled: true, signup_date_start: '' });
-	expect(group.signupRunning).toBe(false);
-});
-
-test('signupRunning property - embed signup not enabled', () => {
-	const start = dayjs().subtract(1, 'week').format('YYYY-MM-DD');
-	const end = dayjs().add(1, 'week').format('YYYY-MM-DD');
-	const group = new Group({ ...json, embed_signup: false, signup_enabled: true, signup_date_start: start, signup_date_end: end });
+	const group = new Group({ ...json, embed_signup: false, signup_options: null });
 	expect(group.signupRunning).toBe(false);
 });
 
 test('signupRunning property - signup finished already', () => {
 	const start = dayjs().subtract(1, 'week').format('YYYY-MM-DD');
 	const end = dayjs().subtract(1, 'day').format('YYYY-MM-DD');
-	const group = new Group({ ...json, embed_signup: true, signup_enabled: true, signup_date_start: start, signup_date_end: end });
+	const group = new Group({ ...json, signup_options: {starts_at: start, ends_at: end }});
 	expect(group.signupRunning).toBe(false);
 });
 
 test('signupRunning property - signup not started yet', () => {
 	const start = dayjs().add(1, 'day').format('YYYY-MM-DD');
 	const end = dayjs().add(1, 'week').format('YYYY-MM-DD');
-	const group = new Group({ ...json, embed_signup: true, signup_enabled: true, signup_date_start: start, signup_date_end: end });
+	const group = new Group({ ...json, signup_options: {starts_at: start, ends_at: end }});
 	expect(group.signupRunning).toBe(false);
 });
 
-test('site_id property - provided', () => {
+test('siteIds property - provided', () => {
 	// API data comes over as strings - make sure it's an integer for filtering
-	const group = new Group({ ...json, site_id: "34" });
-	expect(group.siteId).toBe(34);
-});
-
-test('site_id property - not provided', () => {
-	const group = new Group({ ...json, site_id: null });
-	expect(group.siteId).toBe(null);
+	const group = new Group({ ...json, all_sites: false, site_ids: [34] });
+	expect(group.siteIds).toStrictEqual([34]);
 });
 
 test('time property - provided', () => {
@@ -358,9 +309,4 @@ test('time property - provided', () => {
 test('time property - not provided', () => {
 	const group = new Group({ ...json, time: null });
 	expect(group.time).toBe(null);
-});
-
-test('original property', () => {
-	// check for a property we don't use
-	expect(group._original.id).toBe(2);
 });

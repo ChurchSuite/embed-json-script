@@ -6,9 +6,8 @@ export default class Label {
 	constructor(json) {
 		this.id = json.id
 		this.name = json.name
-		this.color = json.color
-		this.multiple = json.multiple
-		this.required = json.required
+		this.color = json.colour
+		this.multiple = json.multiple_responses
 		this.options = json.options
 	}
 }

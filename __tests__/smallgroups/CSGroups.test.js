@@ -89,7 +89,7 @@ describe('filterModel_Day() method', () => {
 	})
 
 	test('no day filter', () => {
-		expect(Groups.filterModel_Day({day: 1})).toEqual(true)
+		expect(Groups.filterModel_Day({day: 'Wednesday'})).toEqual(true)
 	})
 
 	test('model with no day', () => {
@@ -99,18 +99,12 @@ describe('filterModel_Day() method', () => {
 
 	test('model matched on day string', () => {
 		Groups.day = ['Friday']
-		expect(Groups.filterModel_Day({day: dayjs('2022-07-01')})).toEqual(true)
+		expect(Groups.filterModel_Day({day: 'Friday'})).toEqual(true)
 	})
 
-	test('model matched on day int', () => {
-		Groups.day = 4
-		let model = {
-			day: dayjs('2022-07-02'), // friday
-			_original: {
-				day: 4
-			}
-		}
-		expect(Groups.filterModel_Day(model)).toEqual(true)
+	test('model matched on day string mismatched case', () => {
+		Groups.day = ['friday']
+		expect(Groups.filterModel_Day({day: 'Friday'})).toEqual(true)
 	})
 })
 
@@ -157,23 +151,28 @@ describe('filterModel_Site method', () => {
 		Groups = new CSGroups()
 	})
 
-	test('null value', () => {
+	test('all sites, no search term', () => {
 		Groups.site = []
-		expect(Groups.filterModel_Site({})).toEqual(true)
+		const group = new Group({...groupJSON, all_sites: true, site_ids: [1]})
+		expect(Groups.filterModel_Site(group)).toEqual(true)
 	})
 
-	test('match on id', () => {
-		Groups.site = ['test']
-		expect(
-			Groups.filterModel_Site({siteId: 'test'})
-		).toEqual(true)
+	test('all sites', () => {
+		Groups.site = ['1']
+		const group = new Group({...groupJSON, all_sites: true, site_ids: [1]})
+		expect(Groups.filterModel_Site(group)).toEqual(true)
 	})
 
-	test('no match on id', () => {
-		Groups.site = ['test']
-		expect(
-			Groups.filterModel_Site({siteId: 'badger'})
-		).toEqual(false)
+	test('site should match', () => {
+		Groups.site = ['2']
+		const group = new Group({...groupJSON, all_sites: false, site_ids: [2, 4]})
+		expect(Groups.filterModel_Site(group)).toEqual(true)
+	})
+
+	test('site shouldn\'t match', () => {
+		Groups.site = ['5']
+		const group = new Group({...groupJSON, all_sites: false, site_ids: [2, 4]})
+		expect(Groups.filterModel_Site(group)).toEqual(false)
 	})
 })
 
@@ -187,11 +186,11 @@ test('label filtering', () => {
 		labels: [
 			{
 				id: 1, // label id 1
-				value: ['a'], // label options
+				options: ['a'], // label options
 			},
 			{
 				id: 2,
-				value: ['b', 'c'],
+				options: ['b', 'c'],
 			},
 		]
 	}

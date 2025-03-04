@@ -1,7 +1,18 @@
 import Base from '../base'
+import Configuration from './configuration';
 import Group from './group'
+import CustomField from '../components/customField'
+import Label from '../components/label'
 
 export default class CSGroups extends Base {
+
+	/**
+	 * Convert the Embed Configuration data into a nice Configuration model.
+	 */
+	buildConfiguration = function (data) {
+		return new Configuration(data)
+	}
+
 	buildModelObject = (model) => new Group(model)
 
 	/**
@@ -22,8 +33,12 @@ export default class CSGroups extends Base {
 		if (dayValue == null) return true
 		// various days for group
 		if (model.day == null) return true
-		// legacy support - match on day string or int
-		return dayValue.includes(model.day.format('dddd')) || dayValue.includes('' + model._original.day)
+
+		if (dayValue.constructor === Array) {
+			return dayValue.map(f => f.toLowerCase()).includes(model.day.toLowerCase())
+		} else {
+			return dayValue.toLowerCase() == model.day.toLowerCase()
+		}
 	}
 
 	/**
@@ -35,7 +50,7 @@ export default class CSGroups extends Base {
 	filterModel_Label = function (model) {
 		// get a flattened array of label options the model has - they're UUIDs
 		// so we can just check if our selected options are in the array
-		let modelOptions = model.labels.map(label => label.value).flat();
+		let modelOptions = model.labels.map(label => label.options).flat();
 
 		// get an array of labels that have been selected (ie, aren't null)
 		const filteredLabels = Object.keys(this.label).filter(a => this.label[a] && this.label[a].length > 0)
@@ -49,8 +64,7 @@ export default class CSGroups extends Base {
 			matchesLabels.push(this.label[options].some((option) => modelOptions.includes(option)))
 		})
 
-		/**
-		 * If the model matches at least one option in every label being filtered,
+		/**		 * If the model matches at least one option in every label being filtered,
 		 * (ie, the array is all true values) return true.
 		 */
 		return matchesLabels.every((option) => option)
@@ -80,9 +94,10 @@ export default class CSGroups extends Base {
 		if (this.site.length == 0) return true
 
 		// all sites groups
-		if (model.siteId == null) return true
+		if (model.allSites) return true
 
-		return this.site.includes(model.siteId)
+		// compare as strings, so we handle any combination
+		return this.site.map(s => s + '').includes(model.siteIds[0] + '')
 	}
 
 	async init() {
@@ -91,6 +106,23 @@ export default class CSGroups extends Base {
 		this.$watch('models', value => (this.groups = value))
 
 		await super.init()
+	}
+
+	/**
+	 * An empty function that runs at the end of the init() method for each module.
+	 * Overloaded to set up the resources
+	 */
+	postInit = function (response) {
+		/**
+		 * For efficiency, the Groups response sends over the labels and custom
+		 * fields once on page 1, rather than on every Group.
+		 */
+		if (response.hasOwnProperty('labels')) {
+			response.labels.forEach(label => this.labels.push(new Label(label)))
+		}
+		if (response.hasOwnProperty('custom_fields')) {
+			response.custom_fields.forEach(field => this.customFields.push(new CustomField(field)))
+		}
 	}
 
 	constructor(options) {
@@ -106,6 +138,8 @@ export default class CSGroups extends Base {
 
 		this.label = {} // label id keyed object of values - populated when building objects
 		this.labels = []
+
+		this.customFields = []
 
 		this.site = [] // site array for filterModels()
 		this.sites = [] // array of Site objects
