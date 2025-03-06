@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.2.1] - 2025-03-06
+
+### Fixed
+
+- SG Group `link` property is now present when signup is disabled, so group information can be seen.
+
 ## [5.2.0] - 2025-03-04
 
 As part of ongoing work to improve our developer APIs, we've redesigned and documented the JSON endpoint for Groups in the Small Groups module, and so have made corresponding updates to this package.

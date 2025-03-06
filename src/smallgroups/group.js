@@ -33,9 +33,7 @@ export default class Group {
 			large: json.image.large,
 		}
 		this.labels = json.labels
-		this.link = this.signupEnabled
-			? CS.detectURLScheme() + CS.url + '/groups/' + json.identifier
-			: ''
+		this.link = CS.detectURLScheme() + CS.url + '/groups/' + json.identifier
 		this.members = json.num_members
 		this.name = json.name
 		this.signupCapacity = json.signup_options?.capacity

@@ -164,14 +164,9 @@ test('image property - not given', () => {
 });
 
 // embed signup enabled - provide link
-test('link property - signup enabled, embed signup enabled', () => {
+test('link property', () => {
 	const group = new Group({ ...json, identifier: 'test', signup_options: {} });
 	expect(group.link).toBe('https://demo.churchsuite.com/groups/test');
-});
-
-test('link property - signup disabled', () => {
-	const group = new Group({ ...json, identifier: 'test',  signup_options: null });
-	expect(group.link).toBe('');
 });
 
 test('location property', () => {
