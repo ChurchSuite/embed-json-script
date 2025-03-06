@@ -14,8 +14,15 @@ const json = require('./event.json');
 // create a group to test
 const event = new Event(json);
 
-test('allDay property - is all day', () => {
-	const data = { ...json, starts_at: "2022-05-25T00:00:00Z", ends_at: "2022-05-25T23:59:59Z" }
+test('allDay property - is all day (BST)', () => {
+	// midnight during BST is 23:00 UTC+1
+	const data = { ...json, starts_at: "2022-05-24T23:00:00Z", ends_at: "2022-05-25T22:59:59Z" }
+	const event = new Event(data);
+	expect(event.allDay).toBe(true);
+});
+
+test('allDay property - is all day (GMT)', () => {
+	const data = { ...json, starts_at: "2022-02-25T00:00:00Z", ends_at: "2022-02-25T23:59:59Z" }
 	const event = new Event(data);
 	expect(event.allDay).toBe(true);
 });

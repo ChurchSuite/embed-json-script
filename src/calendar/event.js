@@ -4,12 +4,9 @@ export default class Event {
 	 * @param {object} json
 	 */
 	constructor(json) {
-		this.allDay =
-			json.starts_at.slice(-9) == '00:00:00Z' && json.ends_at.slice(-9) == '23:59:59Z'
 		this.allSites = json.all_sites
 		this.categoryId = json.category_id
 		this.description = json.description
-		this.end = dayjs(json.ends_at)
 		this.id = json.id
 		this.identifier = json.identifier
 		this.image = json.image == null ? null : {
@@ -31,6 +28,9 @@ export default class Event {
 		this.signupEnabled = json.signup_enabled
 		this.siteIds = json.site_ids
 		this.start = dayjs(json.starts_at)
+		this.end = dayjs(json.ends_at)
+		this.allDay =
+			this.start.format('HH:mm') == '00:00' && this.end.format('HH:mm') == '23:59'
 		this.status = json.status
 	}
 }

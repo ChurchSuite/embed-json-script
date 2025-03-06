@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.2.2] - 2025-03-06
+
+### Fixed
+
+- Future CA events in the summer (BST) that last all day now show correctly when viewed from GMT.
+
 ## [5.2.1] - 2025-03-06
 
 ### Fixed
