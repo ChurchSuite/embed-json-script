@@ -33,7 +33,7 @@ export default class CSEvents extends Base {
 
 		if (!(this.search || '').length && !categoryFilter && !siteFilter) {
 			// if we're not filtering by anything, only show merged events (following merge strategy)
-			this.models = this.modelsMerged
+			this.models = this.modelsMerged.slice(0, this.configuration.numOfEvents)
 			return false
 		}
 

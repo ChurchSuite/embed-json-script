@@ -361,6 +361,11 @@ describe('test Configuration count being respected', () => {
 				name: 'Ev B4',
 				categoryId: 4,
 				mergeIdentifier: 'B'
+			},
+			{
+				name: 'Ev C1',
+				categoryId: 5,
+				mergeIdentifier: 'C'
 			}
 		]
 		Events.modelsMerged = [
@@ -373,6 +378,11 @@ describe('test Configuration count being respected', () => {
 				name: 'Ev B3',
 				categoryId: 3,
 				mergeIdentifier: 'B'
+			},
+			{
+				name: 'Ev C1',
+				categoryId: 5,
+				mergeIdentifier: 'C'
 			}
 		]
 	})

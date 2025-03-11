@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.2.3] - 2025-03-11
+
+### Fixed
+
+- CA Events now respect the numOfEvents correctlywhen no filters are applied.
+
 ## [5.2.2] - 2025-03-06
 
 ### Fixed
