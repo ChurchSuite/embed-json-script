@@ -325,3 +325,107 @@ describe('filterModel_Search method', () => {
 		expect(Events.filterModel_Search(model)).toEqual(false)
 	})
 })
+
+describe('test Configuration count being respected', () => {
+	beforeAll(() => {
+		Events = new CSEvents()
+		Events.$dispatch = jest.fn()
+		Events.configuration.numOfEvents = 2
+		Events.modelsAll = [
+			{
+				name: 'Ev A1',
+				categoryId: 2,
+				mergeIdentifier: 'A'
+			},
+			{
+				name: 'Ev A2',
+				categoryId: 2,
+				mergeIdentifier: 'A'
+			},
+			{
+				name: 'Ev A3',
+				categoryId: 2,
+				mergeIdentifier: 'A'
+			},
+			{
+				name: 'Ev A4',
+				categoryId: 2,
+				mergeIdentifier: 'A'
+			},
+			{
+				name: 'Ev B3',
+				categoryId: 3,
+				mergeIdentifier: 'B'
+			},
+			{
+				name: 'Ev B4',
+				categoryId: 4,
+				mergeIdentifier: 'B'
+			}
+		]
+		Events.modelsMerged = [
+			{
+				name: 'Ev A1',
+				categoryId: 2,
+				mergeIdentifier: 'A'
+			},
+			{
+				name: 'Ev B3',
+				categoryId: 3,
+				mergeIdentifier: 'B'
+			}
+		]
+	})
+
+	/**
+	 * When we're not filtering, the Configuration is set to 2 events, so we
+	 * should see one from each merged group.
+	 */
+	test('with no filters, only 2 events shown', () => {
+		Events.filterModels()
+		expect(Events.models).toEqual([
+			{
+				name: 'Ev A1',
+				categoryId: 2,
+				mergeIdentifier: 'A'
+			},
+			{
+				name: 'Ev B3',
+				categoryId: 3,
+				mergeIdentifier: 'B'
+			}
+		])
+	})
+
+	/**
+	 * When a filter is applied, unmerge the events so we show more than the
+	 * Embed Configuration is set to.
+	 */
+	test('with category filter, all events shown', () => {
+		Events.category = ['2']
+		Events.filterModels()
+		expect(Events.models).toEqual([
+			{
+				name: 'Ev A1',
+				categoryId: 2,
+				mergeIdentifier: 'A'
+			},
+			{
+				name: 'Ev A2',
+				categoryId: 2,
+				mergeIdentifier: 'A'
+			},
+			{
+				name: 'Ev A3',
+				categoryId: 2,
+				mergeIdentifier: 'A'
+			},
+			{
+				name: 'Ev A4',
+				categoryId: 2,
+				mergeIdentifier: 'A'
+			}
+		])
+	})
+
+})
