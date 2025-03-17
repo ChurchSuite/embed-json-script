@@ -37,3 +37,17 @@ test('numOfEvents property', () => expect(config.numOfEvents).toBe(json.num_even
 test('numOfMonths property', () => expect(config.numOfMonths).toBe(json.num_months));
 test('showFilters property', () => expect(config.showFilters).toBe(json.show_filters));
 test('weekStartDay property', () => expect(config.weekStartDay).toBe(json.week_start_day));
+
+describe('test numOfEvents property for calendar and list', () => {
+	let calJson = {...json, format: 'calendar', num_events: 12}
+	let calConfig = new Configuration(calJson)
+	test('numOfEvents is null for calendar, even if provided', () => {
+		expect(calConfig.numOfEvents).toEqual(null)
+	})
+
+	let listJson = {...json, format: 'list', num_events: 12}
+	let listConfig = new Configuration(listJson)
+	test('numOfEvents is applied for list', () => {
+		expect(listConfig.numOfEvents).toEqual(12)
+	})
+})

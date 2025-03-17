@@ -14,7 +14,7 @@ export default class Configuration {
 		this.format = json.format,
 		this.layout = json.layout,
 		this.mergeEvents = json.merge_events,
-		this.numOfEvents = json.num_events,
+		this.numOfEvents = json.format == 'list' ? json.num_events : null,
 		this.numOfMonths = json.num_months,
 		this.showFilters = json.show_filters,
 		this.weekStartDay = json.week_start_day

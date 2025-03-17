@@ -2,7 +2,13 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
-## [5.2.3] - 2025-03-11
+## [5.2.5] - 2025-03-17
+
+### Fixed
+
+- CA Events in Calendar format now show all events, even when a num_events value has previously been set for list view.
+
+## [5.2.4] - 2025-03-11
 
 ### Fixed
 

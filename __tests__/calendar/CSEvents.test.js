@@ -438,4 +438,31 @@ describe('test Configuration count being respected', () => {
 		])
 	})
 
+	/**
+	 * When we're not filtering, the Configuration is set to 2 events, so we
+	 * should see one from each merged group.
+	 */
+	test('with no filters, and no limits, all events shown', () => {
+		Events.category = null
+		Events.configuration.numOfEvents = null
+		Events.filterModels()
+		expect(Events.models).toEqual([
+			{
+				name: 'Ev A1',
+				categoryId: 2,
+				mergeIdentifier: 'A'
+			},
+			{
+				name: 'Ev B3',
+				categoryId: 3,
+				mergeIdentifier: 'B'
+			},
+			{
+				name: 'Ev C1',
+				categoryId: 5,
+				mergeIdentifier: 'C'
+			}
+		])
+	})
+
 })
