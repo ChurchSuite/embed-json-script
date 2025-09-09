@@ -17,6 +17,7 @@
     "url": null
   },
   "description": "",
+  "signup_enabled": true,
   "signup_options": {
     "capacity": 20,
     "starts_at": "2023-08-28",

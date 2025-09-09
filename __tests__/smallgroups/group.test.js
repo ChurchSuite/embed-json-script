@@ -169,6 +169,11 @@ test('link property', () => {
 	expect(group.link).toBe('https://demo.churchsuite.com/groups/test');
 });
 
+test('link property - signup disabled', () => {
+	const group = new Group({ ...json, identifier: 'test',  signup_enabled: false });
+	expect(group.link).toBe(null);
+});
+
 test('location property', () => {
 	const group = new Group({ ...json, location: { name: 'The Moon' } });
 	expect(group.location).toBe('The Moon');
