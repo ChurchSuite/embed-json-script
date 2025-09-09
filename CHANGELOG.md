@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.2.6] - 2025-09-09
+
+### Fixed
+
+- SG Groups no longer include a link if the signup_enabled option is false.
+
 ## [5.2.5] - 2025-03-17
 
 ### Fixed
