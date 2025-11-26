@@ -76,5 +76,7 @@ export default class CSBookedResources extends Base {
 		// Filter Data
 		this.resource = null
 		this.resources = []
+
+		this.sites = []
 	}
 }

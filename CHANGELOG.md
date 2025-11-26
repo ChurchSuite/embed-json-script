@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.2.7] - 2025-11-26
+
+### Fixed
+
+- Initialised sites property on CSBookedResources
+
 ## [5.2.6] - 2025-09-09
 
 ### Fixed
