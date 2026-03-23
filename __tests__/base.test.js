@@ -149,7 +149,7 @@ describe('filterModels() method', () => {
 
 	test('dispatch models-updated', () => {
 		CSBase.filterModels()
-		expect(CSBase.$dispatch).toBeCalledWith('models-updated')
+		expect(CSBase.$dispatch).toHaveBeenCalledWith('models-updated')
 	})
 
 	test('filterModelsEnabled is false', () => {
@@ -266,15 +266,15 @@ describe('init method', () => {
 	})
 
 	test('$watch', () => {
-		expect(CSBase.$watch).toBeCalledWith('sites', expect.any(Function))
+		expect(CSBase.$watch).toHaveBeenCalledWith('sites', expect.any(Function))
 	})
 
 	test('fetchJSON', () => {
-		expect(window.CS.fetchJSON).toBeCalledWith(CSBase.resourceModule, CSBase.options)
+		expect(window.CS.fetchJSON).toHaveBeenCalledWith(CSBase.resourceModule, CSBase.options)
 	})
 
 	test('postInit', () => {
-		expect(CSBase.postInit).toBeCalledWith(response)
+		expect(CSBase.postInit).toHaveBeenCalledWith(response)
 	})
 })
 
