@@ -1,6 +1,6 @@
 {
 	"name": "@churchsuite/embed",
-	"version": "5.2.8",
+	"version": "5.2.9",
 	"description": "An easy-to-use script to allow simple integration of ChurchSuite's embed JSON feeds into your website. For more information, see https://kingshope.church.",
 	"main": "dist/cdn.min.js",
 	"scripts": {
@@ -34,7 +34,7 @@
 		"@babel/node": "^7.17.10",
 		"@babel/preset-env": "^7.18.0",
 		"dayjs": "^1.10.7",
-		"esbuild": "^0.27.4",
+		"esbuild": "^0.28.1",
 		"jest": "^30.3.0",
 		"jest-environment-jsdom": "^30.3.0",
 		"prettier": "^2.6.2"
