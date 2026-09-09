@@ -10,6 +10,7 @@ export default class Configuration {
 		this.description = json.description,
 		this.filterByCategory = json.filter_by_categories,
 		this.filterByFeatured = json.filter_by_featured,
+		this.filterByLabel = json.filter_by_labels ?? [],
 		this.filterBySite = json.filter_by_sites,
 		this.format = json.format,
 		this.layout = json.layout,
@@ -17,6 +18,8 @@ export default class Configuration {
 		this.numOfEvents = json.format == 'list' ? json.num_events : null,
 		this.numOfMonths = json.num_months,
 		this.showFilters = json.show_filters,
+		this.showFilterLabels = json.show_filter_labels ?? [],
+		this.showLabels = json.show_labels ?? [],
 		this.weekStartDay = json.week_start_day
 	}
 }

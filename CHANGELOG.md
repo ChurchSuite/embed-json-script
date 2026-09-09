@@ -2,6 +2,16 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.3.0] - 2026-09-09
+
+### Added
+
+- Added support for (upcoming) Event Labels
+
+### Changed
+
+- Updated NPM packages
+
 ## [5.2.9] - 2026-06-15
 
 ### Changed

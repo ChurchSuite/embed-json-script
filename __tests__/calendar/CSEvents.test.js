@@ -12,7 +12,7 @@ const eventJSON = require('./event.json')
 
 describe('non-empty value initialised properties', () => {
 	test('filter keys', () => {
-		expect(Events.filterKeys).toEqual(['category', 'search', 'site'])
+		expect(Events.filterKeys).toEqual(['category', 'label', 'search', 'site'])
 	})
 
 	test('options keys', () => {
@@ -25,7 +25,7 @@ describe('non-empty value initialised properties', () => {
 })
 
 describe('empty array initialised properties', () => {
-	let keys = ['categories', 'category', 'events', 'mergeIdentifiers', 'modelsMerged', 'site', 'sites']
+	let keys = ['categories', 'category', 'events', 'labels', 'mergeIdentifiers', 'modelsMerged', 'site', 'sites']
 	keys.forEach(function (key) {
 		test(key + ' property', () => {
 			expect(Events[key]).toEqual([])
@@ -40,6 +40,10 @@ describe('null-initialised properties', () => {
 			expect(Events[key]).toBe(null)
 		})
 	})
+})
+
+test('label property', () => {
+	expect(Events.label).toEqual({})
 })
 
 describe('buildModelObject() method', () => {
@@ -103,6 +107,13 @@ describe('filterModelsEnabled method', () => {
 		Events.site = 'test'
 		expect(Events.filterModelsEnabled()).toEqual(true)
 	})
+
+	test('label property', () => {
+		Events.label = {
+			'2': ['c']
+		}
+		expect(Events.filterModelsEnabled()).toEqual(true)
+	})
 })
 
 describe('filterModel method', () => {
@@ -113,6 +124,7 @@ describe('filterModel method', () => {
 		Events.filterModel_Category = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false)
 		Events.filterModel_Search = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
 		Events.filterModel_Site = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
+		Events.filterModel_Label = jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true)
 	})
 
 	test('filterModel with all true', () => {
@@ -335,54 +347,64 @@ describe('test Configuration count being respected', () => {
 			{
 				name: 'Ev A1',
 				categoryId: 2,
-				mergeIdentifier: 'A'
+				mergeIdentifier: 'A',
+				labels: []
 			},
 			{
 				name: 'Ev A2',
 				categoryId: 2,
-				mergeIdentifier: 'A'
+				mergeIdentifier: 'A',
+				labels: []
 			},
 			{
 				name: 'Ev A3',
 				categoryId: 2,
-				mergeIdentifier: 'A'
+				mergeIdentifier: 'A',
+				labels: []
 			},
 			{
 				name: 'Ev A4',
 				categoryId: 2,
-				mergeIdentifier: 'A'
+				mergeIdentifier: 'A',
+				labels: []
 			},
 			{
 				name: 'Ev B3',
 				categoryId: 3,
-				mergeIdentifier: 'B'
+				mergeIdentifier: 'B',
+				labels: []
 			},
 			{
 				name: 'Ev B4',
 				categoryId: 4,
-				mergeIdentifier: 'B'
+				mergeIdentifier: 'B',
+				labels: []
 			},
 			{
 				name: 'Ev C1',
 				categoryId: 5,
-				mergeIdentifier: 'C'
+				mergeIdentifier: 'C',
+				labels: []
 			}
 		]
 		Events.modelsMerged = [
 			{
 				name: 'Ev A1',
 				categoryId: 2,
-				mergeIdentifier: 'A'
+				mergeIdentifier: 'A',
+				labels: []
 			},
 			{
 				name: 'Ev B3',
 				categoryId: 3,
-				mergeIdentifier: 'B'
+				mergeIdentifier: 'B',
+				labels: []
 			},
 			{
 				name: 'Ev C1',
 				categoryId: 5,
-				mergeIdentifier: 'C'
+				mergeIdentifier: 'C',
+				labels: []
 			}
 		]
 	})
@@ -397,12 +419,14 @@ describe('test Configuration count being respected', () => {
 			{
 				name: 'Ev A1',
 				categoryId: 2,
-				mergeIdentifier: 'A'
+				mergeIdentifier: 'A',
+				labels: []
 			},
 			{
 				name: 'Ev B3',
 				categoryId: 3,
-				mergeIdentifier: 'B'
+				mergeIdentifier: 'B',
+				labels: []
 			}
 		])
 	})
@@ -418,22 +442,26 @@ describe('test Configuration count being respected', () => {
 			{
 				name: 'Ev A1',
 				categoryId: 2,
-				mergeIdentifier: 'A'
+				mergeIdentifier: 'A',
+				labels: []
 			},
 			{
 				name: 'Ev A2',
 				categoryId: 2,
-				mergeIdentifier: 'A'
+				mergeIdentifier: 'A',
+				labels: []
 			},
 			{
 				name: 'Ev A3',
 				categoryId: 2,
-				mergeIdentifier: 'A'
+				mergeIdentifier: 'A',
+				labels: []
 			},
 			{
 				name: 'Ev A4',
 				categoryId: 2,
-				mergeIdentifier: 'A'
+				mergeIdentifier: 'A',
+				labels: []
 			}
 		])
 	})
@@ -450,19 +478,80 @@ describe('test Configuration count being respected', () => {
 			{
 				name: 'Ev A1',
 				categoryId: 2,
-				mergeIdentifier: 'A'
+				mergeIdentifier: 'A',
+				labels: []
 			},
 			{
 				name: 'Ev B3',
 				categoryId: 3,
-				mergeIdentifier: 'B'
+				mergeIdentifier: 'B',
+				labels: []
 			},
 			{
 				name: 'Ev C1',
 				categoryId: 5,
-				mergeIdentifier: 'C'
+				mergeIdentifier: 'C',
+				labels: []
 			}
 		])
 	})
 
 })
+
+/**
+ * Label filtering should be an OR check rather than AND - if two labels are
+ * selected, any organisation that is one OR the other should be returned.
+ */
+test('label filtering', () => {
+	let CSE = new CSEvents;
+	let model = {
+		labels: [
+			{
+				id: 1, // label id 1
+				options: ['a'], // label options
+			},
+			{
+				id: 2,
+				options: ['b', 'c'],
+			},
+		]
+	}
+
+	CSE.label = {
+		'2': null
+	}
+
+	// we've selected no labels, so model should be included
+	expect(CSE.filterModel_Label(model)).toBe(true);
+
+	// option C has been selected for label 2
+	CSE.label = {
+		'2': ['c']
+	}
+
+	// the model has label 2 with a value of c, should be fine
+	expect(CSE.filterModel_Label(model)).toBe(true);
+
+	// now we've selected a second filter that matches - should still be fine though
+	CSE.label = {
+		'1': ['a'],
+		'2': ['c'],
+	}
+
+	expect(CSE.filterModel_Label(model)).toBe(true);
+
+	// we've selected two filters - we match one but not the other, so we shouldn't be included
+	CSE.label = {
+		'1': ['a'],
+		'3': ['d'], // this is another label that the model doesn't match
+	}
+
+	expect(CSE.filterModel_Label(model)).toBe(false);
+
+	// finally, we've only selected one this model doesn't have
+	CSE.label = {
+		'3': ['d'],
+	}
+
+	expect(CSE.filterModel_Label(model)).toBe(false);
+});

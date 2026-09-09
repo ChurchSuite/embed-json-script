@@ -15,6 +15,7 @@ export default class Event {
 			medium: json.image.medium,
 			large: json.image.large,
 		}
+		this.labels = json.labels ?? []
 		this.latitude = json.location.latitude
 		this.link = json.url
 		this.location = json.location.name

@@ -11,9 +11,6 @@ import Event from '../../src/calendar/event';
 // load an example event in, and convert it to JSON
 const json = require('./event.json');
 
-// create a group to test
-const event = new Event(json);
-
 test('allDay property - is all day (BST)', () => {
 	// midnight during BST is 23:00 UTC+1
 	const data = { ...json, starts_at: "2022-05-24T23:00:00Z", ends_at: "2022-05-25T22:59:59Z" }
@@ -85,6 +82,42 @@ test('image property - not provided', () => {
 	const data = { ...json, brand: { emblem: 'sandwich' }, image: null }
 	const event = new Event(data);
 	expect(event.image).toBe(null); // we no longer pull from emblem
+});
+
+// temporary support ahead of introducing the feature
+test('labels property - not provided', () => {
+	const event = new Event(json);
+	expect(event.labels).toStrictEqual([]);
+});
+
+test('labels property - provided', () => {
+	const labels = [
+		{
+			id: 13,
+			options: [
+				"26ba4865-212a-4e23-82f4-0ca643e533aa"
+			]
+			},
+			{
+				id: 14,
+				options: [
+					"cde141a8-0755-4f3a-b280-65740e1cf236"
+				]
+			},
+			{
+				id: 15,
+				options: [
+					"e6ffb9ed-9abd-48fc-90f8-7f76d853aaa0",
+					"3fdf6cc8-5117-4dd1-b772-3742f2ebb287"
+				]
+		}
+	];
+	const data = {
+		...json,
+		labels: labels
+	}
+	const event = new Event(data);
+	expect(event.labels).toStrictEqual(labels);
 });
 
 // if signup is disabled, we can link to event page (they can't sign up anyway!)

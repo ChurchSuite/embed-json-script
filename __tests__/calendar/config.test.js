@@ -51,3 +51,40 @@ describe('test numOfEvents property for calendar and list', () => {
 		expect(listConfig.numOfEvents).toEqual(12)
 	})
 })
+
+// temporary check that everything still works before labels are added
+test('filterByLabel property', () => expect(config.filterByLabel).toStrictEqual([]));
+test('showLabels property', () => expect(config.showLabels).toStrictEqual([]));
+test('showFilterLabels property', () => expect(config.showFilterLabels).toStrictEqual([]));
+
+// make sure labels work if provided
+const newConfig = new Configuration({
+	...json,
+	filter_by_labels: [
+      {
+        label_id: 2,
+        option_ids: [
+          "d746f9c7-9db9-4d89-aafa-b8951f6fbfa2",
+          "bf195d7e-5527-431e-92d9-62a38ce3139c"
+        ]
+      }
+    ],
+	show_labels: [
+      123,
+      45
+    ],
+	show_filter_labels: [
+      12,
+      57
+    ]
+})
+
+test('filterByLabel property', () => expect(newConfig.filterByLabel).toStrictEqual([{
+	label_id: 2,
+	option_ids: [
+		"d746f9c7-9db9-4d89-aafa-b8951f6fbfa2",
+		"bf195d7e-5527-431e-92d9-62a38ce3139c"
+	]
+}]));
+test('showLabels property', () => expect(newConfig.showLabels).toStrictEqual([123, 45]));
+test('showFilterLabels property', () => expect(newConfig.showFilterLabels).toStrictEqual([12, 57]));

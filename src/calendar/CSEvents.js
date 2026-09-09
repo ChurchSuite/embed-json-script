@@ -2,6 +2,7 @@ import Base from '../base'
 import Event from './event'
 import Category from './category'
 import Configuration from './configuration';
+import Label from '../components/label'
 
 export default class CSEvents extends Base {
 	buildModelObject = function (model) {
@@ -30,8 +31,9 @@ export default class CSEvents extends Base {
 	filterModelsEnabled = function () {
 		let categoryFilter = this.filterValue('category')
 		let siteFilter = this.filterValue('site')
+		const filteredLabels = Object.keys(this.label).filter(a => this.label[a] && this.label[a].length > 0)
 
-		if (!(this.search || '').length && !categoryFilter && !siteFilter) {
+		if (!(this.search || '').length && !categoryFilter && !siteFilter && filteredLabels.length === 0) {
 			// if we're not filtering by anything, only show merged events (following merge strategy)
 			if (this.configuration.numOfEvents) {
 				this.models = this.modelsMerged.slice(0, this.configuration.numOfEvents)
@@ -50,6 +52,7 @@ export default class CSEvents extends Base {
 	filterModel = function (model) {
 		return (
 			this.filterModel_Category(model) &&
+			this.filterModel_Label(model) &&
 			this.filterModel_Search(model) &&
 			this.filterModel_Site(model)
 		)
@@ -61,6 +64,35 @@ export default class CSEvents extends Base {
 		if (categoryFilter == null) return true
 		// return on id
 		return categoryFilter.includes('' + model.categoryId)
+	}
+
+	/**
+	 * For each label, check that the model has any of the selected options (to
+	 * support multiselect fields), and that that is true for all selected labels.
+	 * 
+	 * IE, OR between options for a single label, and then AND multiple labels
+	 */
+	filterModel_Label = function (model) {
+		// get a flattened array of label options the model has - they're UUIDs
+		// so we can just check if our selected options are in the array
+		let modelOptions = model.labels.map(label => label.options).flat();
+
+		// get an array of labels that have been selected (ie, aren't null)
+		const filteredLabels = Object.keys(this.label).filter(a => this.label[a] && this.label[a].length > 0)
+
+		// if nothing is selected, return true
+		if (filteredLabels.length == 0) return true;
+
+		// perform the OR operation - if the model matches any of the selected label options
+		let matchesLabels = []
+		filteredLabels.forEach((options) => {
+			matchesLabels.push(this.label[options].some((option) => modelOptions.includes(option)))
+		})
+
+		/**		 * If the model matches at least one option in every label being filtered,
+		 * (ie, the array is all true values) return true.
+		 */
+		return matchesLabels.every((option) => option)
 	}
 
 	filterModel_Search = function (model) {
@@ -116,15 +148,18 @@ export default class CSEvents extends Base {
 
 	/**
 	 * An empty function that runs at the end of the init() method for each module.
-	 * Overloaded to set up the resources
+	 * Overloaded to set up the categories and labels
 	 */
 	postInit = function (response) {
 		/**
-		 * For efficiency, the BookedResources response sends over the resources once
-		 * on page 1, rather than on every BookedResource.
+		 * For efficiency, the Events response sends over the categories and labels
+		 * once on page 1, rather than on every page.
 		 */
 		if (response.hasOwnProperty('categories')) {
 			response.categories.forEach(category => this.categories.push(new Category(category)))
+		}
+		if (response.hasOwnProperty('labels')) {
+			response.labels.forEach(label => this.labels.push(new Label(label)))
 		}
 	}
 
@@ -135,7 +170,7 @@ export default class CSEvents extends Base {
 		super()
 
 		// Configuration & Options
-		this.filterKeys = ['category', 'search', 'site']
+		this.filterKeys = ['category', 'label', 'search', 'site']
 		this.resourceModule = 'calendar'
 		this.options = Object.assign(this.options, options) // options for fetching json - we want the merged events as we filter them client-side
 		this.events = []
@@ -146,6 +181,9 @@ export default class CSEvents extends Base {
 
 		this.categories = []
 		this.category = []
+
+		this.label = {} // label id keyed object of values - populated when building objects
+		this.labels = []
 
 		this.site = []
 		this.sites = []
