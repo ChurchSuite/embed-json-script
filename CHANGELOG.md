@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.3.1] - 2026-09-10
+
+### Fixed
+
+- Fixed filter watching for Event labels
+
 ## [5.3.0] - 2026-09-09
 
 ### Added
