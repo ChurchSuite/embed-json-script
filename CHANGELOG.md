@@ -6,8 +6,7 @@ We make updates from time to time, to fix things and add functionality - we'll k
 
 ### Changed
 
-- CA Events now respect the given merge strategy when filtering by Site and/or Category. Filtering by a search string will continue
-to show all models filtered by the query.
+- CA Events now respect the given merge strategy when filtering by Site only. Applying no filters will continue to respect thge merge strategy. Filtering by search query string, category or (upcoming) Event Labels will continue to show all filtered models.
 
 ## [5.3.0] - 2026-09-09
 
