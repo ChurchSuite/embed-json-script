@@ -102,7 +102,7 @@ export default class Base {
 	 */
 	async init() {
 
-		this.$watch(this.filterKeys.join(', '), () => this.filterModels())
+		this.filterKeys.forEach((key) => this.$watch(key, () => this.filterModels()))
 
 		try {
 			// start by checking for IE - this throw if there is an issue

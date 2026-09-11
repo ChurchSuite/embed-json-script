@@ -8,8 +8,7 @@
 		"deploy": "jest && npm run build && npm publish",
 		"replacePackageVersion": "grep \"@package_version@\" ./dist -lr | xargs sed -i \"\" -e \"s/@package_version@/$npm_package_version/g\"",
 		"test": "jest",
-		"watch": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js bookings.min=src/bookings.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=dist --target=es6 --watch",
-		"embedv3": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js bookings.min=src/bookings.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=../embed-v3/public/js --target=es6 && grep \"@package_version@\" ../embed-v3/public/js -lr | xargs sed -i \"\" -e \"s/@package_version@/$npm_package_version/g\""
+		"watch": "esbuild cdn.min=src/cdn.js calendar.min=src/calendar.js bookings.min=src/bookings.js smallgroups.min=src/smallgroups.js --bundle --minify --outdir=dist --target=es6 --watch"
 	},
 	"repository": {
 		"type": "git",
