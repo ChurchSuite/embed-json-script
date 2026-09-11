@@ -169,6 +169,38 @@ export default class CSEvents extends Base {
 		this.loading = false
 	}
 
+	/**
+	 * Returns true if the category filter has a value
+	 */
+	hasCategoryFilterValue = function () {
+		const categoryFilter = this.filterValue('category')
+		return categoryFilter && categoryFilter.length > 0
+	}
+
+	/**
+	 * Returns true if the labels filter has a value
+	 */
+	hasLabelsFilterValue = function () {
+		const filteredLabels = Object.keys(this.label).filter(a => this.label[a] && this.label[a].length > 0)
+		return filteredLabels.length > 0
+	}
+
+	/**
+	 * Returns true if the search query filter has a value
+	 */
+	hasSearchQueryFilterValue = function () {
+		const searchQueryFilter = this.search || ''
+		return searchQueryFilter.length > 0
+	}
+
+	/**
+	 * Returns true if the site filter has a value
+	 */
+	hasSiteFilterValue = function () {
+		const siteFilter = this.filterValue('site')
+		return siteFilter && siteFilter.length > 0
+	}
+
 	async init() {
 		// Alpine doesn't recognise a nice getter method, so use $watch to mirror models property to events
 		// do this before parent init() so that when we filterModels in it, it initialises this property
