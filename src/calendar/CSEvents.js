@@ -132,28 +132,31 @@ export default class CSEvents extends Base {
 	 */
 	filterModels = function () {
 		this.loading = true
+
+		// filter the models if necessary
 		if (this.filterModelsEnabled()) {
-			/**
-			 * Filtering by a search query should ignore the merge strategy and show all matching results.
-			 * Filtering by Category or Site should continue to respect the merge strategy.
-			 */
-			if ((this.search || '').length > 0) {
+			// check if we have a search query
+			if (this.hasSearchQueryFilterValue()) {
 				// first update the searchQuery so we don't do it for every model in this.filterModel() - replace date separators with spaces
 				let q = this.search || ''
 				this.searchQuery = q.length ? q.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase() : null
-				/**
-				 * Filtering by a search query should ignore the merge strategy and show all matching results.
-				 * Ensure we display all filtered models rather than only filtering the merged models.
-				 */
-				this.models = this.modelsAll.filter(model => this.filterModel(model))
-			} else {
-				/**
-				 * Filtering by Category or Site should continue to respect the merge strategy.
-				 * Ensure we only filter the merged models.
-				 */
-				this.models = this.modelsMerged.filter(model => this.filterModel(model))
 			}
+
+			// perform the filters on the models
+			this.models = this.hasCategoryFilterValue() || this.hasLabelsFilterValue() || this.hasSearchQueryFilterValue()
+				// we are filtering by category, label, or search query then we must show all filtered models
+				? this.modelsAll.filter(model => this.filterModel(model))
+				// only filtering by site, so show filtered merged models
+				: this.modelsMerged.filter(model => this.filterModel(model))
+		} else {
+			// no filter is applied
+			this.models = this.configuration.numOfEvents
+				// we are limiting the number of events to show
+				? this.modelsMerged.slice(0, this.configuration.numOfEvents)
+				// no limits need to be applied, so show all the merged events
+				: this.modelsMerged
 		}
+
 		this.$dispatch('models-updated') // always do this!
 		this.loading = false
 	}
