@@ -138,6 +138,37 @@ export default class CSEvents extends Base {
 		return siteFilter.flat().some(siteId => model.siteIds.flat().map(v => '' + v).includes(siteId))
 	}
 
+	/**
+	 * Filters models based on the UI's filters.
+	 */
+	filterModels = function () {
+		this.loading = true
+		if (this.filterModelsEnabled()) {
+			/**
+			 * Filtering by a search query should ignore the merge strategy and show all matching results.
+			 * Filtering by Category or Site should continue to respect the merge strategy.
+			 */
+			if ((this.search || '').length > 0) {
+				// first update the searchQuery so we don't do it for every model in this.filterModel() - replace date separators with spaces
+				let q = this.search || ''
+				this.searchQuery = q.length ? q.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase() : null
+				/**
+				 * Filtering by a search query should ignore the merge strategy and show all matching results.
+				 * Ensure we display all filtered models rather than only filtering the merged models.
+				 */
+				this.models = this.modelsAll.filter(model => this.filterModel(model))
+			} else {
+				/**
+				 * Filtering by Category or Site should continue to respect the merge strategy.
+				 * Ensure we only filter the merged models.
+				 */
+				this.models = this.modelsMerged.filter(model => this.filterModel(model))
+			}
+		}
+		this.$dispatch('models-updated') // always do this!
+		this.loading = false
+	}
+
 	async init() {
 		// Alpine doesn't recognise a nice getter method, so use $watch to mirror models property to events
 		// do this before parent init() so that when we filterModels in it, it initialises this property
