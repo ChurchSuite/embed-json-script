@@ -2,6 +2,12 @@
 
 We make updates from time to time, to fix things and add functionality - we'll keep a record of them here!
 
+## [5.3.2] - 2026-09-11
+
+### Changed
+
+- CA Events now respect the given merge strategy when filtering by Site. Filtering by search query string, category or (upcoming) Event Labels will continue to show unmerged models.
+
 ## [5.3.1] - 2026-09-10
 
 ### Fixed

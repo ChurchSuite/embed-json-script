@@ -29,21 +29,10 @@ export default class CSEvents extends Base {
 	 * Returns true if we should be filtering models.
 	 */
 	filterModelsEnabled = function () {
-		let categoryFilter = this.filterValue('category')
-		let siteFilter = this.filterValue('site')
-		const filteredLabels = Object.keys(this.label).filter(a => this.label[a] && this.label[a].length > 0)
-
-		if (!(this.search || '').length && !categoryFilter && !siteFilter && filteredLabels.length === 0) {
-			// if we're not filtering by anything, only show merged events (following merge strategy)
-			if (this.configuration.numOfEvents) {
-				this.models = this.modelsMerged.slice(0, this.configuration.numOfEvents)
-			} else {
-				this.models = this.modelsMerged
-			}
-			return false
-		}
-
-		return true
+		return this.hasCategoryFilterValue()
+			|| this.hasLabelsFilterValue()
+			|| this.hasSearchQueryFilterValue()
+			|| this.hasSiteFilterValue()
 	}
 
 	/**
@@ -136,6 +125,72 @@ export default class CSEvents extends Base {
 
 		// check for intersection of the two arrays
 		return siteFilter.flat().some(siteId => model.siteIds.flat().map(v => '' + v).includes(siteId))
+	}
+
+	/**
+	 * Filters models based on the UI's filters.
+	 */
+	filterModels = function () {
+		this.loading = true
+
+		// filter the models if necessary
+		if (this.filterModelsEnabled()) {
+			// check if we have a search query
+			if (this.hasSearchQueryFilterValue()) {
+				// first update the searchQuery so we don't do it for every model in this.filterModel() - replace date separators with spaces
+				let q = this.search || ''
+				this.searchQuery = q.length ? q.replace(/[\s\/\-\.]+/gi, ' ').toLowerCase() : null
+			}
+
+			// perform the filters on the models
+			this.models = this.hasCategoryFilterValue() || this.hasLabelsFilterValue() || this.hasSearchQueryFilterValue()
+				// we are filtering by category, label, or search query then we must show all filtered models
+				? this.modelsAll.filter(model => this.filterModel(model))
+				// only filtering by site, so show filtered merged models
+				: this.modelsMerged.filter(model => this.filterModel(model))
+		} else {
+			// no filter is applied
+			this.models = this.configuration.numOfEvents
+				// we are limiting the number of events to show
+				? this.modelsMerged.slice(0, this.configuration.numOfEvents)
+				// no limits need to be applied, so show all the merged events
+				: this.modelsMerged
+		}
+
+		this.$dispatch('models-updated') // always do this!
+		this.loading = false
+	}
+
+	/**
+	 * Returns true if the category filter has a value
+	 */
+	hasCategoryFilterValue = function () {
+		const categoryFilter = this.filterValue('category')
+		return !!(categoryFilter && categoryFilter.length > 0)
+	}
+
+	/**
+	 * Returns true if the labels filter has a value
+	 */
+	hasLabelsFilterValue = function () {
+		const filteredLabels = Object.keys(this.label).filter(a => this.label[a] && this.label[a].length > 0)
+		return filteredLabels.length > 0
+	}
+
+	/**
+	 * Returns true if the search query filter has a value
+	 */
+	hasSearchQueryFilterValue = function () {
+		const searchQueryFilter = this.search || ''
+		return searchQueryFilter.length > 0
+	}
+
+	/**
+	 * Returns true if the site filter has a value
+	 */
+	hasSiteFilterValue = function () {
+		const siteFilter = this.filterValue('site')
+		return !!(siteFilter && siteFilter.length > 0)
 	}
 
 	async init() {

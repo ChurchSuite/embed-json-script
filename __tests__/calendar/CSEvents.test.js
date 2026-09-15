@@ -338,6 +338,208 @@ describe('filterModel_Search method', () => {
 	})
 })
 
+describe('test the filterAll method returns the correct models based on filters', () => {
+	beforeAll(() => {
+		Events = new CSEvents()
+		Events.$dispatch = jest.fn()
+		Events.modelsAll = [
+			{
+				name: 'Ev A1',
+				categoryId: 1,
+				mergeIdentifier: 'A',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev A2',
+				categoryId: 1,
+				mergeIdentifier: 'A',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev A3',
+				categoryId: 1,
+				mergeIdentifier: 'A',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev A4',
+				categoryId: 1,
+				mergeIdentifier: 'A',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev B3',
+				categoryId: 1,
+				mergeIdentifier: 'B',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev B4',
+				categoryId: 1,
+				mergeIdentifier: 'B',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev C1',
+				categoryId: 1,
+				mergeIdentifier: 'C',
+				allSites: true,
+				labels: []
+			}
+		]
+		Events.modelsMerged = [
+			{
+				name: 'Ev A1',
+				categoryId: 1,
+				mergeIdentifier: 'A',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev B3',
+				categoryId: 1,
+				mergeIdentifier: 'B',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev C1',
+				categoryId: 1,
+				mergeIdentifier: 'C',
+				allSites: true,
+				labels: []
+			}
+		]
+	})
+
+	/**
+	 * When we're not filtering, we should only see models from the merged group
+	 */
+	test('with no filters, only merged events shown', () => {
+		Events.filterModels()
+		expect(Events.models).toEqual([
+			{
+				name: 'Ev A1',
+				categoryId: 1,
+				mergeIdentifier: 'A',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev B3',
+				categoryId: 1,
+				mergeIdentifier: 'B',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev C1',
+				categoryId: 1,
+				mergeIdentifier: 'C',
+				allSites: true,
+				labels: []
+			}
+		])
+	})
+
+	/**
+	 * When we're filtering by site only, we should only see filtered models from the merged group
+	 */
+	test('with only a site filter, filtered merged events shown', () => {
+		Events.site = 'site'
+		Events.filterModels()
+		expect(Events.models).toEqual([
+			{
+				name: 'Ev A1',
+				categoryId: 1,
+				mergeIdentifier: 'A',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev B3',
+				categoryId: 1,
+				mergeIdentifier: 'B',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev C1',
+				categoryId: 1,
+				mergeIdentifier: 'C',
+				allSites: true,
+				labels: []
+			}
+		])
+	})
+
+	/**
+	 * When we're filtering by sites and another filter only, we should see ALL models from the merged group
+	 */
+	test('with only a site filter, filtered merged events shown', () => {
+		Events.site = 'site'
+		Events.category = 1
+		Events.filterModels()
+		expect(Events.models).toEqual([
+			{
+				name: 'Ev A1',
+				categoryId: 1,
+				mergeIdentifier: 'A',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev A2',
+				categoryId: 1,
+				mergeIdentifier: 'A',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev A3',
+				categoryId: 1,
+				mergeIdentifier: 'A',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev A4',
+				categoryId: 1,
+				mergeIdentifier: 'A',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev B3',
+				categoryId: 1,
+				mergeIdentifier: 'B',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev B4',
+				categoryId: 1,
+				mergeIdentifier: 'B',
+				allSites: true,
+				labels: []
+			},
+			{
+				name: 'Ev C1',
+				categoryId: 1,
+				mergeIdentifier: 'C',
+				allSites: true,
+				labels: []
+			}
+		])
+	})
+})
+
 describe('test Configuration count being respected', () => {
 	beforeAll(() => {
 		Events = new CSEvents()
