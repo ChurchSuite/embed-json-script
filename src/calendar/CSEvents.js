@@ -166,7 +166,7 @@ export default class CSEvents extends Base {
 	 */
 	hasCategoryFilterValue = function () {
 		const categoryFilter = this.filterValue('category')
-		return categoryFilter && categoryFilter.length > 0
+		return !!(categoryFilter && categoryFilter.length > 0)
 	}
 
 	/**
@@ -190,7 +190,7 @@ export default class CSEvents extends Base {
 	 */
 	hasSiteFilterValue = function () {
 		const siteFilter = this.filterValue('site')
-		return siteFilter && siteFilter.length > 0
+		return !!(siteFilter && siteFilter.length > 0)
 	}
 
 	async init() {
