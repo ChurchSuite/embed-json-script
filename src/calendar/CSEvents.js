@@ -29,21 +29,10 @@ export default class CSEvents extends Base {
 	 * Returns true if we should be filtering models.
 	 */
 	filterModelsEnabled = function () {
-		let categoryFilter = this.filterValue('category')
-		let siteFilter = this.filterValue('site')
-		const filteredLabels = Object.keys(this.label).filter(a => this.label[a] && this.label[a].length > 0)
-
-		if (!(this.search || '').length && !categoryFilter && !siteFilter && filteredLabels.length === 0) {
-			// if we're not filtering by anything, only show merged events (following merge strategy)
-			if (this.configuration.numOfEvents) {
-				this.models = this.modelsMerged.slice(0, this.configuration.numOfEvents)
-			} else {
-				this.models = this.modelsMerged
-			}
-			return false
-		}
-
-		return true
+		return this.hasCategoryFilterValue()
+			|| this.hasLabelsFilterValue()
+			|| this.hasSearchQueryFilterValue()
+			|| this.hasSiteFilterValue()
 	}
 
 	/**
